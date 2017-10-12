@@ -1,1 +1,2 @@
 # habit_rabbit
+Copyright 2017 CMPUT301 Team 08. University of Alberta - All Right Reserved. You may use, distribute or modity this code under terms and conditions of the code of Student behavior at University of Alberta. You may find a copy of the license in this project. Otherwise please contact us directly.
