@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background">
+    android:background="@drawable/background"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/textView"
@@ -10,8 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="40dp"
         android:layout_marginTop="40dp"
-        android:layout_weight="0.18"
-        android:
+        android:layout_weight="0.00"
         android:letterSpacing="24"
         android:shadowDy="40"
         android:shadowRadius="50"
@@ -22,13 +22,33 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="0.18"
-        android:orientation="horizontal"></LinearLayout>
+        android:layout_weight="0.00"
+        android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0.18"
-        android:orientation="vertical"></LinearLayout>
+        <EditText
+            android:id="@+id/editText4"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="100dp"
+            android:ems="10"
+            android:hint="Username"
+            android:inputType="textPersonName" />
+
+        <Button
+            android:id="@+id/button"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_marginTop="20dp"
+            android:padding="30dp"
+            android:text="LOGIN"
+            android:textSize="15sp"
+            android:background="@drawable/gradient"/>
+
+    </LinearLayout>
 
 </LinearLayout>
