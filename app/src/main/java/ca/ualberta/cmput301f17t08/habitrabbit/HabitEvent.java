@@ -25,16 +25,15 @@ public class HabitEvent {
         return;
     }
 
-    // TODO need to change the return types for these functions when we have proper return data
-    public void getComment(){
-        return;
+    public String getComment(){
+        return null;
     }
 
-    public void getLocation() {
-        return;
+    public Location getLocation() {
+        return null;
     }
 
-    public void getPicture(){
-        return;
+    public File getPicture(){
+        return null;
     }
 }

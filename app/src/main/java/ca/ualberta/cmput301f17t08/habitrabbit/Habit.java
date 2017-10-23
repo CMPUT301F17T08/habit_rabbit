@@ -28,21 +28,20 @@ public class Habit {
         return;
     }
 
-    // TODO need to change the return types for these functions when we have proper return data
-    public void getName(){
-        return;
+    public String getName(){
+        return null;
     }
 
-    public void getReason(){
-        return;
+    public String getReason(){
+        return null;
     }
 
-    public void getDate(){
-        return;
+    public Date getDate(){
+        return null;
     }
 
-    public void getFrequency(){
-        return;
+    public int[] getFrequency(){
+        return null;
     }
 
 

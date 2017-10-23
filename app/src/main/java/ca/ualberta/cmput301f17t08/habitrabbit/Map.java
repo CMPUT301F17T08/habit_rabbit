@@ -2,6 +2,8 @@ package ca.ualberta.cmput301f17t08.habitrabbit;
 
 import android.location.Location;
 
+import java.util.ArrayList;
+
 /**
  * Created by maharshmellow on 2017-10-23.
  */
@@ -15,8 +17,8 @@ public class Map {
         return;
     }
 
-    public void getLocations(){
-        return;
+    public ArrayList<Location> getLocations(){
+        return null;
     }
 
     public void removeLocation(Location location){
