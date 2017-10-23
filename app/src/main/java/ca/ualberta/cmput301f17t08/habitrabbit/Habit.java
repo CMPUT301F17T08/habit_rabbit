@@ -44,6 +44,6 @@ public class Habit {
     public void getFrequency(){
         return;
     }
-    
+
 
 }
