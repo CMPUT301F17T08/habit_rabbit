@@ -18,7 +18,7 @@ public class LoginManagerUnitTest {
         user1 = new User();
         user2 = new User();
 
-        LoginManager = new LoginManager();
+        LoginManager loginManager = new LoginManager();
 
     }
 
