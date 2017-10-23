@@ -23,7 +23,7 @@ public class HabitUnitTest {
         assertEquals("Name", habit.getName());
         assertEquals("Reason", habit.getReason());
         assertEquals(date, habit.getDate());
-        assertTrue(Arrays.equals(frequency, habit.getFrequency());
+        assertTrue(Arrays.equals(frequency, habit.getFrequency()));
     }
 
     @Test

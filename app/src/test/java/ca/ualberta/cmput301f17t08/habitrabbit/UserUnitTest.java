@@ -50,7 +50,7 @@ public class UserUnitTest {
     public void testUserAddHabit() throws Exception {
         assertFalse(user1.getHabits().contains(habit1));
 
-        user1.addFollower(habit1);
+        user1.addHabit(habit1);
 
         assertTrue(user1.getFollowers().contains(habit1));
     }
