@@ -2,9 +2,10 @@ package ca.ualberta.cmput301f17t08.habitrabbit;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.jar.Pack200;
+import java.util.TimeZone;
 
 /**
  * Created by maharshmellow on 2017-10-23.
@@ -66,23 +67,32 @@ public class Habit {
 
 
     public List<Object> getStatistics(){
-        Date today = new Date();
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
+        Date now = calendar.getTime();
 
-        int daysSinceStart = (int) Math.abs(today.getTime() - startDate.getTime())/(24 * 60 * 60 * 1000);
+        int daysSinceStart = (int) Math.abs(now.getTime() - this.startDate.getTime())/(24 * 60 * 60 * 1000);
         // formats the average time
-        String averageTimeStr = new SimpleDateFormat("hh:mm a").format(new Date(this.averageTime));
+        String averageTimeStr = new SimpleDateFormat("hh:mm a").format(now);
 
         List<Object> statistics = new ArrayList<Object>();
         statistics.add(this.daysCompleted);
         statistics.add(this.streak);
-        statistics.add(this.daysCompleted/daysSinceStart);  // % completed
         statistics.add(averageTimeStr);
+
+        if (daysSinceStart != 0) {
+            statistics.add(this.daysCompleted / daysSinceStart);  // % completed
+        }else{
+            statistics.add(1);
+        }
 
         return statistics;
     }
 
     public void markDone(){
-        Date now = new Date();
+//        Date now = new Date();
+
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
+        Date now = calendar.getTime();
 
         this.daysCompleted += 1;
 
@@ -99,7 +109,6 @@ public class Habit {
         }
 
         this.lastCompleted = new Date();
-
 
         // TODO create habit event here and jump to the add to habit history activity
 

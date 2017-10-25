@@ -16,8 +16,9 @@ public class HabitUnitTest {
 
     @Test
     public void testHabitGetters() throws Exception {
-        Date date = new Date();
         Habit habit = new Habit("Name", "Reason", date, frequency);
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
+        Date now = calendar.getTime();
 
         // Test Habit getters:
         assertEquals("Name", habit.getName());
@@ -28,8 +29,9 @@ public class HabitUnitTest {
 
     @Test
     public void testHabitSetters() throws Exception {
-        Date date = new Date();
         Habit habit = new Habit("Name", "Reason", date, frequency);
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
+        Date now = calendar.getTime();
 
         habit.setName("New Name");
         assertEquals("New Name", habit.getName());
