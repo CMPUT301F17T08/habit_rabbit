@@ -71,6 +71,7 @@ public class Habit {
         Date now = calendar.getTime();
 
         int daysSinceStart = (int) Math.abs(now.getTime() - this.startDate.getTime())/(24 * 60 * 60 * 1000);
+
         // formats the average time
         String averageTimeStr = new SimpleDateFormat("hh:mm a").format(now);
 
@@ -82,15 +83,13 @@ public class Habit {
         if (daysSinceStart != 0) {
             statistics.add(this.daysCompleted / daysSinceStart);  // % completed
         }else{
-            statistics.add(1);
+            statistics.add(1);      // 100% completed by default
         }
 
         return statistics;
     }
 
     public void markDone(){
-//        Date now = new Date();
-
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
         Date now = calendar.getTime();
 
