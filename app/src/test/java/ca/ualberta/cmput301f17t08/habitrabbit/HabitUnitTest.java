@@ -17,7 +17,7 @@ public class HabitUnitTest {
     @Test
     public void testHabitGetters() throws Exception {
         Date date = new Date();
-        Habit habit = new Habit("Name", "Reason", new Date(), frequency);
+        Habit habit = new Habit("Name", "Reason", date, frequency);
 
         // Test Habit getters:
         assertEquals("Name", habit.getName());
@@ -29,7 +29,7 @@ public class HabitUnitTest {
     @Test
     public void testHabitSetters() throws Exception {
         Date date = new Date();
-        Habit habit = new Habit("Name", "Reason", new Date(), frequency);
+        Habit habit = new Habit("Name", "Reason", date, frequency);
 
         habit.setName("New Name");
         assertEquals("New Name", habit.getName());
