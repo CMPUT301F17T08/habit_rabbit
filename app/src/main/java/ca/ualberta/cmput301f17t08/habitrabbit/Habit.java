@@ -12,14 +12,14 @@ import java.util.TimeZone;
  */
 
 public class Habit {
-    String name;
-    String reason;
-    Date startDate;
-    Date lastCompleted;
-    int[] frequency;
-    int daysCompleted;
-    long averageTime;        // average time of day in milliseconds
-    int streak;
+    private String name;
+    private String reason;
+    private Date startDate;
+    private Date lastCompleted;
+    private int[] frequency;
+    private int daysCompleted;
+    private long averageTime;        // average time of day in milliseconds
+    private int streak;
 
     public Habit(String name, String reason, Date startDate, int[] frequency){
         this.name = name;
@@ -72,16 +72,16 @@ public class Habit {
 
         int daysSinceStart = (int) Math.abs(now.getTime() - this.startDate.getTime())/(24 * 60 * 60 * 1000);
 
-        // formats the average time
-        String averageTimeStr = new SimpleDateFormat("hh:mm a").format(now);
+        String averageTimeStr = new SimpleDateFormat("hh:mm a").format(this.averageTime);
 
         List<Object> statistics = new ArrayList<Object>();
         statistics.add(this.daysCompleted);
         statistics.add(this.streak);
         statistics.add(averageTimeStr);
 
+        // % completed
         if (daysSinceStart != 0) {
-            statistics.add(this.daysCompleted / daysSinceStart);  // % completed
+            statistics.add(this.daysCompleted / daysSinceStart);
         }else{
             statistics.add(1);      // 100% completed by default
         }
