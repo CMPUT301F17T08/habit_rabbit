@@ -53,10 +53,6 @@ public class DatabaseManager {
 
                 // Else, user does not exist yet. Create, push to Firebase, and return user object:
                 final User newUser = new User(username);
-                // TODO remove this:
-                int[] freq = {1,1,1,1,1,1,1};
-                Habit habit = new Habit("Habit name", "Habit reason", new Date(), freq);
-                newUser.addHabit(habit);
 
                 userRef.setValue(newUser, new DatabaseReference.CompletionListener() {
                     @Override
