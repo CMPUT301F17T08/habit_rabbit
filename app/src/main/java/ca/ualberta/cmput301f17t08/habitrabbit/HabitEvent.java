@@ -3,37 +3,41 @@ package ca.ualberta.cmput301f17t08.habitrabbit;
 import android.location.Location;
 
 import java.io.File;
-
-/**
- * Created by maharshmellow on 2017-10-23.
- */
+import java.io.IOException;
 
 public class HabitEvent {
+
+    private String comment;
+    private Location location;
+    private File picture;
+
     public HabitEvent(String comment, Location location, File picture) {
-        return;
+        this.comment = comment;
+        this.location = location;
+        this.picture = picture;
     }
 
     public void setComment(String comment) {
-        return;
+        this.comment = comment;
     }
 
     public void setLocation(Location location){
-        return;
+        this.location = location;
     }
 
-    public void setPicture(File picture){
-        return;
+    public void setPicture(File picture) throws IOException {
+        this.picture = picture.getCanonicalFile();
     }
 
     public String getComment(){
-        return null;
+        return comment;
     }
 
     public Location getLocation() {
-        return null;
+        return location;
     }
 
     public File getPicture(){
-        return null;
+        return picture;
     }
 }
