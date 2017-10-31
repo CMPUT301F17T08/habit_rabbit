@@ -2,11 +2,21 @@ package ca.ualberta.cmput301f17t08.habitrabbit;
 
 import java.util.ArrayList;
 
-/**
- * Created by mseneshen on 2017-10-23.
- */
-
 public class User {
+
+    private String username;
+
+    public User(){
+        //
+    }
+
+    public User(String username) {
+        this.username = username;
+    }
+
+    public String getUsername(){
+        return username;
+    }
 
     public ArrayList<User> getFollowers() { return null; }
     public void addFollower(User follower) { return; }
