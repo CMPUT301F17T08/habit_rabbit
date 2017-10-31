@@ -5,8 +5,20 @@ package ca.ualberta.cmput301f17t08.habitrabbit;
  */
 
 public class LoginManager {
-    
+    private static LoginManager loginManager;
     private User currentUser;
+
+    private LoginManager(){
+        // Private constructor for singleton.
+    }
+
+    public static LoginManager getInstance(){
+        if(loginManager == null){
+            loginManager = new LoginManager();
+        }
+
+        return loginManager;
+    }
 
     public void login(String username){
         // TODO get the user object from the database here
