@@ -20,9 +20,9 @@ public class DatabaseManagerTests {
 
     @Test
     public void testAddUser() throws Exception {
-        databaseManager.createUser("test user", new DatabaseManager.OnUserCreatedListener() {
+        databaseManager.createUser("test user", new DatabaseManager.OnUserDataListener() {
             @Override
-            public void onUserCreated(User user) {
+            public void onUserData(User user) {
                 Assert.assertTrue(user != null);
             }
         });

@@ -1,11 +1,7 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
-import android.provider.ContactsContract;
-
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.Date;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -17,16 +13,16 @@ public class LoginManagerUnitTest {
 
     @Before
     public void setUp() {
-        DatabaseManager.getInstance().createUser("Test User 1", new DatabaseManager.OnUserCreatedListener() {
+        DatabaseManager.getInstance().createUser("Test User 1", new DatabaseManager.OnUserDataListener() {
             @Override
-            public void onUserCreated(User user) {
+            public void onUserData(User user) {
                 user1 = user;
             }
         });
 
-        DatabaseManager.getInstance().createUser("Test User 2", new DatabaseManager.OnUserCreatedListener() {
+        DatabaseManager.getInstance().createUser("Test User 2", new DatabaseManager.OnUserDataListener() {
             @Override
-            public void onUserCreated(User user) {
+            public void onUserData(User user) {
                 user1 = user;
             }
         });

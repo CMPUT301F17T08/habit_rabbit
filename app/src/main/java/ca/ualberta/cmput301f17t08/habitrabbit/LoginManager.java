@@ -32,9 +32,9 @@ public class LoginManager {
 
     public void signup(String username){
         DatabaseManager dbManager = DatabaseManager.getInstance();
-        dbManager.createUser(username, new DatabaseManager.OnUserCreatedListener() {
+        dbManager.createUser(username, new DatabaseManager.OnUserDataListener() {
             @Override
-            public void onUserCreated(User user) {
+            public void onUserData(User user) {
                 if(user == null){
                     // TODO: handle failure
                 }else{

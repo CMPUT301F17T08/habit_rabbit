@@ -24,9 +24,9 @@ public class SignupActivity extends Activity {
                 System.out.println("Sign Up Button Clicked - Username:" + username);
 
                 // TODO test username is not empty
-                DatabaseManager.getInstance().createUser(username, new DatabaseManager.OnUserCreatedListener() {
+                DatabaseManager.getInstance().createUser(username, new DatabaseManager.OnUserDataListener() {
                     @Override
-                    public void onUserCreated(User user) {
+                    public void onUserData(User user) {
                         // TODO use loginmanager to set as logged in, initialize app
                         if(user == null) {
                             Log.e("SignupActivity", "User creation failed.");

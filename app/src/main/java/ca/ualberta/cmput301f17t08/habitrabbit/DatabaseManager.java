@@ -1,6 +1,5 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
-import android.provider.ContactsContract;
 import android.util.Log;
 
 import com.google.firebase.database.DataSnapshot;
@@ -10,15 +9,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
-import java.util.*;
-
 public class DatabaseManager {
 
     private static DatabaseManager databaseManager = null;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-    public interface OnUserCreatedListener {
-        public void onUserCreated(User user);
+    public interface OnUserDataListener {
+        public void onUserData(User user);
     }
 
     public static DatabaseManager getInstance(){
@@ -35,7 +32,7 @@ public class DatabaseManager {
      * @param username
      * @return
      */
-    public void createUser(final String username, final OnUserCreatedListener listener){
+    public void createUser(final String username, final OnUserDataListener listener){
         // TODO: Data validation (not empty, etc)
 
         final DatabaseReference usersRef = database.getReference("users");
@@ -47,7 +44,7 @@ public class DatabaseManager {
                 if(dataSnapshot.exists()){
                     // User already exists with this username. Return null to listener:
                     Log.e("Database Manager Error", "User already exists");
-                    listener.onUserCreated(null);
+                    listener.onUserData(null);
                     return;
                 }
 
@@ -59,9 +56,9 @@ public class DatabaseManager {
                     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                         if(databaseError != null){
                             Log.e("Database Manager Error", "Failed to add user to database.");
-                            listener.onUserCreated(null);
+                            listener.onUserData(null);
                         }else{
-                            listener.onUserCreated(newUser);
+                            listener.onUserData(newUser);
                         }
                     }
                 });
