@@ -3,6 +3,7 @@ package ca.ualberta.cmput301f17t08.habitrabbit;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,10 +22,23 @@ public class MainActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                // TODO handle login here
                 String username = usernameField.getText().toString();
 
                 System.out.println("Login Button Clicked - Username:" + username);
+
+                LoginManager.getInstance().login(username, new LoginManager.OnLoginCompleteListener() {
+                    @Override
+                    public void onLoginComplete() {
+                        // TODO: transition activity
+                        Log.i("MainActivity", "Login success!");
+                    }
+
+                    @Override
+                    public void onLoginFailed(String message) {
+                        Log.e("MainActivity", "Login failed: " + message);
+                    }
+                });
+
             }
         });
 

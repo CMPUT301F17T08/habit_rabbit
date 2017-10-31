@@ -28,11 +28,13 @@ public class SignupActivity extends Activity {
                     @Override
                     public void onUserData(User user) {
                         // TODO use loginmanager to set as logged in, initialize app
-                        if(user == null) {
-                            Log.e("SignupActivity", "User creation failed.");
-                        }else{
-                            Log.i("SignupActivity", "User created: " + user.getUsername());
-                        }
+                        Log.i("SignupActivity", "User created: " + user.getUsername());
+                    }
+
+                    @Override
+                    public void onUserDataFailed(String message) {
+                        Log.e("SignupActivity", "User creation failed: " + message);
+                        // TODO: show error
                     }
                 });
             }

@@ -16,6 +16,7 @@ public class DatabaseManager {
 
     public interface OnUserDataListener {
         public void onUserData(User user);
+        public void onUserDataFailed(String message);
     }
 
     public static DatabaseManager getInstance(){
@@ -42,9 +43,9 @@ public class DatabaseManager {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(dataSnapshot.exists()){
-                    // User already exists with this username. Return null to listener:
+                    // User already exists with this username. Return failure:
                     Log.e("Database Manager Error", "User already exists");
-                    listener.onUserData(null);
+                    listener.onUserDataFailed("A user already exists with this username. Please choose a different name.");
                     return;
                 }
 
@@ -55,8 +56,8 @@ public class DatabaseManager {
                     @Override
                     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                         if(databaseError != null){
-                            Log.e("Database Manager Error", "Failed to add user to database.");
-                            listener.onUserData(null);
+                            Log.e("Database Manager Error", "Database error: " + databaseError.getMessage());
+                            listener.onUserDataFailed("Failed to create user due to a database error: " + databaseError.getMessage());
                         }else{
                             listener.onUserData(newUser);
                         }
@@ -67,16 +68,39 @@ public class DatabaseManager {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                // TODO: handle database error
+                Log.e("Database Manager Error", "Database error: " + databaseError.getMessage());
+                listener.onUserDataFailed("Failed to create user due to a database error: " + databaseError.getMessage());
             }
         });
 
     }
 
-    public Gson getUserData(String username){
-        // TODO
-        // find the user in the database and return the data
-        return null;
+    public void getUserData(final String username, final OnUserDataListener listener){
+
+        final DatabaseReference userRef = database.getReference("users").child(username);
+
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.exists()){
+                    // User does not exist!
+                    Log.e("Database Manager Error", "User does not exist: " + username);
+                    listener.onUserDataFailed("Login failed: user does not exist.");
+                    return;
+                }
+
+                // Else, return user object:
+                final User user = dataSnapshot.getValue(User.class);
+
+                listener.onUserData(user);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.e("Database Manager Error", "Database error: " + databaseError.getMessage());
+                listener.onUserDataFailed("Login failed: user does not exist.");
+            }
+        });
     }
 
     public void saveUserData(User user){
