@@ -5,7 +5,7 @@ package ca.ualberta.cmput301f17t08.habitrabbit;
  */
 
 public class LoginManager {
-
+    
     private User currentUser;
 
     public void login(String username){
@@ -19,8 +19,17 @@ public class LoginManager {
     }
 
     public void signup(String username){
-        User newUser = DatabaseManager.createUser(username);   // creates and saves the user
-        this.currentUser = newUser;
+        DatabaseManager dbManager = DatabaseManager.getInstance();
+        dbManager.createUser(username, new DatabaseManager.OnUserCreatedListener() {
+            @Override
+            public void onUserCreated(User user) {
+                if(user == null){
+                    // TODO: handle failure
+                }else{
+                    currentUser = user;
+                }
+            }
+        });
     }
 
     public User getCurrentUser() {

@@ -39,9 +39,7 @@ public class DatabaseManager {
         // TODO: Data validation (not empty, etc)
 
         final DatabaseReference usersRef = database.getReference("users");
-        final java.util.Map<String, User> users = new HashMap<>();
-
-        DatabaseReference userRef = usersRef.child(username);
+        final DatabaseReference userRef = usersRef.child(username);
 
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -50,13 +48,13 @@ public class DatabaseManager {
                     // User already exists with this username. Return null to listener:
                     Log.e("Database Manager Error", "User already exists");
                     listener.onUserCreated(null);
+                    return;
                 }
 
                 // Else, user does not exist yet. Create, push to Firebase, and return user object:
                 final User newUser = new User(username);
-                users.put(username, newUser);
 
-                usersRef.setValue(users, new DatabaseReference.CompletionListener() {
+                userRef.setValue(newUser, new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
                         if(databaseError != null){

@@ -2,13 +2,10 @@ package ca.ualberta.cmput301f17t08.habitrabbit;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
-/**
- * Created by maharshmellow on 2017-10-22.
- */
 
 public class SignupActivity extends Activity {
     @Override
@@ -25,6 +22,19 @@ public class SignupActivity extends Activity {
                 // TODO handle signup here
                 String username = usernameField.getText().toString();
                 System.out.println("Sign Up Button Clicked - Username:" + username);
+
+                // TODO test username is not empty
+                DatabaseManager.getInstance().createUser(username, new DatabaseManager.OnUserCreatedListener() {
+                    @Override
+                    public void onUserCreated(User user) {
+                        // TODO use loginmanager to set as logged in, initialize app
+                        if(user == null) {
+                            Log.e("SignupActivity", "User creation failed.");
+                        }else{
+                            Log.i("SignupActivity", "User created: " + user.getUsername());
+                        }
+                    }
+                });
             }
         });
 

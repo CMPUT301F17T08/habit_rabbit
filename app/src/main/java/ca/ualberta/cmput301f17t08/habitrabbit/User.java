@@ -10,6 +10,10 @@ public class User {
         this.username = username;
     }
 
+    public String getUsername(){
+        return username;
+    }
+
     public ArrayList<User> getFollowers() { return null; }
     public void addFollower(User follower) { return; }
     public void removeFollower(User follower) { return; }
