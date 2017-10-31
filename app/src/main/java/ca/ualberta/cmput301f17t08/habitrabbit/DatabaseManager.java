@@ -1,35 +1,95 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
+import android.provider.ContactsContract;
+import android.util.Log;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
-/**
- * Created by maharshmellow on 2017-10-28.
- */
+import java.util.*;
 
 public class DatabaseManager {
-    private String databaseLocation = "https://inserturlhere.com";
 
-    public static User createUser(String username){
-        // TODO
-        // create a new user object with the empty arrays
-        // store that user object on the database
-        // return the user object
+    private static DatabaseManager databaseManager = null;
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-        return null;
+    public interface OnUserCreatedListener {
+        public void onUserCreated(User user);
     }
 
-    public static Gson getUserData(String username){
+    public static DatabaseManager getInstance(){
+        if(databaseManager == null){
+            databaseManager = new DatabaseManager();
+        }
+
+        return databaseManager;
+    }
+
+
+    /**
+     * Creates user in database and returns user object
+     * @param username
+     * @return
+     */
+    public void createUser(final String username, final OnUserCreatedListener listener){
+        // TODO: Data validation (not empty, etc)
+
+        final DatabaseReference usersRef = database.getReference("users");
+        final java.util.Map<String, User> users = new HashMap<>();
+
+        DatabaseReference userRef = usersRef.child(username);
+
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    // User already exists with this username. Return null to listener:
+                    Log.e("Database Manager Error", "User already exists");
+                    listener.onUserCreated(null);
+                }
+
+                // Else, user does not exist yet. Create, push to Firebase, and return user object:
+                final User newUser = new User(username);
+                users.put(username, newUser);
+
+                usersRef.setValue(users, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                        if(databaseError != null){
+                            Log.e("Database Manager Error", "Failed to add user to database.");
+                            listener.onUserCreated(null);
+                        }else{
+                            listener.onUserCreated(newUser);
+                        }
+                    }
+                });
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                // TODO: handle database error
+            }
+        });
+
+    }
+
+    public Gson getUserData(String username){
         // TODO
         // find the user in the database and return the data
         return null;
     }
 
-    public static void saveUserData(User user){
+    public void saveUserData(User user){
         // TODO
         // if the network connection isn't available, save locally here
     }
 
-    public static void syncLocalData(){
+    public void syncLocalData(){
         // TODO
         // saves the locally saved data to the database
         // make it so that this function automatically gets called when the network is available
