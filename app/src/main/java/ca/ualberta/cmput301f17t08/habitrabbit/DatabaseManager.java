@@ -9,6 +9,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
+import java.util.Date;
+
 public class DatabaseManager {
 
     private static DatabaseManager databaseManager = null;
@@ -51,6 +53,10 @@ public class DatabaseManager {
 
                 // Else, user does not exist yet. Create, push to Firebase, and return user object:
                 final User newUser = new User(username);
+                // TODO remove this:
+                int[] freq = {1,1,1,1,1,1,1};
+                Habit habit = new Habit("Habit name", "Habit reason", new Date(), freq);
+                newUser.addHabit(habit);
 
                 userRef.setValue(newUser, new DatabaseReference.CompletionListener() {
                     @Override

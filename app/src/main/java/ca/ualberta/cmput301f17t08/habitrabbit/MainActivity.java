@@ -1,5 +1,7 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -36,6 +38,19 @@ public class MainActivity extends AppCompatActivity {
                     @Override
                     public void onLoginFailed(String message) {
                         Log.e("MainActivity", "Login failed: " + message);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+
+                        builder.setMessage(message)
+                                .setTitle("Login error")
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        //
+                                    }
+                                });
+
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
                     }
                 });
 
