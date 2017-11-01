@@ -12,13 +12,18 @@ public class HabitEvent {
     private String comment;
     private Location location;
     private File picture;
+    private Habit habit;
 
-    public HabitEvent( Date dateCompleted,String comment, Location location, File picture) {
+
+    public HabitEvent( Habit habit,Date dateCompleted,String comment, Location location, File picture) {
+        this.habit = habit;
         this.dateCompleted =dateCompleted;
         this.comment = comment;
         this.location = location;
         this.picture = picture;
     }
+
+    public Habit getHabit(){ return habit;}
 
     public Date getDateCompleted() {return dateCompleted;}
 
