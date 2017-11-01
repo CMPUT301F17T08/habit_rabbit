@@ -4,18 +4,30 @@ import android.location.Location;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 
 public class HabitEvent {
 
+    private Date dateCompleted;
     private String comment;
     private Location location;
     private File picture;
+    private Habit habit;
 
-    public HabitEvent(String comment, Location location, File picture) {
+
+    public HabitEvent( Habit habit,Date dateCompleted,String comment, Location location, File picture) {
+        this.habit = habit;
+        this.dateCompleted =dateCompleted;
         this.comment = comment;
         this.location = location;
         this.picture = picture;
     }
+
+    public Habit getHabit(){ return habit;}
+
+    public Date getDateCompleted() {return dateCompleted;}
+
+    public void setDateCompleted(Date dateCompleted) {this.dateCompleted = dateCompleted;}
 
     public void setComment(String comment) {
         this.comment = comment;
