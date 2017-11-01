@@ -36,33 +36,17 @@
                 android:layout_marginTop="20dp"
                 android:text="ADD NEW HABIT"
                 android:textAlignment="center"
-                android:textColor="@color/colorPrimaryDark"
+                android:textColor="@color/colorPrimary"
                 android:textStyle="bold" />
-
         </LinearLayout>
-
-        <EditText
-            android:id="@+id/habit_name_field"
-            android:layout_width="match_parent"
-            android:layout_height="75dp"
-            android:layout_marginTop="50dp"
-            android:background="@color/editTextBackground"
-            android:enabled="false"
-            android:inputType="text"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:textColor="@color/colorPrimary"
-            android:textSize="14sp"/>
 
         <EditText
             android:id="@+id/habit_comment_field"
             android:layout_width="match_parent"
             android:layout_height="75dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="50dp"
             android:background="@color/editTextBackground"
-            android:elevation="30dp"
-
-            android:hint="Enter Comment (Optional)"
+            android:hint="Enter Username"
             android:inputType="text"
             android:paddingLeft="20dp"
             android:paddingRight="20dp"
@@ -70,28 +54,7 @@
             android:textColorHint="@color/editTextHint"
             android:textSize="14sp"/>
 
-        <RelativeLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
-            <ImageButton
-                android:id="@+id/picture_button"
-                style="@android:style/Widget.DeviceDefault.Button.Borderless.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_toStartOf="@+id/location_button"
-                app:srcCompat="@drawable/picture_icon"/>
-
-            <ImageButton
-                android:id="@+id/location_button"
-                style="@android:style/Widget.DeviceDefault.Button.Borderless.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                app:srcCompat="@drawable/location_icon"/>
-
-        </RelativeLayout>
 
         <Button
             android:id="@+id/add_habit_event_button"
@@ -100,7 +63,7 @@
             android:layout_height="75dp"
             android:layout_marginTop="20dp"
             android:background="@drawable/gradient"
-            android:text="ADD"
+            android:text="FOLLOW"
             android:textAlignment="center"
             android:textColor="@color/colorPrimary"
             android:textSize="18sp"
