@@ -1,7 +1,9 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
+import android.text.style.TtsSpan;
 import android.util.Log;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -13,11 +15,12 @@ import java.util.Date;
 
 public class DatabaseManager {
 
-    final public static String FIREBASE_URL="https://habit-rabbit.firebaseio.com"
-
     private static DatabaseManager databaseManager = null;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
-    private DatabaseReference root = database.getReferenceFromUrl(FIREBASE_URL);
+
+    private DatabaseManager(){
+        database = FirebaseDatabase.getInstance();
+    }
 
     public interface OnUserDataListener {
         public void onUserData(User user);
@@ -41,7 +44,7 @@ public class DatabaseManager {
     public void createUser(final String username, final OnUserDataListener listener){
         // TODO: Data validation (not empty, etc)
 
-        final DatabaseReference usersRef = root.getReference("users");
+        final DatabaseReference usersRef = database.getReference("users");
         final DatabaseReference userRef = usersRef.child(username);
 
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -82,7 +85,7 @@ public class DatabaseManager {
 
     public void getUserData(final String username, final OnUserDataListener listener){
 
-        final DatabaseReference userRef = root.getReference("users").child(username);
+        final DatabaseReference userRef = database.getReference("users").child(username);
 
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

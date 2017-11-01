@@ -45,4 +45,4 @@
             tools:layout_editor_absoluteY="23dp" />
     </android.support.constraint.ConstraintLayout>
 
-    yout>
+</LinearLayout>
