@@ -34,30 +34,29 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="45dp"
                 android:layout_marginTop="20dp"
-                android:text="ADD NEW HABIT"
+                android:text="FOLLOW USER"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold" />
         </LinearLayout>
 
         <EditText
-            android:id="@+id/habit_comment_field"
+            android:id="@+id/username_input_field"
             android:layout_width="match_parent"
             android:layout_height="75dp"
             android:layout_marginTop="50dp"
-            android:background="@color/editTextBackground"
-            android:hint="Enter Username"
+            android:background="#FFFFFF"
+            android:drawableLeft="@drawable/user_icon"
+            android:drawablePadding="10dp"
+            android:hint="Username"
+            android:textColorHint="#999999"
+            android:textColor="#020202"
             android:inputType="text"
             android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:textColor="@color/colorPrimary"
-            android:textColorHint="@color/editTextHint"
-            android:textSize="14sp"/>
-
-
+            android:textSize="14sp" />
 
         <Button
-            android:id="@+id/add_habit_event_button"
+            android:id="@+id/follow_user_button"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="match_parent"
             android:layout_height="75dp"
