@@ -7,10 +7,6 @@
     android:background="#f2f2f2"
     android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent" />
-
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -46,5 +42,10 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:layout_editor_absoluteY="23dp" />
     </android.support.constraint.ConstraintLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/habit_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>

@@ -6,7 +6,7 @@ import java.util.List;
 public class User {
 
     private String username;
-    private List<Habit> habits;
+    private ArrayList<Habit> habits;
 
     public User(){
         habits = new ArrayList<Habit>();
@@ -25,7 +25,7 @@ public class User {
     public void addFollower(User follower) { return; }
     public void removeFollower(User follower) { return; }
 
-    public List<Habit> getHabits() {
+    public ArrayList<Habit> getHabits() {
         return habits;
     }
 

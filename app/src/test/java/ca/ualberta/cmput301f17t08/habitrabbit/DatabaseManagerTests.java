@@ -28,7 +28,7 @@ public class DatabaseManagerTests {
 
             @Override
             public void onUserDataFailed(String message) {
-
+                Assert.fail();
             }
         });
     }
