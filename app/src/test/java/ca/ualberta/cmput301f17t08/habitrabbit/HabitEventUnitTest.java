@@ -1,7 +1,7 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
 import android.location.Location;
-
+import java.util.Calendar;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -22,6 +22,9 @@ public class HabitEventUnitTest {
 
     String comment1 = "Comment one";
     String comment2 = "Comment two";
+    Date dateCompleted ;
+
+
 
     @Before
     public void setUp() {
@@ -46,9 +49,10 @@ public class HabitEventUnitTest {
     @Test
     public void testHabitEventGetters() throws Exception {
 
-        HabitEvent habitEvent = new HabitEvent(comment1, location1, picture1);
+        HabitEvent habitEvent = new HabitEvent(dateCompleted,comment1, location1, picture1);
 
         // Test getters:
+        assertEquals(dateCompleted,habitEvent.getDateCompleted());
         assertEquals(comment1, habitEvent.getComment());
         assertTrue(location1.distanceTo(habitEvent.getLocation()) < 10);
         assertTrue(picture1.getCanonicalPath().equals(habitEvent.getPicture().getCanonicalPath()));
@@ -56,13 +60,15 @@ public class HabitEventUnitTest {
 
     @Test
     public void testHabitEventSetters() throws Exception {
-        HabitEvent habitEvent = new HabitEvent(comment2, location2, picture2);
+        HabitEvent habitEvent = new HabitEvent(dateCompleted,comment2, location2, picture2);
 
         habitEvent.setComment(comment1);
         habitEvent.setLocation(location1);
         habitEvent.setPicture(picture1);
+        habitEvent.setDateCompleted(dateCompleted);
 
         // Test getters:
+        assertEquals(dateCompleted,habitEvent.getDateCompleted());
         assertEquals(comment1, habitEvent.getComment());
         assertTrue(location1.distanceTo(habitEvent.getLocation()) < 10);
         assertTrue(picture1.getCanonicalPath().equals(habitEvent.getPicture().getCanonicalPath()));
