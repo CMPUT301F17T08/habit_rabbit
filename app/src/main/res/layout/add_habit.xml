@@ -94,7 +94,7 @@
 
 
         <Button
-            android:id="@+id/add_habit_event_button"
+            android:id="@+id/add_habit_button"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="match_parent"
             android:layout_height="75dp"
