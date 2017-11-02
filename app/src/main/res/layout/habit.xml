@@ -8,11 +8,12 @@
     android:orientation="vertical"
     android:paddingLeft="40dp"
     android:paddingRight="40dp"
-    android:paddingTop="20dp">
+>
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp">
 
         <Button
             android:id="@+id/add_habit_button"
@@ -40,8 +41,8 @@
 
         <Button
             android:id="@+id/menu_button"
-            android:layout_width="27dp"
-            android:layout_height="17dp"
+            android:layout_width="25dp"
+            android:layout_height="20dp"
             android:layout_marginBottom="0dp"
             android:layout_marginStart="0dp"
             android:layout_weight="0.00"
