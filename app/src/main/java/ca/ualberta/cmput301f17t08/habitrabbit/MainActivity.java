@@ -34,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
                     public void onLoginComplete() {
                         // TODO: transition activity
                         Log.i("MainActivity", "Login success!");
+
+                        Intent intent = new Intent(activity, MyHabitActivity.class);
+                        startActivity(intent);
                     }
 
                     @Override

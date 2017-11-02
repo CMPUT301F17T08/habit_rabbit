@@ -1,7 +1,9 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
+import android.text.style.TtsSpan;
 import android.util.Log;
 
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -15,6 +17,10 @@ public class DatabaseManager {
 
     private static DatabaseManager databaseManager = null;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+    private DatabaseManager(){
+        database = FirebaseDatabase.getInstance();
+    }
 
     public interface OnUserDataListener {
         public void onUserData(User user);

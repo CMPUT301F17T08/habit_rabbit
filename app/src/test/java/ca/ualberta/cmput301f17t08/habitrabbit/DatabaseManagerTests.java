@@ -25,6 +25,11 @@ public class DatabaseManagerTests {
             public void onUserData(User user) {
                 Assert.assertTrue(user != null);
             }
+
+            @Override
+            public void onUserDataFailed(String message) {
+                Assert.fail();
+            }
         });
     }
 }

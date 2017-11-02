@@ -18,6 +18,11 @@ public class LoginManagerUnitTest {
             public void onUserData(User user) {
                 user1 = user;
             }
+
+            @Override
+            public void onUserDataFailed(String message) {
+
+            }
         });
 
         DatabaseManager.getInstance().createUser("Test User 2", new DatabaseManager.OnUserDataListener() {
@@ -25,19 +30,44 @@ public class LoginManagerUnitTest {
             public void onUserData(User user) {
                 user1 = user;
             }
+
+            @Override
+            public void onUserDataFailed(String message) {
+
+            }
         });
 
-        LoginManager loginManager = new LoginManager();
+        LoginManager loginManager =  LoginManager.getInstance();
 
     }
 
     @Test
     public void testLoginManagerCurrentUser() throws Exception {
-        loginManager.login("Test User 1");
+        loginManager.login("Test User 1", new LoginManager.OnLoginCompleteListener() {
+            @Override
+            public void onLoginComplete() {
+
+            }
+
+            @Override
+            public void onLoginFailed(String message) {
+
+            }
+        });
 
         assertTrue(loginManager.getCurrentUser() == user1);
 
-        loginManager.login("Test User 2");
+        loginManager.login("Test User 2", new LoginManager.OnLoginCompleteListener() {
+            @Override
+            public void onLoginComplete() {
+
+            }
+
+            @Override
+            public void onLoginFailed(String message) {
+
+            }
+        });
 
         assertTrue(loginManager.getCurrentUser() == user2);
     }
