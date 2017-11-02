@@ -11,7 +11,7 @@
     <style name="date_picker" parent="Theme.AppCompat.Light.Dialog">
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimary</item>
-        <item name="colorAccent">#A5F8FD</item>
+        <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
 </resources>
