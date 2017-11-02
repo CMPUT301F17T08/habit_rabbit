@@ -15,30 +15,37 @@
         android:paddingRight="40dp"
         android:orientation="vertical">
 
-        <LinearLayout
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/button"
-                android:layout_width="27dp"
-                android:layout_height="17dp"
-                android:layout_marginTop="20dp"
-                android:layout_weight="0.00"
-                android:background="@drawable/menu" />
+            android:paddingTop="20dp">
 
             <TextView
                 android:id="@+id/textView2"
-                android:layout_width="132dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="45dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginEnd="25dp"
                 android:text="FOLLOW USER"
                 android:textAlignment="center"
-                android:textColor="@color/colorPrimary"
-                android:textStyle="bold" />
-        </LinearLayout>
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/menu_button"/>
+
+            <Button
+                android:id="@+id/menu_button"
+                android:layout_width="25dp"
+                android:layout_height="20dp"
+                android:layout_marginBottom="0dp"
+                android:layout_marginStart="0dp"
+                android:layout_weight="0.00"
+                android:background="@drawable/menu"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+        </android.support.constraint.ConstraintLayout>
 
         <EditText
             android:id="@+id/username_input_field"
