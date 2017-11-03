@@ -33,11 +33,11 @@ public class User {
 
     public ArrayList<User> getFollowers() {return this.followerList;}
 
-    public ArrayList<User> getFollowingList() {return this.followingList;}
+    public ArrayList<User> getFollowing() {return this.followingList;}
 
     public ArrayList<User> getFollowRequests() {return this.followRequests;}
 
-    public ArrayList<Habit> getHistorylist() {return this.historylist;}
+    public ArrayList<Habit> getHistory() {return this.historylist;}
 
     public void addFollower(User follower) {
         followerList.add(follower);
@@ -59,7 +59,7 @@ public class User {
 
     public ArrayList<Habit> filterHistory(String keyword, String filterType){
         return null;}
-    public ArrayList<Habit> habitmissed(Habit habit){
+    public ArrayList<Habit> Habitmissed(Habit habit){
         return null;}
 
 
