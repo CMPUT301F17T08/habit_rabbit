@@ -43,14 +43,20 @@ public class User {
         followerList.add(follower);
         return; }
 
-    public void removeFollower(Integer follower_index) {
+    public void removeFollower(int follower_index) {
         // TODO
         // Need to get the index of the follower for the future developing
         followerList.remove(follower_index);
         return; }
 
-    public void addHabit(Habit habit) { return; }
-    public void removeHabit(Habit habit) { return; }
+    public void addHabit(Habit habit) {
+        habitList.add (habit);
+        return; }
+
+    public void removeHabit(int habit_idex) {
+        habitList.remove(habit_idex);
+        return; }
+    
     public ArrayList<Habit> filterHistory(String keyword, String filterType){return null;}
     public ArrayList<Habit> habitmissed(Habit habit){return null;}
 
