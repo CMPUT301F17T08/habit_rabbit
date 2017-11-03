@@ -39,12 +39,16 @@ public class User {
 
     public ArrayList<Habit> getHistorylist() {return this.historylist;}
 
+    public void addFollower(User follower) {
+        followerList.add(follower);
+        return; }
 
+    public void removeFollower(Integer follower_index) {
+        // TODO
+        // Need to get the index of the follower for the future developing
+        followerList.remove(follower_index);
+        return; }
 
-
-
-    public void addFollower(User follower) { return; }
-    public void removeFollower(User follower) { return; }
     public void addHabit(Habit habit) { return; }
     public void removeHabit(Habit habit) { return; }
     public ArrayList<Habit> filterHistory(String keyword, String filterType){return null;}
