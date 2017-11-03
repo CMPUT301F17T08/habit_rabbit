@@ -56,15 +56,10 @@ public class User {
     public void removeHabit(int habit_idex) {
         habitList.remove(habit_idex);
         return; }
-    
+
     public ArrayList<Habit> filterHistory(String keyword, String filterType){return null;}
     public ArrayList<Habit> habitmissed(Habit habit){return null;}
 
 
-
-
-    public ArrayList<User> getFollowers() { return null; }
-
-    public ArrayList<Habit> getHabits() { return null; }
 
 }
