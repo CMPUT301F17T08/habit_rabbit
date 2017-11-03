@@ -24,6 +24,25 @@ public class User {
 
     }
 
+
+    public String getUserName(){
+        return this.username;
+    }
+
+    public ArrayList<Habit> getHabitList(){return this.habitList;}
+
+    public ArrayList<User> getFollowerList() {return this.followerList;}
+
+    public ArrayList<User> getFollowingList() {return this.followingList;}
+
+    public ArrayList<User> getFollowRequests() {return this.followRequests;}
+
+    public ArrayList<Habit> getHistorylist() {return this.historylist;}
+
+
+
+
+
     public void addFollower(User follower) { return; }
     public void removeFollower(User follower) { return; }
     public void addHabit(Habit habit) { return; }
