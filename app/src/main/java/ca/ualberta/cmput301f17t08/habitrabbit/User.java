@@ -40,21 +40,34 @@ public class User {
     public ArrayList<Habit> getHistory() {return this.historylist;}
 
     public void addFollower(User follower) {
-        followerList.add(follower);
-        return; }
+        if (hasFollowing(follower))
+            throw new IllegalArgumentException("Follower already existed.");
+        this.followerList.add(follower);
+        return;}
 
-    public void removeFollower(int follower_index) {
-        // TODO
-        // Need to get the index of the follower for the future developing
-        followerList.remove(follower_index);
+    public boolean hasFollowing(User user) {
+        return this.followingList.contains(user);
+    }
+
+
+
+    public void removeFollower(User follower) {
+        this.followerList.remove(follower);
         return; }
 
     public void addHabit(Habit habit) {
-        habitList.add (habit);
+        if (hasHabit(habit))
+            throw new IllegalArgumentException("Habit already existed.");
+        this.habitList.add (habit);
         return; }
 
-    public void removeHabit(int habit_idex) {
-        habitList.remove(habit_idex);
+
+    public boolean hasHabit(Habit habit) {
+        return this.habitList.contains(habit);
+    }
+
+    public void removeHabit(Habit habit) {
+        this.habitList.remove(habit);
         return; }
 
     public ArrayList<Habit> filterHistory(String keyword, String filterType){
