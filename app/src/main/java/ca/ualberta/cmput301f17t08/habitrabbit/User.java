@@ -7,6 +7,14 @@ import java.util.ArrayList;
  */
 
 public class User {
+    private String username;
+    private ArrayList<Habit> habitList;
+    private ArrayList<User> followerList;
+    private ArrayList<User> followingList;
+    private ArrayList<User> followRequests;
+    private ArrayList<Habit> historylist;
+
+
 
     public ArrayList<User> getFollowers() { return null; }
     public void addFollower(User follower) { return; }
