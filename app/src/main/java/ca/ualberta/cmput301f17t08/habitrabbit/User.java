@@ -1,6 +1,9 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
 import java.util.ArrayList;
+import java.util.Collection;
+
+import static android.R.id.list;
 
 /**
  * Created by mseneshen on 2017-10-23.
@@ -23,7 +26,6 @@ public class User {
         this.historylist = new ArrayList<Habit>();
 
     }
-
 
     public String getUserName(){
         return this.username;
@@ -50,7 +52,6 @@ public class User {
     }
 
 
-
     public void removeFollower(User follower) {
         this.followerList.remove(follower);
         return; }
@@ -70,8 +71,14 @@ public class User {
         this.habitList.remove(habit);
         return; }
 
-    public ArrayList<Habit> filterHistory(String keyword, String filterType){
-        return null;}
+    public ArrayList<Habit> filterHistory(String keyword, String filterType) {
+    return null;}
+
+    public String viewDetail(Habit habit){
+
+        return null;
+    }
+
     public ArrayList<Habit> Habitmissed(Habit habit){
         return null;}
 

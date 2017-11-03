@@ -18,8 +18,8 @@ public class UserUnitTest {
 
     @Before
     public void setUp() {
-        user1 = new User();
-        user2 = new User();
+        user1 = new User("user1");
+        user2 = new User("user2");
 
         int frequency[] = {0,1,0,1,0,1,0};
         habit1 = new Habit("Name 1", "Reason 1", new Date(), frequency);
@@ -52,7 +52,7 @@ public class UserUnitTest {
 
         user1.addHabit(habit1);
 
-        assertTrue(user1.getFollowers().contains(habit1));
+        assertTrue(user1.getHabits().contains(habit1));
     }
 
     @Test
