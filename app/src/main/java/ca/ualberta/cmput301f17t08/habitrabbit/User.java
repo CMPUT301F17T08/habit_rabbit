@@ -29,9 +29,9 @@ public class User {
         return this.username;
     }
 
-    public ArrayList<Habit> getHabitList(){return this.habitList;}
+    public ArrayList<Habit> getHabits(){return this.habitList;}
 
-    public ArrayList<User> getFollowerList() {return this.followerList;}
+    public ArrayList<User> getFollowers() {return this.followerList;}
 
     public ArrayList<User> getFollowingList() {return this.followingList;}
 
