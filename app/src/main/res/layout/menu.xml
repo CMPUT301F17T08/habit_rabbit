@@ -8,14 +8,29 @@
               android:layout_height="match_parent"
               android:background="@drawable/gradient"
               android:orientation="vertical"
-              android:paddingLeft="40dp"
-              android:paddingRight="40dp"
+              android:paddingLeft="20dp"
+              android:paddingRight="20dp"
               android:weightSum="4">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="20dp">
+        android:paddingTop="20dp"
+        android:paddingBottom="40dp"
+        android:paddingLeft="20dp">
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="25dp"
+            android:text="MENU"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/menu_button"/>
 
         <Button
             android:id="@+id/menu_button"
@@ -35,21 +50,29 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="horizontal"
-        android:weightSum="2" >
+        android:weightSum="2">
 
-        <ImageButton
+        <Button
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:id="@+id/feed_button"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
+            android:drawableTop="@drawable/feed"
             android:layout_weight="1"
-            android:src="@drawable/feed"
-            android:background="#00000000"/>
+            android:text="FEED"
+            android:textSize="15dp"
+            android:textStyle="bold"/>
 
-        <ImageButton
+        <Button
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:id="@+id/today_button"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
+            android:drawableTop="@drawable/today"
             android:layout_weight="1"
-            android:src="@drawable/feed"
-            android:background="#00000000"/>
+            android:text="TODAY"
+            android:textSize="15dp"
+            android:textStyle="bold"/>
 
     </LinearLayout>
 
@@ -60,19 +83,27 @@
         android:orientation="horizontal"
         android:weightSum="2" >
 
-        <ImageButton
+        <Button
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:id="@+id/people_button"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
+            android:drawableTop="@drawable/people"
             android:layout_weight="1"
-            android:src="@drawable/feed"
-            android:background="#00000000"/>
+            android:text="PEOPLE"
+            android:textSize="15dp"
+            android:textStyle="bold"/>
 
-        <ImageButton
+        <Button
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:id="@+id/habits_button"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
+            android:drawableTop="@drawable/habits"
             android:layout_weight="1"
-            android:src="@drawable/feed"
-            android:background="#00000000"/>
+            android:text="HABITS"
+            android:textSize="15dp"
+            android:textStyle="bold"/>
 
     </LinearLayout>
 
@@ -83,20 +114,30 @@
         android:orientation="horizontal"
         android:weightSum="2" >
 
-        <ImageButton
+        <Button
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:id="@+id/history_button"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
+            android:drawableTop="@drawable/history"
             android:layout_weight="1"
-            android:src="@drawable/feed"
-            android:background="#00000000"/>
+            android:text="HISTORY"
+            android:textSize="15dp"
+            android:textStyle="bold"/>
 
-        <ImageButton
+        <Button
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:id="@+id/notifications_button"
             android:layout_width="0dp"
             android:layout_height="fill_parent"
+            android:drawableTop="@drawable/notifications"
             android:layout_weight="1"
-            android:src="@drawable/feed"
-            android:background="#00000000"/>
+            android:text="NOTIFICATIONS"
+            android:textSize="15dp"
+            android:textStyle="bold"/>
 
     </LinearLayout>
+
+
 
 </LinearLayout>
