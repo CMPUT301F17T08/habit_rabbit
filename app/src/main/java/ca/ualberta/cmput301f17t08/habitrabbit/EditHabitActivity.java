@@ -20,6 +20,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+
+/*
+Allows the user to edit a habit
+ */
 public class EditHabitActivity extends AppCompatActivity {
     private EditHabitActivity activity = this;
     private ArrayList<Integer> frequency;
@@ -30,19 +34,28 @@ public class EditHabitActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_habit);
 
+
+        /*
+        TODO pass in a habit object when starting this activity like this:
+        Habit habit = new Habit(tempName, tempReason, tempDate, tempFrequency);
+
+        Intent myIntent = new Intent(this, EditHabitActivity.class);
+        myIntent.putExtra("habit", habit);
+        startActivity(myIntent);
+         */
+        final Habit habit = (Habit) getIntent().getSerializableExtra("habit");
+        String tempName = habit.getName();
+        String tempReason = habit.getReason();
+        Date tempDate = habit.getDate();
+        ArrayList<Integer> tempFrequency = habit.getFrequency();
+
+
+        // initialize as empty array but will be replaced with tempFrequency after the frequency buttons are filled in
         frequency = new ArrayList<Integer>(Collections.nCopies(7, 0));
+        frequencyButtons = Arrays.asList("button_m","button_t","button_w","button_r","button_f","button_sa","button_su");
+
         final SimpleDateFormat format = new SimpleDateFormat("EEE, MMM d, yyyy");
         final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
-
-        // TODO get the habit name, reason, frequency from the intent
-        String tempName = "habit";
-        String tempReason = "reason";
-        Date tempDate = calendar.getTime();
-        ArrayList<Integer> tempFrequency = new ArrayList<Integer>(Arrays.asList(1, 0, 0, 1, 0, 1, 0));
-
-        // TODO get the original habit object as well so it can be edited
-        
-        frequencyButtons = Arrays.asList("button_m","button_t","button_w","button_r","button_f","button_sa","button_su");
 
         final EditText habitTitle = findViewById(R.id.habit_title_field);
         final EditText habitReason = findViewById(R.id.habit_reason_field);
@@ -136,11 +149,13 @@ public class EditHabitActivity extends AppCompatActivity {
                 // TODO check that the habit name doesn't exist already
 
                 if (!error){
-                    // TODO edit the habit object that is being edited currently
-                    Habit habit = new Habit(title, reason, date, frequency);
-//                    LoginManager.getInstance().getCurrentUser().addHabit(habit);
-
+                    // update the habit object with the new values
+                    habit.setName(title);
+                    habit.setReason(reason);
+                    habit.setDate(date);
+                    habit.setFrequency(frequency);
                 }
+                // TODO exit the activity here
             }
         });
 
@@ -149,7 +164,7 @@ public class EditHabitActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 // TODO remove the habit object from the user's habit list
-
+                LoginManager.getInstance().getCurrentUser().removeHabit(habit);
             }
         });
 
