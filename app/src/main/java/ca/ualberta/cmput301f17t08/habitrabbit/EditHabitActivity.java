@@ -41,15 +41,13 @@ public class EditHabitActivity extends AppCompatActivity {
         ArrayList<Integer> tempFrequency = new ArrayList<Integer>(Arrays.asList(1, 0, 0, 1, 0, 1, 0));
 
         // TODO get the original habit object as well so it can be edited
-
-//        frequency = new ArrayList<Integer>(Arrays.asList(1, 0, 0, 1, 0, 1, 0));
-
+        
         frequencyButtons = Arrays.asList("button_m","button_t","button_w","button_r","button_f","button_sa","button_su");
 
         final EditText habitTitle = findViewById(R.id.habit_title_field);
         final EditText habitReason = findViewById(R.id.habit_reason_field);
         final EditText dateSelector = findViewById(R.id.habit_date_selector);
-        Button saveHabitButton = findViewById(R.id.add_habit_button);
+        Button saveHabitButton = findViewById(R.id.save_habit_button);
         Button deleteHabitButton = findViewById(R.id.delete_habit_button);
 
         // TODO set the habit name, reason, frequency from the intent here
@@ -101,6 +99,59 @@ public class EditHabitActivity extends AppCompatActivity {
             }
         });
 
+        // submit button
+        saveHabitButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                String title = habitTitle.getText().toString();
+                String reason = habitReason.getText().toString();
+                Date date = calendar.getTime();
+
+                Boolean error = false;
+
+                // input error checking
+                if (title.length() > 20){
+                    habitTitle.setError("Please keep title under 20 characters");
+                    error = true;
+                }
+                else if (title.length() == 0){
+                    habitTitle.setError("Please enter a title");
+                    error = true;
+                }
+
+                if (reason.length() > 30){
+                    habitReason.setError("Please keep reason under 30 characters");
+                    error = true;
+                }
+                else if (reason.length() == 0){
+                    habitReason.setError("Please enter a reason");
+                    error = true;
+                }
+
+                if (!frequency.contains(1)){
+                    // if no day is selected for the frequency - set it to daily by default
+                    frequency = new ArrayList<Integer>(Collections.nCopies(7, 1));
+                }
+
+                // TODO check that the habit name doesn't exist already
+
+                if (!error){
+                    // TODO edit the habit object that is being edited currently
+                    Habit habit = new Habit(title, reason, date, frequency);
+//                    LoginManager.getInstance().getCurrentUser().addHabit(habit);
+
+                }
+            }
+        });
+
+        //delete button
+        deleteHabitButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                // TODO remove the habit object from the user's habit list
+
+            }
+        });
 
     }
     // called by the 7 day selector buttons
