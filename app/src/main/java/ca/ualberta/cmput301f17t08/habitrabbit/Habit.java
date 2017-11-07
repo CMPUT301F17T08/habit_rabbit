@@ -18,7 +18,7 @@ public class Habit {
     private String reason;
     private Date startDate;
     private Date lastCompleted;
-    private int[] frequency;
+    private ArrayList<Integer> frequency;
     private int daysCompleted;
     private long averageTime;        // average time of day in milliseconds
     private int streak;
@@ -27,7 +27,7 @@ public class Habit {
 
     }
 
-    public Habit(String name, String reason, Date startDate, int[] frequency){
+    public Habit(String name, String reason, Date startDate, ArrayList<Integer> frequency){
         this.name = name;
         this.reason = reason;
         this.startDate = startDate;
@@ -51,7 +51,7 @@ public class Habit {
         this.startDate = startDate;
     }
 
-    public void setFrequency(int[] frequency){
+    public void setFrequency(ArrayList<Integer> frequency){
         this.frequency = frequency;
     }
 
@@ -69,7 +69,7 @@ public class Habit {
 
     // TODO: change frequency array to use List rather than array, for Firebase to properly serialize
     @Exclude
-    public int[] getFrequency(){
+    public ArrayList<Integer> getFrequency(){
         return this.frequency;
     }
 
