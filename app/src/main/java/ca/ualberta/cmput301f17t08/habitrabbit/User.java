@@ -2,6 +2,7 @@ package ca.ualberta.cmput301f17t08.habitrabbit;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import static android.R.id.list;
 
@@ -16,6 +17,7 @@ public class User {
     private ArrayList<User> followingList;
     private ArrayList<User> followRequests;
     private ArrayList<Habit> historylist;
+    private ArrayList<HabitEvent> habiteventlist;
 
     public User(String username){
         this.username = username;
@@ -24,12 +26,16 @@ public class User {
         this.followingList = new ArrayList<User>();
         this.followRequests = new ArrayList<User>();
         this.historylist = new ArrayList<Habit>();
+        this.habiteventlist = new ArrayList<HabitEvent>();
 
     }
+    public void setUserName (String username) {this.username = username;}
 
     public String getUserName(){
         return this.username;
     }
+
+    public ArrayList<HabitEvent> gethabitevents (){return this.habiteventlist;}
 
     public ArrayList<Habit> getHabits(){return this.habitList;}
 
@@ -44,10 +50,11 @@ public class User {
     public void addFollower(User follower) {
         if (hasFollowing(follower))
             throw new IllegalArgumentException("Follower already existed.");
+
         this.followerList.add(follower);
         return;}
 
-    public boolean hasFollowing(User user) {
+    private boolean hasFollowing(User user) {
         return this.followingList.contains(user);
     }
 
@@ -59,27 +66,71 @@ public class User {
     public void addHabit(Habit habit) {
         if (hasHabit(habit))
             throw new IllegalArgumentException("Habit already existed.");
+
         this.habitList.add (habit);
         return; }
 
 
-    public boolean hasHabit(Habit habit) {
+    private boolean hasHabit(Habit habit) {
         return this.habitList.contains(habit);
+    }
+
+
+    public void addHabitevent(HabitEvent habitevent) {
+        if (hasHabitevent(habitevent))
+            throw new IllegalArgumentException("Habitevent already existed.");
+
+        this.habiteventlist.add (habitevent);
+        return; }
+
+
+    private boolean hasHabitevent(HabitEvent habitevent) {
+        return this.habiteventlist.contains(habitevent);
     }
 
     public void removeHabit(Habit habit) {
         this.habitList.remove(habit);
         return; }
 
-    public ArrayList<Habit> filterHistory(String keyword, String filterType) {
-    return null;}
+    
+    
+    
+    
+    
+    
+    
+    //// TODO: 2017-11-07
+    public void viewDetail(Habit habit){
 
-    public String viewDetail(Habit habit){
+        return;
+    }
 
-        return null;
+    public ArrayList<Habit> filterHistoryBytype(String keyword) {
+        ArrayList<Habit> result = new ArrayList<>();
+
+            for (Habit habit : habitList) {
+                if (habit.getName() == keyword) {
+                    result.add(habit);
+                }
+            }
+            return result;
+    }
+
+    public ArrayList<HabitEvent> filterHistoryBycomment(String keyword) {
+
+            ArrayList<HabitEvent> result = new ArrayList<>();
+
+            for (HabitEvent habitevent : habiteventlist) {
+                if (habitevent.getComment() == keyword) {
+                    result.add(habitevent);
+                }
+            }
+
+        return result;
     }
 
     public ArrayList<Habit> Habitmissed(Habit habit){
+
         return null;}
 
 

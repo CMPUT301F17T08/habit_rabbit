@@ -49,6 +49,7 @@ public class Habit {
         this.frequency = frequency;
     }
 
+
     public String getName(){
         return this.name;
     }
@@ -64,6 +65,7 @@ public class Habit {
     public int[] getFrequency(){
         return this.frequency;
     }
+
 
 
     public List<Object> getStatistics(){
