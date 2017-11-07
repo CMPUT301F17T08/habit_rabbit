@@ -24,6 +24,8 @@
         </activity>
         <activity android:name=".EditHabitActivity">
         </activity>
+        <activity android:name=".MenuActivity">
+        </activity>
     </application>
 
 </manifest>
