@@ -1,6 +1,9 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
 import android.app.DatePickerDialog;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -88,9 +91,24 @@ public class AddHabitActivity extends AppCompatActivity {
                 // TODO create a new habit object here and associate that with the user
             }
         });
+    }
 
+    // called by the 7 day selector buttons in add
+    // changes the background based on which day selector is clicked
+    public void updateFrequency(View v){
+        int buttonID = v.getId();
+        Button clickedButton = findViewById(buttonID);
 
-
+        if (clickedButton.getTag().toString().equals("0")){
+            // this button is being activated
+            Drawable gradientBackground = ContextCompat.getDrawable(this, R.drawable.gradient);
+            clickedButton.setTag("1");
+            clickedButton.setBackground(gradientBackground);
+        }else{
+            // this button is being deactivated
+            clickedButton.setTag("0");
+            clickedButton.setBackgroundColor(Color.parseColor("#ffffff"));
+        }
     }
 
 }
