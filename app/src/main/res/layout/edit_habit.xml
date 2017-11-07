@@ -25,7 +25,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="25dp"
-                android:text="ADD HABIT"
+                android:text="EDIT HABIT"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="16dp"
@@ -206,18 +206,37 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/add_habit_button"
-            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="75dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/gradient"
-            android:text="ADD"
-            android:textAlignment="center"
-            android:textColor="@color/colorPrimary"
-            android:textSize="18sp"
-            android:textStyle="bold"/>
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <Button
+                android:id="@+id/delete_habit_button"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_height="75dp"
+                android:layout_marginTop="20dp"
+                android:background="@color/background"
+                android:text="DELETE"
+                android:layout_weight="0.5"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+            <Button
+                android:id="@+id/add_habit_button"
+                style="@style/Widget.AppCompat.Button.Borderless.Colored"
+                android:layout_height="75dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/gradient"
+                android:text="ADD"
+                android:layout_weight="0.5"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimary"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 
