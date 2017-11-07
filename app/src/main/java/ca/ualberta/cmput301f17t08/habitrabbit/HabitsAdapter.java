@@ -52,11 +52,6 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
 
 
 
-
-
-
-
-
         }
 
     }
