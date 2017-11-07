@@ -214,6 +214,7 @@
                 android:id="@+id/delete_habit_button"
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_height="75dp"
+                android:layout_width="match_parent"
                 android:layout_marginTop="20dp"
                 android:background="@color/background"
                 android:text="DELETE"
@@ -224,12 +225,13 @@
                 android:textStyle="bold"/>
 
             <Button
-                android:id="@+id/add_habit_button"
+                android:id="@+id/save_habit_button"
                 style="@style/Widget.AppCompat.Button.Borderless.Colored"
                 android:layout_height="75dp"
+                android:layout_width="match_parent"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/gradient"
-                android:text="ADD"
+                android:text="SAVE"
                 android:layout_weight="0.5"
                 android:textAlignment="center"
                 android:textColor="@color/colorPrimary"

@@ -20,38 +20,64 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-public class AddHabitActivity extends AppCompatActivity {
-    private AddHabitActivity activity = this;
+public class EditHabitActivity extends AppCompatActivity {
+    private EditHabitActivity activity = this;
     private ArrayList<Integer> frequency;
     private List<String> frequencyButtons;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_habit);
+        setContentView(R.layout.edit_habit);
 
         frequency = new ArrayList<Integer>(Collections.nCopies(7, 0));
+        final SimpleDateFormat format = new SimpleDateFormat("EEE, MMM d, yyyy");
+        final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
+
+        // TODO get the habit name, reason, frequency from the intent
+        String tempName = "habit";
+        String tempReason = "reason";
+        Date tempDate = calendar.getTime();
+        ArrayList<Integer> tempFrequency = new ArrayList<Integer>(Arrays.asList(1, 0, 0, 1, 0, 1, 0));
+
+        // TODO get the original habit object as well so it can be edited
+
+//        frequency = new ArrayList<Integer>(Arrays.asList(1, 0, 0, 1, 0, 1, 0));
 
         frequencyButtons = Arrays.asList("button_m","button_t","button_w","button_r","button_f","button_sa","button_su");
 
         final EditText habitTitle = findViewById(R.id.habit_title_field);
         final EditText habitReason = findViewById(R.id.habit_reason_field);
         final EditText dateSelector = findViewById(R.id.habit_date_selector);
-        Button addHabitButton = findViewById(R.id.add_habit_button);
+        Button saveHabitButton = findViewById(R.id.add_habit_button);
+        Button deleteHabitButton = findViewById(R.id.delete_habit_button);
 
-        // Date Picker (Source: https://goo.gl/nmN56M)
-        final SimpleDateFormat format = new SimpleDateFormat("EEE, MMM d, yyyy");
-        final Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
+        // TODO set the habit name, reason, frequency from the intent here
+        habitTitle.setText(tempName);
+        habitReason.setText(tempReason);
+        dateSelector.setText(format.format(tempDate));
 
-        // set the habit start date to the current date
-        dateSelector.setText(format.format(calendar.getTime()));
+        // autofill the frequency
+        for(int i = 0; i < tempFrequency.size(); i++){
+            if (tempFrequency.get(i) == 1){
+                String buttonID = frequencyButtons.get(i);
+                int resID = getResources().getIdentifier(buttonID, "id", getPackageName());
+
+                // get the frequency button and simulate a click on it
+                Button b = findViewById(resID);
+                System.out.println(b.getText());
+                b.performClick();
+            }
+        }
+
+        // this line must appear after autofill otherwise frequency won't get filled
+        frequency = tempFrequency;
 
         // date picker
         final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear,
                                   int dayOfMonth) {
-
                 calendar.set(Calendar.YEAR, year);
                 calendar.set(Calendar.MONTH, monthOfYear);
                 calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
@@ -60,12 +86,12 @@ public class AddHabitActivity extends AppCompatActivity {
                 dateSelector.setText(format.format(calendar.getTime()));
             }
         };
-        // when the date field is clicked on the add habit page
+
+        // when the date field is clicked on the edit habit page
         dateSelector.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
-                DatePickerDialog datePicker = new DatePickerDialog(AddHabitActivity.this, R.style.date_picker, date, calendar
+                DatePickerDialog datePicker = new DatePickerDialog(EditHabitActivity.this, R.style.date_picker, date, calendar
                         .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
                         calendar.get(Calendar.DAY_OF_MONTH));
 
@@ -75,52 +101,8 @@ public class AddHabitActivity extends AppCompatActivity {
             }
         });
 
-        // submit button
-        addHabitButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                String title = habitTitle.getText().toString();
-                String reason = habitReason.getText().toString();
-                Date date = calendar.getTime();
 
-                Boolean error = false;
-
-                // input error checking
-                if (title.length() > 20){
-                    habitTitle.setError("Please keep title under 20 characters");
-                    error = true;
-                }
-                else if (title.length() == 0){
-                    habitTitle.setError("Please enter a title");
-                    error = true;
-                }
-
-                if (reason.length() > 30){
-                    habitReason.setError("Please keep reason under 30 characters");
-                    error = true;
-                }
-                else if (reason.length() == 0){
-                    habitReason.setError("Please enter a reason");
-                    error = true;
-                }
-
-                if (!frequency.contains(1)){
-                    // if no day is selected for the frequency - set it to daily by default
-                    frequency = new ArrayList<Integer>(Collections.nCopies(7, 1));
-                }
-
-                // TODO check that the habit name doesn't exist already
-
-                if (!error){
-                    // TODO create a new habit object here and associate that with the user
-//                    Habit habit = new Habit(title, reason, date, frequency);
-//                    LoginManager.getInstance().getCurrentUser().addHabit(habit);
-
-                }
-            }
-        });
     }
-
     // called by the 7 day selector buttons
     public void updateFrequency(View v){
         Button clickedButton = findViewById(v.getId());
