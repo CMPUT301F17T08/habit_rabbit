@@ -94,8 +94,7 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
         for (int counter = 0; counter < frequencyList.size(); counter++) {
             if (frequencyList.get(counter) == 1){
                 Button chargingButton = (Button)holder.frequencyLayout.findViewWithTag(Integer.toString(counter+1));
-                chargingButton.setBackgroundColor(R.drawable.gradient);
-
+                chargingButton.setBackgroundResource(R.drawable.gradient);
 
             }
         }
