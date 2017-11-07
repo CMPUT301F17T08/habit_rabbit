@@ -121,7 +121,7 @@ public class User {
             ArrayList<HabitEvent> result = new ArrayList<>();
 
             for (HabitEvent habitevent : habiteventlist) {
-                if (habitevent.getComment() == keyword) {
+                if (habitevent.getComment().contains(keyword)) {
                     result.add(habitevent);
                 }
             }
