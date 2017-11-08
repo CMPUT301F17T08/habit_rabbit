@@ -61,4 +61,8 @@ public class HabitEvent {
         }
         return this.likes.size();
     }
+
+    public int getLikeCount(){
+        return this.likes.size();
+    }
 }
