@@ -2,12 +2,9 @@ package ca.ualberta.cmput301f17t08.habitrabbit;
 
 import java.util.ArrayList;
 
-
 /**
  * Created by mseneshen on 2017-10-23.
  */
-import java.util.List;
-
 
 public class User {
     private String username;
@@ -126,7 +123,6 @@ public class User {
     public ArrayList<Habit> Habitmissed(Habit habit){
 
         return null;}
-
 
 
 }

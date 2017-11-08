@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "548835905007",
+    "firebase_url": "https://habit-rabbit.firebaseio.com",
+    "project_id": "habit-rabbit",
+    "storage_bucket": "habit-rabbit.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:548835905007:android:79e28bc95e0c0530",
+        "android_client_info": {
+          "package_name": "ca.ualberta.cmput301f17t08.habitrabbit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "548835905007-8jdp91eqidlvsdhqm2vattgn2h5l5dna.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ca.ualberta.cmput301f17t08.habitrabbit",
+            "certificate_hash": "2bc7c7f818c68b188c75e812c087ca7be45e6527"
+          }
+        },
+        {
+          "client_id": "548835905007-6g0uf698qusp7k0rdkui96ki5le8u1qd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxsPZjZ6EKsgvVzglvNs_z6vAcG4cyvhw"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "548835905007-6g0uf698qusp7k0rdkui96ki5le8u1qd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
