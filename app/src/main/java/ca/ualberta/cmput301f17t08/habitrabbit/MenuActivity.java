@@ -6,7 +6,8 @@ import android.view.View;
 import android.widget.Button;
 
 public class MenuActivity extends AppCompatActivity {
-
+    private MenuActivity activity = this;
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

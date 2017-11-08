@@ -43,6 +43,7 @@
                 android:layout_weight="0.00"
                 android:background="@drawable/menu"
                 app:layout_constraintBottom_toBottomOf="parent"
+                android:onClick="showMenu"
                 app:layout_constraintStart_toStartOf="parent"/>
 
         </android.support.constraint.ConstraintLayout>
