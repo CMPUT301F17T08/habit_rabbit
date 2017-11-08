@@ -1,10 +1,7 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 
-import static android.R.id.list;
 
 /**
  * Created by mseneshen on 2017-10-23.

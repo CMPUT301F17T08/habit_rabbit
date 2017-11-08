@@ -15,22 +15,22 @@ public class LoginManagerUnitTest {
 
     @Before
     public void setUp() {
-        //user1 = new User();
-        //user2 = new User();
+        user1 = new User();
+        user2 = new User();
 
         LoginManager loginManager = new LoginManager();
 
     }
 
-//    @Test
-   // public void testLoginManagerCurrentUser() throws Exception {
-       // loginManager.setCurrentUser(user1);
+    @Test
+    public void testLoginManagerCurrentUser() throws Exception {
+        loginManager.setCurrentUser(user1);
 
-       // assertTrue(loginManager.getCurrentUser() == user1);
+        assertTrue(loginManager.getCurrentUser() == user1);
 
-        //loginManager.setCurrentUser(user2);
+        loginManager.setCurrentUser(user2);
 
-      //  assertTrue(loginManager.getCurrentUser() == user2);
-//    }
+        assertTrue(loginManager.getCurrentUser() == user2);
+    }
 
 }
