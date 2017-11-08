@@ -6,6 +6,8 @@ import java.util.ArrayList;
 /**
  * Created by mseneshen on 2017-10-23.
  */
+import java.util.List;
+
 
 public class User {
     private String username;
