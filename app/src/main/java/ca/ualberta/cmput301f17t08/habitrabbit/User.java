@@ -3,7 +3,6 @@ package ca.ualberta.cmput301f17t08.habitrabbit;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * Created by mseneshen on 2017-10-23.
  */
@@ -125,7 +124,6 @@ public class User {
     public ArrayList<Habit> Habitmissed(Habit habit){
 
         return null;}
-
 
 
 }

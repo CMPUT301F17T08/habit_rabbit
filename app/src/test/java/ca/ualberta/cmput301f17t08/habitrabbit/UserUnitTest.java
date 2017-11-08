@@ -19,6 +19,7 @@ public class UserUnitTest {
 
     @Before
     public void setUp() {
+
         user1 = new User("Test User 1");
         user2 = new User("Test User 2");
 

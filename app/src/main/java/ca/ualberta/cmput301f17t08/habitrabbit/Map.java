@@ -2,27 +2,27 @@ package ca.ualberta.cmput301f17t08.habitrabbit;
 
 import android.location.Location;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
-/**
- * Created by maharshmellow on 2017-10-23.
- */
-
 public class Map {
+
+    private ArrayList<Location> locations;
+
     public Map(){
-        return;
+        locations = new ArrayList<Location>();
     }
 
     public void addLocation(Location location){
-        return;
+        locations.add(location);
     }
 
     public ArrayList<Location> getLocations(){
-        return null;
+        return locations;
     }
 
     public void removeLocation(Location location){
-        return;
+        locations.remove(location);
     }
 
 }

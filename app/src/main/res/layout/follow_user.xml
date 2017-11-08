@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/background"
+              android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="0.00"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:orientation="vertical">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="20dp">
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="25dp"
+                android:text="FOLLOW USER"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/menu_button"/>
+
+            <Button
+                android:id="@+id/menu_button"
+                android:layout_width="25dp"
+                android:layout_height="20dp"
+                android:layout_marginBottom="0dp"
+                android:layout_marginStart="0dp"
+                android:layout_weight="0.00"
+                android:background="@drawable/menu"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+        <EditText
+            android:id="@+id/username_input_field"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_marginTop="50dp"
+            android:background="#FFFFFF"
+            android:drawableLeft="@drawable/user_icon"
+            android:drawablePadding="10dp"
+            android:hint="Username"
+            android:textColorHint="#999999"
+            android:textColor="#020202"
+            android:inputType="text"
+            android:paddingLeft="20dp"
+            android:textSize="14sp" />
+
+        <Button
+            android:id="@+id/follow_user_button"
+            style="@style/Widget.AppCompat.Button.Borderless.Colored"
+            android:layout_width="match_parent"
+            android:layout_height="75dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/gradient"
+            android:text="FOLLOW"
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>

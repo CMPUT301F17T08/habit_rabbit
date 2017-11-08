@@ -1,5 +1,7 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
+import com.google.firebase.database.Exclude;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -20,6 +22,10 @@ public class Habit {
     private int daysCompleted;
     private long averageTime;        // average time of day in milliseconds
     private int streak;
+
+    public Habit(){
+
+    }
 
     public Habit(String name, String reason, Date startDate, int[] frequency){
         this.name = name;
@@ -62,6 +68,8 @@ public class Habit {
         return this.startDate;
     }
 
+    // TODO: change frequency array to use List rather than array, for Firebase to properly serialize
+    @Exclude
     public int[] getFrequency(){
         return this.frequency;
     }
