@@ -4,6 +4,7 @@ import android.location.Location;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class HabitEvent {
@@ -13,14 +14,15 @@ public class HabitEvent {
     private Location location;
     private File picture;
     private Habit habit;
+    private ArrayList<String> likes;
 
-
-    public HabitEvent( Habit habit,Date dateCompleted,String comment, Location location, File picture) {
+    public HabitEvent(Habit habit, Date dateCompleted, String comment, Location location, File picture) {
         this.habit = habit;
-        this.dateCompleted =dateCompleted;
+        this.dateCompleted = dateCompleted;
         this.comment = comment;
         this.location = location;
         this.picture = picture;
+        this.likes = new ArrayList();
     }
 
     public Habit getHabit(){ return habit;}
@@ -51,5 +53,16 @@ public class HabitEvent {
 
     public File getPicture(){
         return picture;
+    }
+
+    public int like(String username){
+        if (!this.likes.contains(username)){
+            this.likes.add(username);
+        }
+        return this.likes.size();
+    }
+
+    public int getLikeCount(){
+        return this.likes.size();
     }
 }

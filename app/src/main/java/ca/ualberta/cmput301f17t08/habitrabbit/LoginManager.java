@@ -18,6 +18,7 @@ public class LoginManager {
     private LoginManager(){
         // Private constructor for singleton.
     }
+
     public static LoginManager getInstance(){
         if(loginManager == null){
             loginManager = new LoginManager();

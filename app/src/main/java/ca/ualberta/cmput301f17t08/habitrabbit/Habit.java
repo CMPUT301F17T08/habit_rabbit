@@ -2,6 +2,7 @@ package ca.ualberta.cmput301f17t08.habitrabbit;
 
 import com.google.firebase.database.Exclude;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,7 +14,7 @@ import java.util.TimeZone;
  * Created by maharshmellow on 2017-10-23.
  */
 
-public class Habit {
+public class Habit implements Serializable{
     private String name;
     private String reason;
     private Date startDate;

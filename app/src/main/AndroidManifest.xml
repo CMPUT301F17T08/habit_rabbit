@@ -20,6 +20,12 @@
         </activity>
         <activity android:name=".MyHabitActivity">
         </activity>
+        <activity android:name=".AddHabitActivity">
+        </activity>
+        <activity android:name=".EditHabitActivity">
+        </activity>
+        <activity android:name=".MenuActivity">
+        </activity>
     </application>
 
 </manifest>
