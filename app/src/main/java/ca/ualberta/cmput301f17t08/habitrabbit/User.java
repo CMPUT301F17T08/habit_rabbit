@@ -92,14 +92,9 @@ public class User {
         this.habitList.remove(habit);
         return; }
 
+
     
-    
-    
-    
-    
-    
-    
-    //// TODO: 2017-11-07
+    //// TODO: change this to an activity
     public void viewDetail(Habit habit){
 
         return;

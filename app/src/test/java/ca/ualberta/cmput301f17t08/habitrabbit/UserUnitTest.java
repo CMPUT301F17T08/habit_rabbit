@@ -71,7 +71,7 @@ public class UserUnitTest {
     }
 
     @Test
-    public void testUserFilterHabit() throws Exception {
+    public void testUserFilterHabitbytype() throws Exception {
         user1.addHabit(habit1);
         user1.addHabit(habit2);
         user1.addHabit(habit3);
@@ -88,7 +88,11 @@ public class UserUnitTest {
 
         assertFalse(user2.filterHistoryBytype("Name 4").contains(habit1));
 
+    }
 
+
+    @Test
+    public void testUserFilterHabiteventbycomment() throws Exception {
 
     }
 
