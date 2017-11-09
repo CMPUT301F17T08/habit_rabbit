@@ -17,6 +17,7 @@ import java.util.ArrayList;
 
 public class feedAdapter extends RecyclerView.Adapter<feedAdapter.ViewHolder> {
     private  ArrayList<HabitEvent> habitEvents;
+    public String username;
 
     // Provide a direct reference to each of the views within a data item
     // Used to cache the views within the item layout for fast access
@@ -25,9 +26,10 @@ public class feedAdapter extends RecyclerView.Adapter<feedAdapter.ViewHolder> {
         public TextView feedName;
         public TextView numLike;
         public TextView feedComment;
-        public TextView userName;
+        public TextView userNameView;
         public Button likeButton;
         public TextView feedDate;
+
 
         public ViewHolder(View feedView) {
             // Stores the itemView in a public final member variable that can be used
@@ -37,14 +39,15 @@ public class feedAdapter extends RecyclerView.Adapter<feedAdapter.ViewHolder> {
             numLike = feedView.findViewById(R.id.num_like);
             likeButton = feedView.findViewById(R.id.like_button);
             feedComment = feedView.findViewById(R.id.comment);
-            userName = feedView.findViewById(R.id.feed_username);
+            userNameView = feedView.findViewById(R.id.feed_username);
             feedDate = feedView.findViewById(R.id.feed_time);
 
 
         }
     }
-    public feedAdapter(ArrayList<HabitEvent> habitEvents) {
+    public feedAdapter(String username,ArrayList<HabitEvent> habitEvents) {
         this.habitEvents = habitEvents;
+        this.username =  username;
     }
     @Override
     public feedAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -65,7 +68,7 @@ public class feedAdapter extends RecyclerView.Adapter<feedAdapter.ViewHolder> {
         viewHolder.feedComment.setText(habitEvents.get(position).getComment());
         viewHolder.feedDate.setText(habitEvents.get(position).getDateCompleted().toString());
         viewHolder.numLike.setText(Integer.toString(habitEvents.get(position).getLikeCount())+"likes");
-//        viewHolder.userName.setText(habitEvents.get(position).getHabit().g);
+        viewHolder.userNameView.setText(username);
         viewHolder.likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
