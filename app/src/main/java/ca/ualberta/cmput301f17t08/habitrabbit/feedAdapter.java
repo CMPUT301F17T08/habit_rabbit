@@ -67,7 +67,7 @@ public class feedAdapter extends RecyclerView.Adapter<feedAdapter.ViewHolder> {
         viewHolder.feedName.setText(habitEvents.get(position).getHabit().getName());
         viewHolder.feedComment.setText(habitEvents.get(position).getComment());
         viewHolder.feedDate.setText(habitEvents.get(position).getDateCompleted().toString());
-        viewHolder.numLike.setText(Integer.toString(habitEvents.get(position).getLikeCount())+"likes");
+        viewHolder.numLike.setText(Integer.toString(habitEvents.get(position).getLikeCount())+" likes");
         viewHolder.userNameView.setText(username);
         viewHolder.likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
