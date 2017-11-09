@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * Created by micah on 01/11/17.
  */
 
-public class peopleAdapter extends RecyclerView.Adapter<peopleAdapter.ViewHolder> {
+public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.ViewHolder> {
     private ArrayList<User> peoples;
 
     // Provide a reference to the views for each data item
@@ -27,16 +27,16 @@ public class peopleAdapter extends RecyclerView.Adapter<peopleAdapter.ViewHolder
         }
     }
 
-    public peopleAdapter(ArrayList<User> peoples) {
+    public PeopleAdapter(ArrayList<User> peoples) {
         this.peoples = peoples;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public peopleAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+    public PeopleAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                        int viewType) {
         View peopleView = LayoutInflater.from(parent.getContext()).inflate(R.layout.people_item, parent, false);
-        peopleAdapter.ViewHolder viewHolder = new peopleAdapter.ViewHolder(peopleView);
+        PeopleAdapter.ViewHolder viewHolder = new PeopleAdapter.ViewHolder(peopleView);
 
         return viewHolder;
     }

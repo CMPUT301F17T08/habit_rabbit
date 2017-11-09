@@ -17,8 +17,8 @@ public class PeopleActivity extends AppCompatActivity {
 
     private ArrayList<User> followingList;
     private ArrayList<User> followerList;
-    private peopleAdapter cAdapt;
-    private peopleAdapter cAdapt2;
+    private PeopleAdapter cAdapt;
+    private PeopleAdapter cAdapt2;
     private RecyclerView peopleFollowingRecyclerView;
     private RecyclerView peopleFollowerRecyclerView;
 
@@ -27,10 +27,8 @@ public class PeopleActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.people);
 
-        /*
-        TODO: get the instance of the user's following list and follower list from firebase
-         */
-        //followingList = LoginManager.getInstance().getCurrentUser().getHabits();
+        followingList = LoginManager.getInstance().getCurrentUser().getFollowing();
+        followerList = LoginManager.getInstance().getCurrentUser().getFollowers();
 
         //create recycleview for following
         peopleFollowingRecyclerView = (RecyclerView) findViewById(R.id.people_recyclerview);
@@ -41,11 +39,11 @@ public class PeopleActivity extends AppCompatActivity {
         peopleFollowerRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 
         //set the adapter for the following list
-        cAdapt = new peopleAdapter(followingList);
+        cAdapt = new PeopleAdapter(followingList);
         peopleFollowingRecyclerView.setAdapter(cAdapt);
 
         //set the adapter for the follower list
-        cAdapt2 = new peopleAdapter(followerList);
+        cAdapt2 = new PeopleAdapter(followerList);
         peopleFollowingRecyclerView.setAdapter(cAdapt2);
 
     }

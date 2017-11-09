@@ -1,5 +1,6 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -33,6 +34,8 @@ public class MyHabitActivity extends AppCompatActivity {
         cAdapt = new HabitsAdapter(habitList);
         habitsRecyclerView.setAdapter(cAdapt);
 
+        Intent intent = new Intent(this, PeopleActivity.class);
+        startActivity(intent);
     }
 
 }
