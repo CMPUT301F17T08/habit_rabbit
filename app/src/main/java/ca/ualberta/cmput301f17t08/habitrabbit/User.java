@@ -1,6 +1,7 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by mseneshen on 2017-10-23.
@@ -13,16 +14,12 @@ public class User {
     private ArrayList<User> followingList;
     private ArrayList<User> followRequests;
     private ArrayList<Habit> historylist;
-    private ArrayList<HabitEvent> habiteventlist;
-
     public User(){
         this.habitList = new ArrayList<Habit>();
         this.followerList = new ArrayList<User>();
         this.followingList = new ArrayList<User>();
         this.followRequests = new ArrayList<User>();
         this.historylist = new ArrayList<Habit>();
-        this.habiteventlist = new ArrayList<HabitEvent>();
-
     }
 
     public User(String username){
@@ -32,16 +29,17 @@ public class User {
         this.followingList = new ArrayList<User>();
         this.followRequests = new ArrayList<User>();
         this.historylist = new ArrayList<Habit>();
-        this.habiteventlist = new ArrayList<HabitEvent>();
-
     }
-    public void setUsername (String username) {this.username = username;}
+
+    public void setUsername(String username) {this.username = username;}
+
+    public void setHabits(ArrayList<Habit> habits){
+        this.habitList = habits;
+    }
 
     public String getUsername(){
         return this.username;
     }
-
-    public ArrayList<HabitEvent> getHabitEvents(){return this.habiteventlist;}
 
     public ArrayList<Habit> getHabits(){return this.habitList;}
 
@@ -84,29 +82,8 @@ public class User {
         return this.habitList.contains(habit);
     }
 
-
-    public void addHabitEvent(HabitEvent habitevent) {
-        if (hasHabitEvent(habitevent))
-            throw new IllegalArgumentException("HabitEvent already exists.");
-
-        this.habiteventlist.add (habitevent);
-        return;
-    }
-
-
-    private boolean hasHabitEvent(HabitEvent habitevent) {
-        return this.habiteventlist.contains(habitevent);
-    }
-
     public void removeHabit(Habit habit) {
         this.habitList.remove(habit);
-        return;
-    }
-
-
-    
-    //// TODO: change this to an activity
-    public void viewDetail(Habit habit){
         return;
     }
 
@@ -119,19 +96,6 @@ public class User {
                 }
             }
             return result;
-    }
-
-    public ArrayList<HabitEvent> filterHistoryByComment(String keyword) {
-
-            ArrayList<HabitEvent> result = new ArrayList<>();
-
-            for (HabitEvent habitevent : habiteventlist) {
-                if (habitevent.getComment().contains(keyword)) {
-                    result.add(habitevent);
-                }
-            }
-
-        return result;
     }
 
     public ArrayList<Habit> HabitMissed(Habit habit){
