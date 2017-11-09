@@ -1,74 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@drawable/background"
-              android:orientation="vertical">
+<android.support.constraint.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="0.00"
+    android:background="@drawable/background"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-
+    <TextView
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_weight="0.00"
+        android:shadowDy="40"
+        android:shadowRadius="50"
+        android:text="HABBIT RABBIT"
+        android:textColor="#D9D9D9"
+        android:textSize="12dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="0.00"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/logo"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="40dp"
-            android:layout_weight="0.00"
-            android:shadowDy="40"
-            android:shadowRadius="50"
-            android:text="HABBIT RABBIT"
-            android:textColor="#D9D9D9"
-            android:textSize="12dp"
-            android:textStyle="bold" />
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="32dp"
+        android:paddingRight="32dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <EditText
             android:id="@+id/username_input_field"
             android:layout_width="match_parent"
             android:layout_height="75dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginTop="150dp"
+            android:layout_marginBottom="16dp"
+            android:layout_marginTop="16dp"
             android:background="#FFFFFF"
             android:drawableLeft="@drawable/user_icon"
             android:drawablePadding="10dp"
             android:hint="Username"
-            android:textColorHint="#999999"
-            android:textColor="#020202"
             android:inputType="textPersonName"
             android:paddingLeft="20dp"
-            android:textSize="14sp" />
+            android:textColor="#020202"
+            android:textColorHint="#999999"
+            android:textSize="14sp"
+            tools:layout_editor_absoluteX="40dp"
+            tools:layout_editor_absoluteY="190dp" />
 
         <Button
             android:id="@+id/login_button"
             style="@style/Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="match_parent"
             android:layout_height="75dp"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:layout_marginTop="20dp"
             android:background="@drawable/gradient"
             android:text="LOGIN"
             android:textAlignment="center"
             android:textColor="#020202"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            tools:layout_editor_absoluteX="40dp"
+            tools:layout_editor_absoluteY="285dp" />
 
         <Button
             android:id="@+id/signup_button"
-            android:layout_width="match_parent"
-            android:layout_marginLeft="60dp"
-            android:layout_marginRight="60dp"
             style="@android:style/Widget.DeviceDefault.Button.Borderless.Small"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sign Up"
-            android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Caption"
+            tools:layout_editor_absoluteX="60dp"
+            tools:layout_editor_absoluteY="360dp" />
 
     </LinearLayout>
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

@@ -1,9 +1,11 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
+import android.graphics.Bitmap;
 import android.location.Location;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class HabitEvent {
@@ -11,16 +13,17 @@ public class HabitEvent {
     private Date dateCompleted;
     private String comment;
     private Location location;
-    private File picture;
+    private Bitmap picture;
     private Habit habit;
+    private ArrayList<String> likes;
 
-
-    public HabitEvent( Habit habit,Date dateCompleted,String comment, Location location, File picture) {
+    public HabitEvent(Habit habit, Date dateCompleted, String comment, Location location, Bitmap picture) {
         this.habit = habit;
-        this.dateCompleted =dateCompleted;
+        this.dateCompleted = dateCompleted;
         this.comment = comment;
         this.location = location;
         this.picture = picture;
+        this.likes = new ArrayList();
     }
 
     public Habit getHabit(){ return habit;}
@@ -37,8 +40,8 @@ public class HabitEvent {
         this.location = location;
     }
 
-    public void setPicture(File picture) throws IOException {
-        this.picture = picture.getCanonicalFile();
+    public void setPicture(Bitmap picture) {
+        this.picture = picture;
     }
 
     public String getComment(){
@@ -49,7 +52,18 @@ public class HabitEvent {
         return location;
     }
 
-    public File getPicture(){
+    public Bitmap getPicture(){
         return picture;
+    }
+
+    public int like(String username){
+        if (!this.likes.contains(username)){
+            this.likes.add(username);
+        }
+        return this.likes.size();
+    }
+
+    public int getLikeCount(){
+        return this.likes.size();
     }
 }
