@@ -34,6 +34,8 @@ public class FeedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.feed);
 
+
+
         feedRecyclerView = (RecyclerView) findViewById(R.id.feed_recycle);
         feedRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 
@@ -44,7 +46,7 @@ public class FeedActivity extends AppCompatActivity {
         Date now = calendar.getTime();
 
         for(int counter=0; counter < 2; counter++){
-            feedList.set(counter,new HabitEvent(new Habit("Yuxuan","hdkhfajk",now,frequency),now,"what the hell",null,null));
+            feedList.add(counter,new HabitEvent(new Habit("singing","hdkhfajk",now,frequency),now,"what the hell",null,null));
         }
         System.out.println(feedList);
         cAdapt = new feedAdapter(feedList);

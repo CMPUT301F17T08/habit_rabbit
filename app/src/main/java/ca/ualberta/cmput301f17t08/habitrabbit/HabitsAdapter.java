@@ -36,13 +36,6 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
 
 
 
-
-
-
-
-
-
-
         public ViewHolder(View habitView) {
             super(habitView);
 

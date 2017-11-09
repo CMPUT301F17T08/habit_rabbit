@@ -58,7 +58,7 @@
                     android:id="@+id/like_button"
                     android:layout_width="33dp"
                     android:layout_height="22dp"
-                    android:layout_marginRight="25dp"
+                    android:layout_marginRight="10dp"
                     android:layout_marginTop="23dp"
                     android:layout_weight="1.8"
                     android:background="@drawable/like" />

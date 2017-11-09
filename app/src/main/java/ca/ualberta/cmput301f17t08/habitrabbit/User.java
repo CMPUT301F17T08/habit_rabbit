@@ -16,9 +16,6 @@ public class User {
     private ArrayList<HabitEvent> habiteventlist;
     private ArrayList<Habit> habits;
 
-    public User(){
-        habitList = new ArrayList<Habit>();
-    }
 
     public User(){
         this.habitList = new ArrayList<Habit>();
