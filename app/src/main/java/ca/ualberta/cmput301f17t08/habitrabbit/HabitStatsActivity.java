@@ -39,6 +39,8 @@ public class HabitStatsActivity extends AppCompatActivity {
         daysCompletedCount = (TextView)findViewById(R.id.days_completed_count);
         averageTimeCount = (TextView)findViewById(R.id.avg_time_count);
 
+        // TODO: Clean up getStatistics to create several different getters/setters for each member.
+        // Firebase does not properly save and retrieve these due to this.
         List<Object> statistics = habit.getStatistics();
 
         streakCount.setText("" + statistics.get(1));

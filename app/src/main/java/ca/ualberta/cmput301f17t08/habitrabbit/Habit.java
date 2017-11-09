@@ -18,7 +18,7 @@ public class Habit {
     private String reason;
     private Date startDate;
     private Date lastCompleted;
-    private int[] frequency;
+    private List<Integer> frequency;
     private int daysCompleted;
     private long averageTime;        // average time of day in milliseconds
     private int streak;
@@ -27,7 +27,7 @@ public class Habit {
 
     }
 
-    public Habit(String name, String reason, Date startDate, int[] frequency){
+    public Habit(String name, String reason, Date startDate, List<Integer> frequency){
         this.name = name;
         this.reason = reason;
         this.startDate = startDate;
@@ -51,7 +51,7 @@ public class Habit {
         this.startDate = startDate;
     }
 
-    public void setFrequency(int[] frequency){
+    public void setFrequency(List<Integer> frequency){
         this.frequency = frequency;
     }
 
@@ -67,13 +67,13 @@ public class Habit {
         return this.startDate;
     }
 
-    // TODO: change frequency array to use List rather than array, for Firebase to properly serialize
-    @Exclude
-    public int[] getFrequency(){
+    public List<Integer> getFrequency(){
         return this.frequency;
     }
 
 
+    // TODO: Separate this into various getters/setters, refactor formatting into calling class.
+    // Firebase will not be able to save/retrieve without this.
     public List<Object> getStatistics(){
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
         Date now = calendar.getTime();
