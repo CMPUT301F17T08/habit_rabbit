@@ -17,6 +17,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.login);
+//        Intent intent = new Intent(this,FeedActivity.class);
+//        startActivity(intent);
 
         final EditText usernameField = (EditText) findViewById(R.id.username_input_field);
         Button loginButton = (Button) findViewById(R.id.login_button);
@@ -35,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
                         // TODO: transition activity
                         Log.i("MainActivity", "Login success!");
 
-                        Intent intent = new Intent(activity, MyHabitActivity.class);
+                        Intent intent = new Intent(activity, FeedActivity.class);
                         startActivity(intent);
                     }
 

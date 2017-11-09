@@ -66,6 +66,7 @@ public class DatabaseManager {
 
 
 
+
                 userRef.setValue(newUser, new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -78,7 +79,7 @@ public class DatabaseManager {
                     }
                 });
                 ArrayList<Integer> frequency = new ArrayList<Integer>(Arrays.asList(new Integer[]{1,0,1,0,1,0,1}));
-                System.out.print("username"+newUser.getUsername());
+//                System.out.print("username"+newUser.getUsername());
                 Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
                 Date now = calendar.getTime();
                 Habit newHabit = new Habit("Yuxuan","hdkhfajk",now,frequency);

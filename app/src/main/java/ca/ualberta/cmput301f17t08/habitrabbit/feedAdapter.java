@@ -63,7 +63,7 @@ public class feedAdapter extends RecyclerView.Adapter<feedAdapter.ViewHolder> {
         viewHolder.like_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                habitEvents.get(position).like(LoginManager.getInstance().getCurrentUser().getUsername());
+                habitEvents.get(position).like(LoginManager.getInstance().getCurrentUser().getUserName());
             }
         });
 

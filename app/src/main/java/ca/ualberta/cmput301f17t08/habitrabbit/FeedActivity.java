@@ -6,17 +6,22 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Created by yuxuanzhao on 2017-11-07.
  */
 
 public class FeedActivity extends AppCompatActivity {
-    private FeedActivity activity = this;
+
 
     private ArrayList<HabitEvent> feedList;
     private feedAdapter cAdapt;
     private RecyclerView feedRecyclerView;
+
 
 
 
@@ -29,13 +34,23 @@ public class FeedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.feed);
 
-        
-
         feedRecyclerView = (RecyclerView) findViewById(R.id.feed_recycle);
         feedRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 
+        feedList = LoginManager.getInstance().getCurrentUser().gethabitevents();
+
+        ArrayList<Integer> frequency = new ArrayList<Integer>(Arrays.asList(new Integer[]{1,0,1,0,1,0,1}));
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
+        Date now = calendar.getTime();
+
+        for(int counter=0; counter < 2; counter++){
+            feedList.set(counter,new HabitEvent(new Habit("Yuxuan","hdkhfajk",now,frequency),now,"what the hell",null,null));
+        }
+        System.out.println(feedList);
         cAdapt = new feedAdapter(feedList);
         feedRecyclerView.setAdapter(cAdapt);
+
+
     }
 
 

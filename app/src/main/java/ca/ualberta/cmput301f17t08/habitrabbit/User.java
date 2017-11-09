@@ -14,6 +14,11 @@ public class User {
     private ArrayList<User> followRequests;
     private ArrayList<Habit> historylist;
     private ArrayList<HabitEvent> habiteventlist;
+    private ArrayList<Habit> habits;
+
+    public User(){
+        habitList = new ArrayList<Habit>();
+    }
 
     public User(String username){
         this.username = username;
