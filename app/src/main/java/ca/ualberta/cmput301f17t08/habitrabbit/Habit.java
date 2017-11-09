@@ -57,6 +57,7 @@ public class Habit implements Serializable{
         this.frequency = frequency;
     }
 
+
     public String getName(){
         return this.name;
     }
@@ -74,6 +75,7 @@ public class Habit implements Serializable{
     public ArrayList<Integer> getFrequency(){
         return this.frequency;
     }
+
 
 
     public List<Object> getStatistics(){
