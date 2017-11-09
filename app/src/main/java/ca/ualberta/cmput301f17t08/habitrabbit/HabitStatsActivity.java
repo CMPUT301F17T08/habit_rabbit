@@ -4,34 +4,29 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 /**
  * Created by micah on 01/11/17.
  */
 
-public class MyHabitActivity extends AppCompatActivity {
+public class HabitStatsActivity extends AppCompatActivity {
 
-    private MyHabitActivity activity = this;
-
-    private ArrayList<Habit> habitList;
-    private HabitsAdapter cAdapt;
-    private RecyclerView habitsRecyclerView;
+    private HabitStatsActivity activity = this;
+    private Habit habit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.habit);
+        setContentView(R.layout.habit_stats);
 
-        habitList = LoginManager.getInstance().getCurrentUser().getHabits();
+        int habit_id = (int)getIntent().getSerializableExtra("habit_id");
 
-        habitsRecyclerView = (RecyclerView) findViewById(R.id.habit_recyclerview);
-        habitsRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+        habit = LoginManager.getInstance().getCurrentUser().getHabits().get(habit_id);
 
-        cAdapt = new HabitsAdapter(habitList);
-        habitsRecyclerView.setAdapter(cAdapt);
+        Log.e("stats test",habit.getName());
 
     }
 
