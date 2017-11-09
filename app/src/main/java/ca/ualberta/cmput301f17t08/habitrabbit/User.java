@@ -35,13 +35,13 @@ public class User {
         this.habiteventlist = new ArrayList<HabitEvent>();
 
     }
-    public void setUserName (String username) {this.username = username;}
+    public void setUsername (String username) {this.username = username;}
 
-    public String getUserName(){
+    public String getUsername(){
         return this.username;
     }
 
-    public ArrayList<HabitEvent> gethabitevents (){return this.habiteventlist;}
+    public ArrayList<HabitEvent> getHabitEvents(){return this.habiteventlist;}
 
     public ArrayList<Habit> getHabits(){return this.habitList;}
 
@@ -58,7 +58,8 @@ public class User {
             throw new IllegalArgumentException("Follower already existed.");
 
         this.followerList.add(follower);
-        return;}
+        return;
+    }
 
     private boolean hasFollowing(User user) {
         return this.followingList.contains(user);
@@ -67,14 +68,16 @@ public class User {
 
     public void removeFollower(User follower) {
         this.followerList.remove(follower);
-        return; }
+        return;
+    }
 
     public void addHabit(Habit habit) {
         if (hasHabit(habit))
             throw new IllegalArgumentException("Habit already existed.");
 
         this.habitList.add (habit);
-        return; }
+        return;
+    }
 
 
     private boolean hasHabit(Habit habit) {
@@ -82,31 +85,32 @@ public class User {
     }
 
 
-    public void addHabitevent(HabitEvent habitevent) {
-        if (hasHabitevent(habitevent))
-            throw new IllegalArgumentException("Habitevent already existed.");
+    public void addHabitEvent(HabitEvent habitevent) {
+        if (hasHabitEvent(habitevent))
+            throw new IllegalArgumentException("HabitEvent already exists.");
 
         this.habiteventlist.add (habitevent);
-        return; }
+        return;
+    }
 
 
-    private boolean hasHabitevent(HabitEvent habitevent) {
+    private boolean hasHabitEvent(HabitEvent habitevent) {
         return this.habiteventlist.contains(habitevent);
     }
 
     public void removeHabit(Habit habit) {
         this.habitList.remove(habit);
-        return; }
+        return;
+    }
 
 
     
     //// TODO: change this to an activity
     public void viewDetail(Habit habit){
-
         return;
     }
 
-    public ArrayList<Habit> filterHistoryBytype(String keyword) {
+    public ArrayList<Habit> filterHistoryByType(String keyword) {
         ArrayList<Habit> result = new ArrayList<>();
 
             for (Habit habit : habitList) {
@@ -117,7 +121,7 @@ public class User {
             return result;
     }
 
-    public ArrayList<HabitEvent> filterHistoryBycomment(String keyword) {
+    public ArrayList<HabitEvent> filterHistoryByComment(String keyword) {
 
             ArrayList<HabitEvent> result = new ArrayList<>();
 
@@ -130,9 +134,9 @@ public class User {
         return result;
     }
 
-    public ArrayList<Habit> Habitmissed(Habit habit){
-
-        return null;}
+    public ArrayList<Habit> HabitMissed(Habit habit){
+        return null;
+    }
 
 
 }
