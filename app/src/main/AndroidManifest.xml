@@ -20,6 +20,8 @@
         </activity>
         <activity android:name=".MyHabitActivity">
         </activity>
+        <activity android:name=".PeopleActivity">
+        </activity>
     </application>
 
 </manifest>
