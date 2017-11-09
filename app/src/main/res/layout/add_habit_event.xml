@@ -108,7 +108,7 @@
             android:id="@+id/image_preview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scaleType="fitXY"/>
+            android:scaleType="fitCenter"/>
 
         <Button
             android:id="@+id/add_habit_event_button"
