@@ -68,15 +68,13 @@ public class Habit implements Serializable{
     public Date getDate(){
         return this.startDate;
     }
-
-    // TODO: change frequency array to use List rather than array, for Firebase to properly serialize
-    @Exclude
+  
     public ArrayList<Integer> getFrequency(){
         return this.frequency;
     }
 
-
-
+    // TODO: Separate this into various getters/setters, refactor formatting into calling class.
+    // Firebase will not be able to save/retrieve without this.
     public List<Object> getStatistics(){
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
         Date now = calendar.getTime();
@@ -92,7 +90,7 @@ public class Habit implements Serializable{
 
         // % completed
         if (daysSinceStart != 0) {
-            statistics.add(this.daysCompleted / daysSinceStart);
+            statistics.add((float)this.daysCompleted / daysSinceStart);
         }else{
             statistics.add(1);      // 100% completed by default
         }

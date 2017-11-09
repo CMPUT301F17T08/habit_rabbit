@@ -20,6 +20,8 @@
         </activity>
         <activity android:name=".MyHabitActivity">
         </activity>
+        <activity android:name=".HabitStatsActivity">
+        </activity>
         <activity android:name=".AddHabitActivity">
         </activity>
         <activity android:name=".EditHabitActivity">
@@ -29,5 +31,4 @@
         <activity android:name=".AddHabitEventActivity">
         </activity>
     </application>
-
 </manifest>
