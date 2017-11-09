@@ -89,7 +89,7 @@ public class Habit {
 
         // % completed
         if (daysSinceStart != 0) {
-            statistics.add(this.daysCompleted / daysSinceStart);
+            statistics.add((float)this.daysCompleted / daysSinceStart);
         }else{
             statistics.add(1);      // 100% completed by default
         }
