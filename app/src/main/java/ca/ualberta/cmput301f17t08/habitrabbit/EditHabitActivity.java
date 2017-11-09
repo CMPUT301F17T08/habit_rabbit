@@ -1,6 +1,7 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
@@ -42,7 +43,7 @@ public class EditHabitActivity extends AppCompatActivity {
         myIntent.putExtra("habit", habit);
         startActivity(myIntent);
          */
-        
+
         final Habit habit = (Habit) getIntent().getSerializableExtra("habit");
         String tempName = habit.getName();
         String tempReason = habit.getReason();
@@ -187,5 +188,10 @@ public class EditHabitActivity extends AppCompatActivity {
             clickedButton.setBackgroundColor(Color.parseColor("#ffffff"));
             frequency.set(buttonIndex, 0);
         }
+    }
+
+    public void showMenu(View v){
+        Intent intent = new Intent(this, MenuActivity.class);
+        startActivity(intent);
     }
 }

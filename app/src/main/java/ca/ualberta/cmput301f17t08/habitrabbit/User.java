@@ -20,6 +20,16 @@ public class User {
         habitList = new ArrayList<Habit>();
     }
 
+    public User(){
+        this.habitList = new ArrayList<Habit>();
+        this.followerList = new ArrayList<User>();
+        this.followingList = new ArrayList<User>();
+        this.followRequests = new ArrayList<User>();
+        this.historylist = new ArrayList<Habit>();
+        this.habiteventlist = new ArrayList<HabitEvent>();
+
+    }
+
     public User(String username){
         this.username = username;
         this.habitList = new ArrayList<Habit>();
