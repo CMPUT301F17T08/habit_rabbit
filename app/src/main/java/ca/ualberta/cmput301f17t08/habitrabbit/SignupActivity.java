@@ -32,7 +32,7 @@ public class SignupActivity extends Activity {
                     @Override
                     public void onUserData(User user) {
                         // TODO use loginmanager to set as logged in, initialize app
-                        Log.i("SignupActivity", "User created: " + user.getUsername());
+                        Log.i("SignupActivity", "User created: " + user.getUserName());
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(activity);
 
