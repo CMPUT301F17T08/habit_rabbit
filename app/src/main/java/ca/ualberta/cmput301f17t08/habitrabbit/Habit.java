@@ -2,6 +2,8 @@ package ca.ualberta.cmput301f17t08.habitrabbit;
 
 import com.google.firebase.database.Exclude;
 
+import java.io.Serializable;
+import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,21 +15,22 @@ import java.util.TimeZone;
  * Created by maharshmellow on 2017-10-23.
  */
 
-public class Habit {
+public class Habit implements Serializable{
     private String name;
     private String reason;
     private Date startDate;
     private Date lastCompleted;
-    private int[] frequency;
+    private ArrayList<Integer> frequency;
     private int daysCompleted;
     private long averageTime;        // average time of day in milliseconds
     private int streak;
+    private ArrayList<HabitEvent> habiteventlist;
 
     public Habit(){
-
+        this.habiteventlist = new ArrayList<HabitEvent>();
     }
 
-    public Habit(String name, String reason, Date startDate, int[] frequency){
+    public Habit(String name, String reason, Date startDate, ArrayList<Integer> frequency){
         this.name = name;
         this.reason = reason;
         this.startDate = startDate;
@@ -37,6 +40,8 @@ public class Habit {
         this.daysCompleted = 0;
         this.averageTime = -1;
         this.streak = 0;
+
+        this.habiteventlist = new ArrayList<HabitEvent>();
     }
 
     public void setName(String name){
@@ -51,8 +56,12 @@ public class Habit {
         this.startDate = startDate;
     }
 
-    public void setFrequency(int[] frequency){
+    public void setFrequency(ArrayList<Integer> frequency){
         this.frequency = frequency;
+    }
+
+    public void setHabitEvents(ArrayList<HabitEvent> habiteventlist){
+        this.habiteventlist = (ArrayList<HabitEvent>)habiteventlist.clone();
     }
 
     public String getName(){
@@ -66,14 +75,17 @@ public class Habit {
     public Date getDate(){
         return this.startDate;
     }
-
-    // TODO: change frequency array to use List rather than array, for Firebase to properly serialize
-    @Exclude
-    public int[] getFrequency(){
+  
+    public ArrayList<Integer> getFrequency(){
         return this.frequency;
     }
 
+    public ArrayList<HabitEvent> getHabitEvents(){
+        return this.habiteventlist;
+    }
 
+    // TODO: Separate this into various getters/setters, refactor formatting into calling class.
+    // Firebase will not be able to save/retrieve without this.
     public List<Object> getStatistics(){
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
         Date now = calendar.getTime();
@@ -89,7 +101,7 @@ public class Habit {
 
         // % completed
         if (daysSinceStart != 0) {
-            statistics.add(this.daysCompleted / daysSinceStart);
+            statistics.add((float)this.daysCompleted / daysSinceStart);
         }else{
             statistics.add(1);      // 100% completed by default
         }
@@ -119,6 +131,31 @@ public class Habit {
 
         // TODO create habit event here and jump to the add to habit history activity
 
+    }
+
+    public void addHabitEvent(HabitEvent habitevent) {
+        if (hasHabitEvent(habitevent))
+            throw new IllegalArgumentException("HabitEvent already exists.");
+
+        this.habiteventlist.add(habitevent);
+        return;
+    }
+
+    private boolean hasHabitEvent(HabitEvent habitevent) {
+        return this.habiteventlist.contains(habitevent);
+    }
+
+    public ArrayList<HabitEvent> filterHistoryByComment(String keyword) {
+
+        ArrayList<HabitEvent> result = new ArrayList<>();
+
+        for (HabitEvent habitevent : habiteventlist) {
+            if (habitevent.getComment().contains(keyword)) {
+                result.add(habitevent);
+            }
+        }
+
+        return result;
     }
 
 

@@ -1,5 +1,7 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 
 public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder> {
     private ArrayList<Habit> habits;
+    private Activity context;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -29,8 +32,9 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
         }
     }
 
-    public HabitsAdapter(ArrayList<Habit> habits) {
+    public HabitsAdapter(ArrayList<Habit> habits, Activity context) {
         this.habits = habits;
+        this.context = context;
     }
 
     // Create new views (invoked by the layout manager)
@@ -45,11 +49,20 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         holder.habitNameLabel.setText(habits.get(position).getName());
         holder.habitReasonLabel.setText(habits.get(position).getReason());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, HabitStatsActivity.class);
+                intent.putExtra("habit_id",position);
+                context.startActivity(intent);
+            }
+        });
 
     }
 

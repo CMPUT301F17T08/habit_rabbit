@@ -22,6 +22,15 @@
         </activity>
         <activity android:name=".PeopleActivity">
         </activity>
+        <activity android:name=".HabitStatsActivity">
+        </activity>
+        <activity android:name=".AddHabitActivity">
+        </activity>
+        <activity android:name=".EditHabitActivity">
+        </activity>
+        <activity android:name=".MenuActivity">
+        </activity>
+        <activity android:name=".AddHabitEventActivity">
+        </activity>
     </application>
-
 </manifest>
