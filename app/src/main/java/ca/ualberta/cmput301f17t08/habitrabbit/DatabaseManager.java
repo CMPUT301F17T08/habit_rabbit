@@ -64,6 +64,8 @@ public class DatabaseManager {
                 // Else, user does not exist yet. Create, push to Firebase, and return user object:
                 final User newUser = new User(username);
 
+
+
                 userRef.setValue(newUser, new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {

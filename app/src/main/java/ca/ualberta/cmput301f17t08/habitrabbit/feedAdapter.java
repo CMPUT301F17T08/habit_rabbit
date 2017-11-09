@@ -58,12 +58,12 @@ public class feedAdapter extends RecyclerView.Adapter<feedAdapter.ViewHolder> {
     public void onBindViewHolder(feedAdapter.ViewHolder viewHolder, final int position) {
         viewHolder.feed_name.setText(habitEvents.get(position).getHabit().getName());
         viewHolder.feed_comment.setText(habitEvents.get(position).getComment());
-//        viewHolder.num_like.setText(habitEvents.get(position).getLikeCount());
+        viewHolder.num_like.setText(habitEvents.get(position).getLikeCount());
 
         viewHolder.like_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                habitEvents.get(position).like(LoginManager.getInstance().getCurrentUser().getUsername());
+                habitEvents.get(position).like(LoginManager.getInstance().getCurrentUser().getUsername());
             }
         });
 

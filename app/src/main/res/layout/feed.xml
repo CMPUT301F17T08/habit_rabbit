@@ -50,9 +50,9 @@
     </android.support.constraint.ConstraintLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/habit_recyclerview"
+        android:id="@+id/feed_recycle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="20dp"/>
+        android:paddingTop="20dp" />
 
 </LinearLayout>
