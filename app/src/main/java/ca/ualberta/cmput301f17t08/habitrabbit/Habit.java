@@ -2,6 +2,7 @@ package ca.ualberta.cmput301f17t08.habitrabbit;
 
 import com.google.firebase.database.Exclude;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -13,12 +14,12 @@ import java.util.TimeZone;
  * Created by maharshmellow on 2017-10-23.
  */
 
-public class Habit {
+public class Habit implements Serializable{
     private String name;
     private String reason;
     private Date startDate;
     private Date lastCompleted;
-    private List<Integer> frequency;
+    private ArrayList<Integer> frequency;
     private int daysCompleted;
     private long averageTime;        // average time of day in milliseconds
     private int streak;
@@ -27,7 +28,7 @@ public class Habit {
 
     }
 
-    public Habit(String name, String reason, Date startDate, List<Integer> frequency){
+    public Habit(String name, String reason, Date startDate, ArrayList<Integer> frequency){
         this.name = name;
         this.reason = reason;
         this.startDate = startDate;
@@ -51,9 +52,10 @@ public class Habit {
         this.startDate = startDate;
     }
 
-    public void setFrequency(List<Integer> frequency){
+    public void setFrequency(ArrayList<Integer> frequency){
         this.frequency = frequency;
     }
+
 
     public String getName(){
         return this.name;
@@ -66,11 +68,10 @@ public class Habit {
     public Date getDate(){
         return this.startDate;
     }
-
-    public List<Integer> getFrequency(){
+  
+    public ArrayList<Integer> getFrequency(){
         return this.frequency;
     }
-
 
     // TODO: Separate this into various getters/setters, refactor formatting into calling class.
     // Firebase will not be able to save/retrieve without this.
