@@ -22,19 +22,24 @@ public class feedAdapter extends RecyclerView.Adapter<feedAdapter.ViewHolder> {
     // Used to cache the views within the item layout for fast access
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView feed_name;
-        public TextView num_like;
-        public TextView feed_comment;
-        public Button like_button;
+        public TextView feedName;
+        public TextView numLike;
+        public TextView feedComment;
+        public TextView userName;
+        public Button likeButton;
+        public TextView feedDate;
 
         public ViewHolder(View feedView) {
             // Stores the itemView in a public final member variable that can be used
             // to access the context from any ViewHolder instance.
             super(feedView);
-            feed_name = feedView.findViewById(R.id.feed_name);
-            num_like = feedView.findViewById(R.id.num_like);
-            like_button = feedView.findViewById(R.id.like_button);
-            feed_comment = feedView.findViewById(R.id.comment);
+            feedName = feedView.findViewById(R.id.feed_name);
+            numLike = feedView.findViewById(R.id.num_like);
+            likeButton = feedView.findViewById(R.id.like_button);
+            feedComment = feedView.findViewById(R.id.comment);
+            userName = feedView.findViewById(R.id.feed_username);
+            feedDate = feedView.findViewById(R.id.feed_time);
+
 
         }
     }
@@ -56,11 +61,12 @@ public class feedAdapter extends RecyclerView.Adapter<feedAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(feedAdapter.ViewHolder viewHolder, final int position) {
-        viewHolder.feed_name.setText(habitEvents.get(position).getHabit().getName());
-        viewHolder.feed_comment.setText(habitEvents.get(position).getComment());
-        viewHolder.num_like.setText(Integer.toString(habitEvents.get(position).getLikeCount())+"likes");
-        
-        viewHolder.like_button.setOnClickListener(new View.OnClickListener() {
+        viewHolder.feedName.setText(habitEvents.get(position).getHabit().getName());
+        viewHolder.feedComment.setText(habitEvents.get(position).getComment());
+        viewHolder.feedDate.setText(habitEvents.get(position).getDateCompleted().toString());
+        viewHolder.numLike.setText(Integer.toString(habitEvents.get(position).getLikeCount())+"likes");
+//        viewHolder.userName.setText(habitEvents.get(position).getHabit().g);
+        viewHolder.likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 habitEvents.get(position).like(LoginManager.getInstance().getCurrentUser().getUserName());
