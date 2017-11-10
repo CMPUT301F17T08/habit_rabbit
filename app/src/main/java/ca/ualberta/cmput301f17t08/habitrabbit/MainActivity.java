@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
                         // TODO: transition activity
                         Log.i("MainActivity", "Login success!");
 
-                        Intent intent = new Intent(activity, FeedActivity.class);
+                        Intent intent = new Intent(activity, LastCompleteActivity.class);
                         startActivity(intent);
                     }
 

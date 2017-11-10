@@ -11,9 +11,14 @@ import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class LastCompleteActivity extends AppCompatActivity {
     private ArrayList<HabitEvent> lastCompleteList;
+    private ArrayList<HabitEvent> lastComplete;
     private feedAdapter cAdapt;
     private RecyclerView lastCompleteRecyclerView;
 
@@ -28,9 +33,18 @@ public class LastCompleteActivity extends AppCompatActivity {
         String username = LoginManager.getInstance().getCurrentUser().getUsername();
         TextView usernameView = findViewById(R.id.last_complete_username);
         usernameView.setText(username);
-        lastCompleteRecyclerView = (RecyclerView) findViewById(R.id.feed_recycle);
+        lastCompleteRecyclerView = (RecyclerView) findViewById(R.id.last_complete_recycle);
         lastCompleteRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-//        lastCompleteList = LoginManager.getInstance().getCurrentUser().get
+        lastCompleteList = LoginManager.getInstance().getCurrentUser().getHistory();
+        if (lastCompleteList.size() != 0){
+        lastComplete = (ArrayList<HabitEvent>) lastCompleteList.subList(lastCompleteList.size()-1,lastCompleteList.size()-1);}
+        ArrayList<Integer> frequency = new ArrayList<Integer>(Arrays.asList(new Integer[]{1,0,1,0,1,0,1}));
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
+        Date now = calendar.getTime();
+        lastComplete = new ArrayList<HabitEvent>(Arrays.asList(new HabitEvent(new Habit("singing","hdkhfajk",now,frequency),now,"what the hell",null,null)));
+        cAdapt = new feedAdapter(username,lastComplete);
+        lastCompleteRecyclerView.setAdapter(cAdapt);
+
 
 
     }
