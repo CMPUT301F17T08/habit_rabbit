@@ -1,5 +1,6 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -23,10 +24,16 @@ public class FollowUserActivity extends AppCompatActivity {
 
                 if (username.length() > 0){
                     // TODO get the user associated with username from the database and add current user's name to their pending list
+                    System.out.println(username);
                     return;
                 }
             }
         });
+    }
+
+    public void showMenu(View v){
+        Intent intent = new Intent(this, MenuActivity.class);
+        startActivity(intent);
     }
 
 }
