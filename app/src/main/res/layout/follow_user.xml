@@ -56,8 +56,8 @@
             android:drawableLeft="@drawable/user_icon"
             android:drawablePadding="10dp"
             android:hint="Username"
-            android:textColorHint="#999999"
-            android:textColor="#020202"
+            android:textColorHint="@color/editTextHint"
+            android:textColor="@color/colorPrimary"
             android:inputType="text"
             android:paddingLeft="20dp"
             android:textSize="14sp" />
