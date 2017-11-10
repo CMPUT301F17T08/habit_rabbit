@@ -29,22 +29,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".SignupActivity">
-        </activity>
-        <activity android:name=".FeedActivity">
-        </activity>
-        <activity android:name=".MyHabitActivity">
-        </activity>
-        <activity android:name=".HabitStatsActivity">
-        </activity>
-        <activity android:name=".AddHabitActivity">
-        </activity>
-        <activity android:name=".EditHabitActivity">
-        </activity>
-        <activity android:name=".MenuActivity">
-        </activity>
-        <activity android:name=".AddHabitEventActivity">
-        </activity>
-        <activity android:name=".MapActivity"></activity>
+        <activity android:name=".SignupActivity"></activity>
+        <activity android:name=".FeedActivity"></activity>
+        <activity android:name=".MyHabitActivity"></activity>
+        <activity android:name=".HabitStatsActivity"></activity>
+        <activity android:name=".AddHabitActivity"></activity>
+        <activity android:name=".EditHabitActivity"></activity>
+        <activity android:name=".MenuActivity"></activity>
+        <activity android:name=".AddHabitEventActivity"></activity>
+        <activity android:name=".MapActivity" />
+        <activity
+            android:name=".LastCompleteActivity"
+            android:label="@string/title_activity_last_complete"
+            android:theme="@style/AppTheme"></activity>
     </application>
+
 </manifest>
