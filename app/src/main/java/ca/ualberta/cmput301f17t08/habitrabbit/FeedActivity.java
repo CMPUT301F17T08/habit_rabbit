@@ -39,7 +39,7 @@ public class FeedActivity extends AppCompatActivity {
         feedRecyclerView = (RecyclerView) findViewById(R.id.feed_recycle);
         feedRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 
-        feedList = LoginManager.getInstance().getCurrentUser().gethabitevents();
+        feedList = LoginManager.getInstance().getCurrentUser().getHistory();
 
         ArrayList<Integer> frequency = new ArrayList<Integer>(Arrays.asList(new Integer[]{1,0,1,0,1,0,1}));
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
@@ -49,7 +49,7 @@ public class FeedActivity extends AppCompatActivity {
             feedList.add(counter,new HabitEvent(new Habit("singing","hdkhfajk",now,frequency),now,"what the hell",null,null));
         }
         System.out.println(feedList);
-        cAdapt = new feedAdapter(LoginManager.getInstance().getCurrentUser().getUserName(),feedList);
+        cAdapt = new feedAdapter(LoginManager.getInstance().getCurrentUser().getUsername(),feedList);
         feedRecyclerView.setAdapter(cAdapt);
 
 

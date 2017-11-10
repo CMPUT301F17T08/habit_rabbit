@@ -20,6 +20,9 @@ public class Map {
     public ArrayList<Location> getLocations(){
         return locations;
     }
+    public Location getLocation(){
+        return null;
+    }
 
     public void removeLocation(Location location){
         locations.remove(location);
