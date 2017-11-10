@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:paddingLeft="40dp"
     android:paddingRight="40dp"
->
+    >
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -16,10 +16,10 @@
         android:paddingTop="20dp">
 
         <Button
-            android:id="@+id/add_habit_button"
+            android:id="@+id/location_button"
             android:layout_width="23dp"
             android:layout_height="23dp"
-            android:background="@drawable/plus_sign"
+            android:background="@drawable/location_icon"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
@@ -27,15 +27,14 @@
             android:id="@+id/textView2"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="0dp"
-            android:text="MY HABITS"
+            android:text="Feed"
             android:textAlignment="center"
             android:textColor="@color/colorPrimaryDark"
-            android:textStyle="bold"
             android:textSize="16dp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/location_button"
-            app:layout_constraintStart_toEndOf="@+id/menu_button"/>
+            app:layout_constraintStart_toEndOf="@+id/menu_button" />
 
         <Button
             android:id="@+id/menu_button"
@@ -51,9 +50,9 @@
     </android.support.constraint.ConstraintLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/habit_recyclerview"
+        android:id="@+id/feed_recycle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="20dp"/>
+        android:paddingTop="20dp" />
 
 </LinearLayout>

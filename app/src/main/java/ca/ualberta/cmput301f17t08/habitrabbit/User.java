@@ -13,13 +13,14 @@ public class User {
     private ArrayList<User> followerList;
     private ArrayList<User> followingList;
     private ArrayList<User> followRequests;
-    private ArrayList<Habit> historylist;
+    private ArrayList<HabitEvent> historylist;
+
     public User(){
         this.habitList = new ArrayList<Habit>();
         this.followerList = new ArrayList<User>();
         this.followingList = new ArrayList<User>();
         this.followRequests = new ArrayList<User>();
-        this.historylist = new ArrayList<Habit>();
+        this.historylist = new ArrayList<HabitEvent>();
     }
 
     public User(String username){
@@ -28,7 +29,7 @@ public class User {
         this.followerList = new ArrayList<User>();
         this.followingList = new ArrayList<User>();
         this.followRequests = new ArrayList<User>();
-        this.historylist = new ArrayList<Habit>();
+        this.historylist = new ArrayList<HabitEvent>();
     }
 
     public void setUsername(String username) {this.username = username;}
@@ -49,7 +50,7 @@ public class User {
 
     public ArrayList<User> getFollowRequests() {return this.followRequests;}
 
-    public ArrayList<Habit> getHistory() {return this.historylist;}
+    public ArrayList<HabitEvent> getHistory() {return this.historylist;}
 
     public void addFollower(User follower) {
         if (hasFollowing(follower))

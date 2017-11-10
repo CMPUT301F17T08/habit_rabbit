@@ -11,7 +11,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 public class DatabaseManager {
 
@@ -60,6 +64,9 @@ public class DatabaseManager {
                 // Else, user does not exist yet. Create, push to Firebase, and return user object:
                 final User newUser = new User(username);
 
+
+
+
                 userRef.setValue(newUser, new DatabaseReference.CompletionListener() {
                     @Override
                     public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
@@ -71,6 +78,12 @@ public class DatabaseManager {
                         }
                     }
                 });
+                ArrayList<Integer> frequency = new ArrayList<Integer>(Arrays.asList(new Integer[]{1,0,1,0,1,0,1}));
+//                System.out.print("username"+newUser.getUsername());
+                Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
+                Date now = calendar.getTime();
+                Habit newHabit = new Habit("Yuxuan","hdkhfajk",now,frequency);
+                newUser.addHabit(newHabit);
 
             }
 

@@ -36,6 +36,7 @@ public class Habit implements Serializable{
         this.startDate = startDate;
         this.frequency = frequency;
 
+
         this.lastCompleted = null;
         this.daysCompleted = 0;
         this.averageTime = -1;

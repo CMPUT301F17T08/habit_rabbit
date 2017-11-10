@@ -5,6 +5,8 @@ import android.location.Location;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 
@@ -23,7 +25,7 @@ public class UserUnitTest {
         user1 = new User("Test User 1");
         user2 = new User("Test User 2");
 
-        int frequency[] = {0,1,0,1,0,1,0};
+        ArrayList<Integer> frequency = new ArrayList<Integer>(Arrays.asList(new Integer[]{1,0,1,0,1,0,1}));
         habit1 = new Habit("Name 1", "Reason 1", new Date(), frequency);
         habit2 = new Habit("Name 2", "Reason 2", new Date(), frequency);
         habit3 = new Habit("Name 3", "Reason 3", new Date(), frequency);

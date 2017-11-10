@@ -10,6 +10,10 @@ import android.widget.Button;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Created by micah on 01/11/17.
@@ -32,8 +36,10 @@ public class MyHabitActivity extends AppCompatActivity {
 
         habitList = LoginManager.getInstance().getCurrentUser().getHabits();
 
+
         menuButton = (Button) findViewById(R.id.menu_button);
         addHabitButton = (Button) findViewById(R.id.add_habit_button);
+
         habitsRecyclerView = (RecyclerView) findViewById(R.id.habit_recyclerview);
         habitsRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 
