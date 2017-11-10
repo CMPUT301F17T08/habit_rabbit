@@ -6,11 +6,13 @@ package ca.ualberta.cmput301f17t08.habitrabbit;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -29,6 +31,7 @@ public class feedAdapter extends RecyclerView.Adapter<feedAdapter.ViewHolder> {
         public TextView userNameView;
         public Button likeButton;
         public TextView feedDate;
+        public ImageView imagePreview;
 
 
         public ViewHolder(View feedView) {
@@ -41,6 +44,9 @@ public class feedAdapter extends RecyclerView.Adapter<feedAdapter.ViewHolder> {
             feedComment = feedView.findViewById(R.id.comment);
             userNameView = feedView.findViewById(R.id.feed_username);
             feedDate = feedView.findViewById(R.id.feed_time);
+            imagePreview = feedView.findViewById(R.id.feed_image);
+
+
 
 
         }
@@ -69,6 +75,12 @@ public class feedAdapter extends RecyclerView.Adapter<feedAdapter.ViewHolder> {
         viewHolder.feedDate.setText(habitEvents.get(position).getDateCompleted().toString());
         viewHolder.numLike.setText(Integer.toString(habitEvents.get(position).getLikeCount())+" likes");
         viewHolder.userNameView.setText(username);
+
+        Bitmap userImage = habitEvents.get(position).getPicture();
+        if (userImage != null){
+            viewHolder.imagePreview.setImageBitmap(userImage);
+        }
+
         viewHolder.likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

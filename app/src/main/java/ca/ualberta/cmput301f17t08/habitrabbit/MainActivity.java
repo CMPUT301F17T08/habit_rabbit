@@ -16,61 +16,61 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.history);
-//        Intent intent = new Intent(this,FeedActivity.class);
+        setContentView(R.layout.login);
+//        Intent intent = new Intent(this,Activity.class);
 //        startActivity(intent);
 
-//        final EditText usernameField = (EditText) findViewById(R.id.username_input_field);
-//        Button loginButton = (Button) findViewById(R.id.login_button);
-//        Button signupButton = (Button) findViewById(R.id.signup_button);
-//
-//        loginButton.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View view){
-//                String username = usernameField.getText().toString();
-//
-//                System.out.println("Login Button Clicked - Username:" + username);
-//
-//                LoginManager.getInstance().login(username, new LoginManager.OnLoginCompleteListener() {
-//                    @Override
-//                    public void onLoginComplete() {
-//                        // TODO: transition activity
-//                        Log.i("MainActivity", "Login success!");
-//
-//                        Intent intent = new Intent(activity, FeedActivity.class);
-//                        startActivity(intent);
-//                    }
-//
-//                    @Override
-//                    public void onLoginFailed(String message) {
-//                        Log.e("MainActivity", "Login failed: " + message);
-//                        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-//
-//                        builder.setMessage(message)
-//                                .setTitle("Login error")
-//                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-//                                    @Override
-//                                    public void onClick(DialogInterface dialogInterface, int i) {
-//                                        //
-//                                    }
-//                                });
-//
-//                        AlertDialog dialog = builder.create();
-//                        dialog.show();
-//                    }
-//                });
-//
-//            }
-//        });
-//
-//        // small signup button below the login button
-//        signupButton.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View view){
-//                Intent intent = new Intent(activity, SignupActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+        final EditText usernameField = (EditText) findViewById(R.id.username_input_field);
+        Button loginButton = (Button) findViewById(R.id.login_button);
+        Button signupButton = (Button) findViewById(R.id.signup_button);
+
+        loginButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                String username = usernameField.getText().toString();
+
+                System.out.println("Login Button Clicked - Username:" + username);
+
+                LoginManager.getInstance().login(username, new LoginManager.OnLoginCompleteListener() {
+                    @Override
+                    public void onLoginComplete() {
+                        // TODO: transition activity
+                        Log.i("MainActivity", "Login success!");
+
+                        Intent intent = new Intent(activity, FeedActivity.class);
+                        startActivity(intent);
+                    }
+
+                    @Override
+                    public void onLoginFailed(String message) {
+                        Log.e("MainActivity", "Login failed: " + message);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+
+                        builder.setMessage(message)
+                                .setTitle("Login error")
+                                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                        //
+                                    }
+                                });
+
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+                    }
+                });
+
+            }
+        });
+
+        // small signup button below the login button
+        signupButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                Intent intent = new Intent(activity, SignupActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 }
