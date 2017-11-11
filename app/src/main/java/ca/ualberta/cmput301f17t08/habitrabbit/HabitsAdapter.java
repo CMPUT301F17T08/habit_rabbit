@@ -33,6 +33,7 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
         public TextView habitNameLabel;
         public TextView habitReasonLabel;
         public LinearLayout frequencyLayout;
+        public TextView percentage;
 
 
 
@@ -45,6 +46,7 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
             habitNameLabel = (TextView) habitView.findViewById(R.id.habit_name);
             habitReasonLabel = (TextView) habitView.findViewById(R.id.habit_reason);
             frequencyLayout = (LinearLayout) habitView.findViewById(R.id.habbitLayout);
+            percentage = (TextView)habitView.findViewById(R.id.habit_percentage);
 
 
 
@@ -87,6 +89,7 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
 
         holder.habitNameLabel.setText(habit.getName());
         holder.habitReasonLabel.setText(habit.getReason());
+        holder.percentage.setText(Math.round(Math.floor((float)habit.getStatistics().get(3)*100))+"%");
         ArrayList<Integer> frequencyList = habit.getFrequency();
         ArrayList<String> DayList = new ArrayList<String>(Arrays.asList(new String []{"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"}));
 //        System.out.println(frequencyList.toString());
