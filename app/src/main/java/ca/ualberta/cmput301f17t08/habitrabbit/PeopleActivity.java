@@ -31,11 +31,11 @@ public class PeopleActivity extends AppCompatActivity {
         followerList = LoginManager.getInstance().getCurrentUser().getFollowers();
 
         //create recycleview for following
-        peopleFollowingRecyclerView = (RecyclerView) findViewById(R.id.people_recyclerview);
+        peopleFollowingRecyclerView = (RecyclerView) findViewById(R.id.following_recyclerview);
         peopleFollowingRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 
         //create recycleview for follower
-        peopleFollowerRecyclerView = (RecyclerView) findViewById(R.id.people_recyclerview2);
+        peopleFollowerRecyclerView = (RecyclerView) findViewById(R.id.follower_recyclerview);
         peopleFollowerRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 
         //set the adapter for the following list

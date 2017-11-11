@@ -1,5 +1,6 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -85,6 +86,14 @@ public class User {
     public void removeHabit(Habit habit) {
         this.habitList.remove(habit);
         return;
+    }
+
+    public void setFollowers(ArrayList<User> followers){
+        this.followerList = (ArrayList<User>)followers.clone();
+    }
+
+    public void setFollowing(ArrayList<User> following){
+        this.followingList = (ArrayList<User>)following.clone();
     }
 
     public ArrayList<Habit> filterHistoryByType(String keyword) {
