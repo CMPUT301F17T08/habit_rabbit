@@ -63,10 +63,10 @@ public class MyHabitActivity extends AppCompatActivity {
         });
 
     }
-    @Override
-    protected  void onResume() {
-        super.onResume();
-        Intent intent = new Intent(this, MapActivity.class);
-        startActivity(intent);
-    }
+//    @Override
+//    protected  void onResume() {
+//        super.onResume();
+//        Intent intent = new Intent(this, MapActivity.class);
+//        startActivity(intent);
+//    }
 }
