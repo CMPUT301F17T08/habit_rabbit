@@ -48,7 +48,6 @@ public class FeedActivity extends AppCompatActivity {
         for(int counter=0; counter < 2; counter++){
             feedList.add(counter,new HabitEvent(new Habit("singing","hdkhfajk",now,frequency),now,"what the hell",null,null));
         }
-        System.out.println(feedList);
         cAdapt = new feedAdapter(LoginManager.getInstance().getCurrentUser().getUsername(),feedList);
         feedRecyclerView.setAdapter(cAdapt);
 
