@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.zip.Inflater;
 
@@ -77,9 +78,16 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
 
-        holder.habitNameLabel.setText(habits.get(position).getName());
-        holder.habitReasonLabel.setText(habits.get(position).getReason());
-        ArrayList<Integer> frequencyList = habits.get(position).getFrequency();
+        Habit habit = habits.get(position);
+
+        // TODO remove this later - just a temporary fix since the items in the database don't contain a frequency
+        if (habit.getFrequency() == null){
+            habit.setFrequency(new ArrayList<Integer>(Collections.nCopies(7, 0)));
+        }
+
+        holder.habitNameLabel.setText(habit.getName());
+        holder.habitReasonLabel.setText(habit.getReason());
+        ArrayList<Integer> frequencyList = habit.getFrequency();
         ArrayList<String> DayList = new ArrayList<String>(Arrays.asList(new String []{"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"}));
 //        System.out.println(frequencyList.toString());
 
