@@ -60,7 +60,7 @@ public class MyHabitActivity extends AppCompatActivity {
     @Override
     protected  void onResume() {
         super.onResume();
-        Intent intent = new Intent(this, MapActivity.class);
+        Intent intent = new Intent(this, gpsActivity.class);
         startActivity(intent);
     }
 }
