@@ -1,5 +1,6 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -47,6 +48,11 @@ public class LastCompleteActivity extends AppCompatActivity {
 
 
 
+    }
+
+    public void showMenu(View v){
+        Intent intent = new Intent(this, MenuActivity.class);
+        startActivity(intent);
     }
 
 
