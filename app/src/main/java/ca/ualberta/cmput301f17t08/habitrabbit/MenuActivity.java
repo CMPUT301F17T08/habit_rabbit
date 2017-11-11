@@ -1,5 +1,6 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -24,7 +25,8 @@ public class MenuActivity extends AppCompatActivity {
         feedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("Feed");
+                Intent intent = new Intent(activity, FeedActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -38,14 +40,16 @@ public class MenuActivity extends AppCompatActivity {
         peopleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("People");
+                Intent intent = new Intent(activity, PeopleActivity.class);
+                startActivity(intent);
             }
         });
 
         habitsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("Habits");
+                Intent intent = new Intent(activity, MyHabitActivity.class);
+                startActivity(intent);
             }
         });
 
