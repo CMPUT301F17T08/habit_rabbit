@@ -58,10 +58,9 @@
         <GridLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
+            android:layout_marginBottom="20dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:columnCount="2"
             android:rowCount="2"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -84,36 +83,35 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 app:cardBackgroundColor="@color/cardview_light_background"
-                app:cardCornerRadius="5dp"
-                app:cardElevation="13dp">
+                >
 
                 <android.support.constraint.ConstraintLayout
-                    android:layout_width="130dp"
-                    android:layout_height="130dp">
+                    android:layout_width="140dp"
+                    android:layout_height="140dp">
 
                     <TextView
                         android:id="@+id/streak_count"
                         android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_height="58dp"
+                        android:layout_marginTop="30dp"
                         android:text="40"
                         android:textAlignment="center"
                         android:textColor="@android:color/black"
-                        android:textSize="40sp"
+                        android:textSize="45sp"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/textView3"
+                        android:id="@+id/streak"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
                         android:text="Streak"
                         android:textAlignment="center"
                         android:textColor="@android:color/darker_gray"
-                        android:textSize="20sp"
+                        android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
@@ -126,36 +124,35 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 app:cardBackgroundColor="@color/cardview_light_background"
-                app:cardCornerRadius="5dp"
-                app:cardElevation="13dp">
+                >
 
                 <android.support.constraint.ConstraintLayout
-                    android:layout_width="130dp"
-                    android:layout_height="130dp">
+                    android:layout_width="140dp"
+                    android:layout_height="140dp">
 
                     <TextView
                         android:id="@+id/percent_completed_count"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="30dp"
                         android:text="95%"
                         android:textAlignment="center"
                         android:textColor="@android:color/black"
-                        android:textSize="40sp"
+                        android:textSize="45sp"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/textView3"
+                        android:id="@+id/complete"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
                         android:text="Completed"
                         android:textAlignment="center"
                         android:textColor="@android:color/darker_gray"
-                        android:textSize="20sp"
+                        android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
@@ -168,36 +165,35 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 app:cardBackgroundColor="@color/cardview_light_background"
-                app:cardCornerRadius="5dp"
-                app:cardElevation="13dp">
+                >
 
                 <android.support.constraint.ConstraintLayout
-                    android:layout_width="130dp"
-                    android:layout_height="130dp">
+                    android:layout_width="140dp"
+                    android:layout_height="140dp">
 
                     <TextView
                         android:id="@+id/days_completed_count"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="30dp"
                         android:text="45"
                         android:textAlignment="center"
                         android:textColor="@android:color/black"
-                        android:textSize="40sp"
+                        android:textSize="45sp"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/textView3"
+                        android:id="@+id/days_completed"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="16dp"
                         android:text="Days Completed"
                         android:textAlignment="center"
                         android:textColor="@android:color/darker_gray"
-                        android:textSize="20sp"
+                        android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
@@ -210,22 +206,21 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
                 app:cardBackgroundColor="@color/cardview_light_background"
-                app:cardCornerRadius="5dp"
-                app:cardElevation="13dp">
+                >
 
                 <android.support.constraint.ConstraintLayout
-                    android:layout_width="130dp"
-                    android:layout_height="130dp">
+                    android:layout_width="140dp"
+                    android:layout_height="140dp">
 
                     <TextView
                         android:id="@+id/avg_time_count"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="32dp"
-                        android:text="22:22 PM"
+                        android:layout_marginTop="30dp"
+                        android:text="22:22"
                         android:textAlignment="center"
                         android:textColor="@android:color/black"
-                        android:textSize="25sp"
+                        android:textSize="45sp"
                         android:textStyle="bold"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -239,7 +234,7 @@
                         android:text="Average Time"
                         android:textAlignment="center"
                         android:textColor="@android:color/darker_gray"
-                        android:textSize="20sp"
+                        android:textSize="12sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />

@@ -93,7 +93,7 @@ public class Habit implements Serializable{
 
         int daysSinceStart = (int) Math.abs(now.getTime() - this.startDate.getTime())/(24 * 60 * 60 * 1000);
 
-        String averageTimeStr = new SimpleDateFormat("hh:mm a").format(this.averageTime);
+        String averageTimeStr = new SimpleDateFormat("HH:mm").format(this.averageTime);
 
         List<Object> statistics = new ArrayList<Object>();
         statistics.add(this.daysCompleted);
