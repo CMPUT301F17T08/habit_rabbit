@@ -91,15 +91,20 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
 
         ArrayList<String> DayList = new ArrayList<String>(Arrays.asList(new String []{"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"}));
 //        System.out.println(frequencyList.toString());
+
+
+
+
         ArrayList<Integer> frequency = habit.getFrequency();
 
-        for (int counter = 0; counter < frequency.size(); counter++) {
-            if (frequency.get(counter) == 1){
-                Button chargingButton = (Button)holder.frequencyLayout.findViewWithTag(Integer.toString(counter+1));
-                chargingButton.setBackgroundResource(R.drawable.gradient);
 
         // change the frequency button backgrounds for this habit item
-       
+        for (int counter = 0; counter < frequency.size(); counter++) {
+            if (frequency.get(counter) == 1){
+                Button button = (Button)holder.frequencyLayout.findViewWithTag(Integer.toString(counter+1));
+                button.setBackgroundResource(R.drawable.gradient);
+            }
+        }
 
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
