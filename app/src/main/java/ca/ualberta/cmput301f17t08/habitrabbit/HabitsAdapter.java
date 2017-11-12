@@ -64,9 +64,6 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
         View habitView = LayoutInflater.from(parent.getContext()).inflate(R.layout.habit_item, parent, false);
         HabitsAdapter.ViewHolder viewHolder = new HabitsAdapter.ViewHolder(habitView);
 
-
-
-
         return viewHolder;
 
     }
@@ -87,16 +84,13 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
 
         holder.habitNameLabel.setText(habit.getName());
         holder.habitReasonLabel.setText(habit.getReason());
-        ArrayList<Integer> frequencyList = habit.getFrequency();
-        ArrayList<String> DayList = new ArrayList<String>(Arrays.asList(new String []{"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"}));
-//        System.out.println(frequencyList.toString());
+        ArrayList<Integer> frequency = habit.getFrequency();
 
-
-        for (int counter = 0; counter < frequencyList.size(); counter++) {
-            if (frequencyList.get(counter) == 1){
-                Button chargingButton = (Button)holder.frequencyLayout.findViewWithTag(Integer.toString(counter+1));
-                chargingButton.setBackgroundResource(R.drawable.gradient);
-
+        // change the frequency button backgrounds for this habit item
+        for (int counter = 0; counter < frequency.size(); counter++) {
+            if (frequency.get(counter) == 1){
+                Button button = (Button)holder.frequencyLayout.findViewWithTag(Integer.toString(counter+1));
+                button.setBackgroundResource(R.drawable.gradient);
             }
         }
 

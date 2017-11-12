@@ -32,7 +32,7 @@ public class MyHabitActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.habit);
+        setContentView(R.layout.my_habits);
 
         habitList = LoginManager.getInstance().getCurrentUser().getHabits();
 
