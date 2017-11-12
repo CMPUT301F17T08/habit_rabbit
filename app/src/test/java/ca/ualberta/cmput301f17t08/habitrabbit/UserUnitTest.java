@@ -74,7 +74,7 @@ public class UserUnitTest {
     }
 
     @Test
-    public void testUserFilterHabitbytype() throws Exception {
+    public void testUserFilterHabitByType() throws Exception {
         user1.addHabit(habit1);
         user1.addHabit(habit2);
         user1.addHabit(habit3);
@@ -82,20 +82,19 @@ public class UserUnitTest {
 
         user2.addHabit(habit4);
 
-        assertTrue(user1.filterHistoryBytype("Name 2").contains(habit2));
-        assertTrue(user1.filterHistoryBytype("Name 3").contains(habit3));
-        assertTrue(user1.filterHistoryBytype("Name 4").contains(habit4));
+        assertTrue(user1.filterHistoryByType("Name 2").contains(habit2));
+        assertTrue(user1.filterHistoryByType("Name 3").contains(habit3));
+        assertTrue(user1.filterHistoryByType("Name 4").contains(habit4));
 
-        assertFalse(user1.filterHistoryBytype("Name 4").contains(habit1));
+        assertFalse(user1.filterHistoryByType("Name 4").contains(habit1));
 
-
-        assertFalse(user2.filterHistoryBytype("Name 4").contains(habit1));
+        assertFalse(user2.filterHistoryByType("Name 4").contains(habit1));
 
     }
 
 
     @Test
-    public void testUserFilterHabiteventbycomment() throws Exception {
+    public void testUserFilterHabitEventByComment() throws Exception {
 
     }
 
