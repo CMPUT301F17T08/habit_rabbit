@@ -18,49 +18,28 @@ import java.util.TimeZone;
  */
 
 public class FeedActivity extends AppCompatActivity {
-
-
+    //initialize the variables needed in the class
     private ArrayList<HabitEvent> feedList;
     private feedAdapter cAdapt;
     private RecyclerView feedRecyclerView;
 
 
-
-
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // get the element from the Layout
         super.onCreate(savedInstanceState);
         setContentView(R.layout.feed);
-
-
-
         feedRecyclerView = (RecyclerView) findViewById(R.id.feed_recycle);
         feedRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-
+        //get the current user's feed list
         feedList = LoginManager.getInstance().getCurrentUser().getHistory();
-
-        ArrayList<Integer> frequency = new ArrayList<Integer>(Arrays.asList(new Integer[]{1,0,1,0,1,0,1}));
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
-        Date now = calendar.getTime();
-
-        for(int counter=0; counter < 2; counter++){
-            feedList.add(counter,new HabitEvent(new Habit("singing","hdkhfajk",now,frequency),now,"what the hell",null,null));
-        }
+        // set up the adapter
         cAdapt = new feedAdapter(LoginManager.getInstance().getCurrentUser().getUsername(),feedList);
         feedRecyclerView.setAdapter(cAdapt);
-
-
     }
 
     public void showMenu(View v){
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
     }
-
-
-
 }

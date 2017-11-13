@@ -1,5 +1,9 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
+import android.content.Context;
+
+import com.google.firebase.FirebaseApp;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -10,6 +14,8 @@ public class LoginManagerUnitTest {
 
     User user1, user2;
     LoginManager loginManager;
+
+
 
     @Before
     public void setUp() {
