@@ -14,7 +14,7 @@ public class User {
     private ArrayList<String> followerList;
     private ArrayList<String> followingList;
     private ArrayList<String> followRequests;
-    private ArrayList<Habit> historylist;
+    private ArrayList<HabitEvent> historylist;
     public User(){
         this.habitList = new ArrayList<Habit>();
         this.followerList = new ArrayList<String>();

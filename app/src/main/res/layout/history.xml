@@ -58,13 +58,14 @@
             android:layout_marginTop="8dp"
             android:layout_weight="0.00"
             android:background="@drawable/menu"
+            android:onClick="showMenu"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/feed_recycle"
+        android:id="@+id/recycle"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="20dp" />

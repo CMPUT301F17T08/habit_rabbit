@@ -102,20 +102,39 @@ public class Habit implements Serializable{
                     frequency_tracker.add(1);
                 }
             }
+
         }
+        frequency_tracker.add(3);
+        frequency_tracker.add(1);
+        System.out.println(frequency_tracker.toString());
         int daysSinceStart = 0;
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
         Date now = calendar.getTime();
-        Calendar timeNow = Calendar.getInstance();
+        System.out.println(now.toString());
+        System.out.println("start date"+startDate.toString());
+        Calendar timeNow = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
         timeNow.setTime(now);
-        Calendar startDay = Calendar.getInstance();
-        startDay.setTime(this.startDate);
-        while (timeNow.after(startDay)) {
-            for (int each =0; each < frequency_tracker.size(); each++) {
+        Calendar startDay = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
+        startDay.setTime(startDate);
+        System.out.println(frequency_tracker.toString());
+
+//        System.out.println(timeNow.after(startDay));
+        long time_counter = startDay.getTimeInMillis();
+        System.out.println(time_counter);
+        System.out.println(timeNow.getTimeInMillis());
+        while (time_counter < timeNow.getTimeInMillis()) {
+            System.out.println("loop going");
+            for (int each = 0; each < frequency_tracker.size(); each++) {
+                System.out.println("hsdh");
+
                 if (startDay.get(Calendar.DAY_OF_WEEK) == frequency_tracker.get(each)) {
                     daysSinceStart += 1;
+
                 }
-                startDay.add(Calendar.DATE, 1);
+                System.out.println(daysSinceStart);
+                time_counter += 24*60*60*1000;
+//                startDay.add(Calendar.DATE, 1);
+                System.out.println("loop");
             }
         }
 
@@ -130,7 +149,7 @@ public class Habit implements Serializable{
 
         // % completed
         if (daysSinceStart != 0) {
-            statistics.add((float)this.daysCompleted / daysSinceStart);
+            statistics.add((float)2/ daysSinceStart);
         }else{
             statistics.add((float)1);      // 100% completed by default
         }

@@ -16,7 +16,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class feedAdapter extends RecyclerView.Adapter<feedAdapter.ViewHolder> {
+public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHolder> {
     private  ArrayList<HabitEvent> habitEvents;
     public String username;
 
@@ -24,52 +24,52 @@ public class feedAdapter extends RecyclerView.Adapter<feedAdapter.ViewHolder> {
     // Used to cache the views within the item layout for fast access
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView feedName;
+        public TextView habitName;
         public TextView numLike;
-        public TextView feedComment;
-        public TextView userNameView; // the username of user who posts the feed
+        public TextView Comment;
+        public TextView userNameView;
         public Button likeButton;
-        public TextView feedDate;// the date that feed is created
-        public ImageView imagePreview;// the image attached with the feed
+        public TextView historyDate;
+        public ImageView imagePreview;
 
 
-        public ViewHolder(View feedView) {
+        public ViewHolder(View historyView) {
             // Stores the itemView in a public final member variable that can be used
             // to access the context from any ViewHolder instance.
-            super(feedView);
+            super(historyView);
 
-            feedName = feedView.findViewById(R.id.feed_name);
-            numLike = feedView.findViewById(R.id.num_like);
-            likeButton = feedView.findViewById(R.id.like_button);
-            feedComment = feedView.findViewById(R.id.comment);
-            userNameView = feedView.findViewById(R.id.feed_username);
-            feedDate = feedView.findViewById(R.id.feed_time);
-            imagePreview = feedView.findViewById(R.id.feed_image);
+            habitName = historyView.findViewById(R.id.habit_name);
+            numLike = historyView.findViewById(R.id.num_like);
+            likeButton = historyView.findViewById(R.id.like_button);
+            Comment = historyView.findViewById(R.id.comment);
+            userNameView = historyView.findViewById(R.id.post_username);
+            historyDate = historyView.findViewById(R.id.post_time);
+            imagePreview = historyView.findViewById(R.id.post_image);
         }
     }
-    public feedAdapter(String username,ArrayList<HabitEvent> habitEvents) {
+    public historyAdapter(String username, ArrayList<HabitEvent> habitEvents) {
         this.habitEvents = habitEvents; //get the habitsEvents list passed in
         this.username =  username;//get the username passed in from activity class
     }
     @Override
-    public feedAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public historyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         Context context = parent.getContext();//get the context
         LayoutInflater inflater = LayoutInflater.from(context);//initialize the layout inflater
 
         // Inflate the custom layout
-        View feedView = inflater.inflate(R.layout.feed_post, parent, false);
+        View historyView = inflater.inflate(R.layout.post, parent, false);
 
         // Return a new holder instance
-        ViewHolder viewHolder = new ViewHolder(feedView);
+        historyAdapter.ViewHolder viewHolder = new historyAdapter.ViewHolder(historyView);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(feedAdapter.ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(historyAdapter.ViewHolder viewHolder, final int position) {
         //change the text and appearance of each elements on the layout
-        viewHolder.feedName.setText(habitEvents.get(position).getHabit().getName());
-        viewHolder.feedComment.setText(habitEvents.get(position).getComment());
-        viewHolder.feedDate.setText(habitEvents.get(position).getDateCompleted().toString());
+        viewHolder.habitName.setText(habitEvents.get(position).getHabit().getName());
+        viewHolder.Comment.setText(habitEvents.get(position).getComment());
+        viewHolder.historyDate.setText(habitEvents.get(position).getDateCompleted().toString());
         viewHolder.numLike.setText(Integer.toString(habitEvents.get(position).getLikeCount())+" likes");
         viewHolder.userNameView.setText(username);
         //get the image the user uploaded, set the image if exist
@@ -87,6 +87,6 @@ public class feedAdapter extends RecyclerView.Adapter<feedAdapter.ViewHolder> {
     }
     @Override
     public int getItemCount() {
-        return 1;
+        return habitEvents.size();
     }
 }
