@@ -35,22 +35,19 @@ public class UserUnitTest {
 
     @Test
     public void testUserAddFollower() throws Exception {
-        assertFalse(user1.getFollowers().contains(user2));
+        assertFalse(user1.getFollowers().contains(user2.getUsername()));
 
         user1.addFollower(user2);
-
-        assertTrue(user1.getFollowers().contains(user2));
+        assertTrue(user1.getFollowers().contains(user2.getUsername()));
     }
 
     @Test
     public void testUserRemoveFollower() throws Exception {
         user1.addFollower(user2);
-
-        assertTrue(user1.getFollowers().contains(user2));
+        assertTrue(user1.getFollowers().contains(user2.getUsername()));
 
         user1.removeFollower(user2);
-
-        assertFalse(user1.getFollowers().contains(user2));
+        assertFalse(user1.getFollowers().contains(user2.getUsername()));
     }
 
     @Test
