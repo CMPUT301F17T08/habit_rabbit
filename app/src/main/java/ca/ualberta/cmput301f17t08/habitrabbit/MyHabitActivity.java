@@ -10,6 +10,10 @@ import android.widget.Button;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Created by micah on 01/11/17.
@@ -28,12 +32,14 @@ public class MyHabitActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.habit);
+        setContentView(R.layout.my_habits);
 
         habitList = LoginManager.getInstance().getCurrentUser().getHabits();
 
+
         menuButton = (Button) findViewById(R.id.menu_button);
         addHabitButton = (Button) findViewById(R.id.add_habit_button);
+
         habitsRecyclerView = (RecyclerView) findViewById(R.id.habit_recyclerview);
         habitsRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 
@@ -56,7 +62,12 @@ public class MyHabitActivity extends AppCompatActivity {
             }
         });
     }
-
-
-
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Intent intent = getIntent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        finish();
+        startActivity(intent);
+    }
 }

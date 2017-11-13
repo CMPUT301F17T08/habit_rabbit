@@ -36,6 +36,7 @@ public class Habit implements Serializable{
         this.startDate = startDate;
         this.frequency = frequency;
 
+
         this.lastCompleted = null;
         this.daysCompleted = 0;
         this.averageTime = -1;
@@ -92,18 +93,20 @@ public class Habit implements Serializable{
 
         int daysSinceStart = (int) Math.abs(now.getTime() - this.startDate.getTime())/(24 * 60 * 60 * 1000);
 
-        String averageTimeStr = new SimpleDateFormat("hh:mm a").format(this.averageTime);
+        String averageTimeStr = new SimpleDateFormat("HH:mm").format(this.averageTime);
 
         List<Object> statistics = new ArrayList<Object>();
         statistics.add(this.daysCompleted);
         statistics.add(this.streak);
         statistics.add(averageTimeStr);
 
+        // TODO this is incorrect - need to take into account which days the user said they would complete
+
         // % completed
         if (daysSinceStart != 0) {
             statistics.add((float)this.daysCompleted / daysSinceStart);
         }else{
-            statistics.add(1);      // 100% completed by default
+            statistics.add((float)1);      // 100% completed by default
         }
 
         return statistics;

@@ -44,7 +44,7 @@ public class HabitStatsActivity extends AppCompatActivity {
         List<Object> statistics = habit.getStatistics();
 
         streakCount.setText("" + statistics.get(1));
-        completedPercentCount.setText(Math.floor((Float)statistics.get(3) * 100) + "%");
+        completedPercentCount.setText(Math.round(Math.floor((Float)statistics.get(3) * 100)) + "%");
         daysCompletedCount.setText("" + statistics.get(0));
         averageTimeCount.setText("" + statistics.get(2));
     }

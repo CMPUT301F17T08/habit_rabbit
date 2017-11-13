@@ -10,6 +10,8 @@ public class LoginManager {
     private static LoginManager loginManager;
     private User currentUser;
 
+
+
     public interface OnLoginCompleteListener{
         public void onLoginComplete();
         public void onLoginFailed(String message);

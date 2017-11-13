@@ -9,7 +9,8 @@
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:cardCornerRadius="0dp">
 
         <LinearLayout
 
@@ -35,33 +36,136 @@
                         android:id="@+id/habit_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
+                        android:layout_marginLeft="15dp"
                         android:layout_marginTop="15dp"
                         android:layout_weight="0.05"
                         android:lineSpacingExtra="10dp"
-                        android:text="HABIT 1"
+                        android:text="Habit Name"
                         android:textAlignment="viewStart"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                         android:textColor="@color/colorPrimary"
-                        android:textSize="24sp"
+                        android:textSize="22sp"
                         android:textStyle="bold"/>
 
                     <TextView
                         android:id="@+id/habit_reason"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="30dp"
+                        android:layout_width="229dp"
+                        android:layout_height="68dp"
+                        android:layout_marginLeft="15dp"
                         android:layout_marginTop="15dp"
                         android:layout_weight="0.20"
-                        android:text="Put your reason"
+                        android:text="Reason"
                         android:textColor="@color/subtitle"
-                        android:textSize="18sp"/>
+                        android:textSize="18sp" />
 
                     <LinearLayout
+                        android:id="@+id/habbitLayout"
                         android:layout_width="match_parent"
-                        android:layout_height="41dp"
-                        android:layout_marginLeft="30dp"
+                        android:layout_height="42dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
                         android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/Monday"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:tag="1"
+                            android:text="M"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="10sp"
+                            android:textStyle="bold"/>
+
+                        <Button
+                            android:id="@+id/Tuesday"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="7dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:tag="2"
+                            android:text="T"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+
+                        <Button
+                            android:id="@+id/Wednesday"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="7dp"
+                            android:layout_weight="1"
+
+                            android:background="@color/white"
+                            android:tag="3"
+                            android:text="W"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+
+                        <Button
+                            android:id="@+id/Thursday"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="7dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:tag="4"
+                            android:text="R"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+
+                        <Button
+                            android:id="@+id/Friday"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="7dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:tag="5"
+                            android:text="F"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+
+                        <Button
+                            android:id="@+id/Saturday"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="7dp"
+                            android:layout_weight="1"
+                            android:autoSizeMaxTextSize="@dimen/cardview_default_elevation"
+                            android:background="@color/white"
+                            android:tag="6"
+                            android:text="Sa"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+
+                        <Button
+                            android:id="@+id/Sunday"
+                            style="?android:attr/borderlessButtonStyle"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="7dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_weight="1"
+                            android:background="@color/white"
+                            android:tag="7"
+                            android:text="Su"
+                            android:textColor="@color/colorPrimaryDark"
+                            android:textSize="10sp"
+                            android:textStyle="bold" />
+
 
                     </LinearLayout>
                 </LinearLayout>
@@ -69,20 +173,20 @@
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="100dp"
+                android:layout_width="80dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/gradient"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/editText"
+                    android:id="@+id/habit_percentage"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
-                    android:text="1%"
+                    android:text="100%"
                     android:textColor="@color/colorPrimary"
                     android:textSize="24sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold" />
 
             </LinearLayout>
 

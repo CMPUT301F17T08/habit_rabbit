@@ -5,6 +5,8 @@ import android.location.Location;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
 
@@ -23,7 +25,7 @@ public class UserUnitTest {
         user1 = new User("Test User 1");
         user2 = new User("Test User 2");
 
-        int frequency[] = {0,1,0,1,0,1,0};
+        ArrayList<Integer> frequency = new ArrayList<Integer>(Arrays.asList(new Integer[]{1,0,1,0,1,0,1}));
         habit1 = new Habit("Name 1", "Reason 1", new Date(), frequency);
         habit2 = new Habit("Name 2", "Reason 2", new Date(), frequency);
         habit3 = new Habit("Name 3", "Reason 3", new Date(), frequency);
@@ -72,7 +74,7 @@ public class UserUnitTest {
     }
 
     @Test
-    public void testUserFilterHabitbytype() throws Exception {
+    public void testUserFilterHabitByType() throws Exception {
         user1.addHabit(habit1);
         user1.addHabit(habit2);
         user1.addHabit(habit3);
@@ -80,20 +82,19 @@ public class UserUnitTest {
 
         user2.addHabit(habit4);
 
-        assertTrue(user1.filterHistoryBytype("Name 2").contains(habit2));
-        assertTrue(user1.filterHistoryBytype("Name 3").contains(habit3));
-        assertTrue(user1.filterHistoryBytype("Name 4").contains(habit4));
+        assertTrue(user1.filterHistoryByType("Name 2").contains(habit2));
+        assertTrue(user1.filterHistoryByType("Name 3").contains(habit3));
+        assertTrue(user1.filterHistoryByType("Name 4").contains(habit4));
 
-        assertFalse(user1.filterHistoryBytype("Name 4").contains(habit1));
+        assertFalse(user1.filterHistoryByType("Name 4").contains(habit1));
 
-
-        assertFalse(user2.filterHistoryBytype("Name 4").contains(habit1));
+        assertFalse(user2.filterHistoryByType("Name 4").contains(habit1));
 
     }
 
 
     @Test
-    public void testUserFilterHabiteventbycomment() throws Exception {
+    public void testUserFilterHabitEventByComment() throws Exception {
 
     }
 

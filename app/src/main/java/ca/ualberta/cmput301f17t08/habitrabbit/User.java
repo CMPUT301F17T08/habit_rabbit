@@ -20,7 +20,7 @@ public class User {
         this.followerList = new ArrayList<String>();
         this.followingList = new ArrayList<String>();
         this.followRequests = new ArrayList<String>();
-        this.historylist = new ArrayList<Habit>();
+        this.historylist = new ArrayList<HabitEvent>();
     }
 
     public User(String username){
@@ -29,7 +29,7 @@ public class User {
         this.followerList = new ArrayList<String>();
         this.followingList = new ArrayList<String>();
         this.followRequests = new ArrayList<String>();
-        this.historylist = new ArrayList<Habit>();
+        this.historylist = new ArrayList<HabitEvent>();
     }
 
     public void setUsername(String username) {this.username = username;}
@@ -50,7 +50,7 @@ public class User {
 
     public ArrayList<String> getFollowRequests() {return this.followRequests;}
 
-    public ArrayList<Habit> getHistory() {return this.historylist;}
+    public ArrayList<HabitEvent> getHistory() {return this.historylist;}
 
     public void addFollower(User follower) {
         if (hasFollowing(follower))

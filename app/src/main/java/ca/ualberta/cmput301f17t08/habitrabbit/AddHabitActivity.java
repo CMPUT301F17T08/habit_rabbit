@@ -38,7 +38,7 @@ public class AddHabitActivity extends AppCompatActivity {
         final EditText habitTitle = findViewById(R.id.habit_title_field);
         final EditText habitReason = findViewById(R.id.habit_reason_field);
         final EditText dateSelector = findViewById(R.id.habit_date_selector);
-        Button addHabitButton = findViewById(R.id.add_habit_button);
+        Button addHabitButton = findViewById(R.id.location_button);
 
         // Date Picker (Source: https://goo.gl/nmN56M)
         final SimpleDateFormat format = new SimpleDateFormat("EEE, MMM d, yyyy");
@@ -114,9 +114,10 @@ public class AddHabitActivity extends AppCompatActivity {
 
                 if (!error){
                     // TODO create a new habit object here and associate that with the user
-//                    Habit habit = new Habit(title, reason, date, frequency);
-//                    LoginManager.getInstance().getCurrentUser().addHabit(habit);
-
+                    Habit habit = new Habit(title, reason, date, frequency);
+                    LoginManager.getInstance().getCurrentUser().addHabit(habit);
+                    System.out.println("Add Activity");
+                    finish();
                 }
             }
         });
