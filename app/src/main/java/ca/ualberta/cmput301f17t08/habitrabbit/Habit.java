@@ -95,7 +95,17 @@ public class Habit implements Serializable{
         // TODO need a way to get the days since start based on the frequency
         int daysSinceStart = 0;
 
-        String averageTimeStr = new SimpleDateFormat("HH:mm").format(this.averageTime);
+        String averageTimeStr;
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        sdf.setTimeZone(TimeZone.getTimeZone("America/Edmonton"));
+
+        if (this.averageTime == -1){
+            averageTimeStr = "00:00";
+        }else{
+            averageTimeStr = sdf.format(this.averageTime);
+        }
+
+        System.out.println(this.averageTime + "average" + averageTimeStr);
         List<Object> statistics = new ArrayList<Object>();
         statistics.add(this.daysCompleted);
         statistics.add(this.streak);
@@ -121,7 +131,7 @@ public class Habit implements Serializable{
         if (this.averageTime != -1){
             this.averageTime = averageTime + (1/this.daysCompleted)*(now.getTime() % 86400000 - averageTime);
         }else{
-            this.averageTime = now.getTime() % 8640000;     // milliseconds elapsed until now today
+            this.averageTime = now.getTime() % 86400000;     // milliseconds elapsed until now today
         }
 
         // update the streak
