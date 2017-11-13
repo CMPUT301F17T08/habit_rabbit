@@ -100,11 +100,13 @@ public class Habit implements Serializable{
         statistics.add(this.streak);
         statistics.add(averageTimeStr);
 
+        // TODO this is incorrect - need to take into account which days the user said they would complete
+
         // % completed
         if (daysSinceStart != 0) {
             statistics.add((float)this.daysCompleted / daysSinceStart);
         }else{
-            statistics.add(1);      // 100% completed by default
+            statistics.add((float)1);      // 100% completed by default
         }
 
         return statistics;
