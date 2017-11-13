@@ -61,7 +61,6 @@ public class MyHabitActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
     @Override
     protected void onRestart() {

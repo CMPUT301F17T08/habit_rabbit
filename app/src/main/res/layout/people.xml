@@ -66,7 +66,7 @@
         android:textStyle="bold" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/people_recyclerview"
+        android:id="@+id/following_recyclerview"
         android:layout_width="300dp"
         android:layout_height="219dp"
         android:paddingTop="20dp"
@@ -82,11 +82,11 @@
         android:textAlignment="center"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="16dp"
-        app:layout_constraintBottom_toBottomOf="@id/people_recyclerview"
+        app:layout_constraintBottom_toBottomOf="@id/following_recyclerview"
         android:textStyle="bold" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/people_recyclerview2"
+        android:id="@+id/follower_recyclerview"
         android:layout_width="303dp"
         android:layout_height="232dp"
         android:paddingTop="20dp"

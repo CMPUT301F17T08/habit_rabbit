@@ -45,6 +45,8 @@
             android:theme="@style/AppTheme"></activity>
         <activity android:name=".FollowUserActivity">
         </activity>
+        <activity android:name=".PeopleActivity"></activity>
+
 
     </application>
 
