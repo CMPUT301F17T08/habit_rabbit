@@ -15,8 +15,8 @@ public class PeopleActivity extends AppCompatActivity {
 
     private PeopleActivity activity = this;
 
-    private ArrayList<User> followingList;
-    private ArrayList<User> followerList;
+    private ArrayList<String> followingList;
+    private ArrayList<String> followerList;
     private PeopleAdapter cAdapt;
     private PeopleAdapter cAdapt2;
     private RecyclerView peopleFollowingRecyclerView;

@@ -11,24 +11,24 @@ import java.util.List;
 public class User {
     private String username;
     private ArrayList<Habit> habitList;
-    private ArrayList<User> followerList;
-    private ArrayList<User> followingList;
-    private ArrayList<User> followRequests;
+    private ArrayList<String> followerList;
+    private ArrayList<String> followingList;
+    private ArrayList<String> followRequests;
     private ArrayList<Habit> historylist;
     public User(){
         this.habitList = new ArrayList<Habit>();
-        this.followerList = new ArrayList<User>();
-        this.followingList = new ArrayList<User>();
-        this.followRequests = new ArrayList<User>();
+        this.followerList = new ArrayList<String>();
+        this.followingList = new ArrayList<String>();
+        this.followRequests = new ArrayList<String>();
         this.historylist = new ArrayList<Habit>();
     }
 
     public User(String username){
         this.username = username;
         this.habitList = new ArrayList<Habit>();
-        this.followerList = new ArrayList<User>();
-        this.followingList = new ArrayList<User>();
-        this.followRequests = new ArrayList<User>();
+        this.followerList = new ArrayList<String>();
+        this.followingList = new ArrayList<String>();
+        this.followRequests = new ArrayList<String>();
         this.historylist = new ArrayList<Habit>();
     }
 
@@ -44,11 +44,11 @@ public class User {
 
     public ArrayList<Habit> getHabits(){return this.habitList;}
 
-    public ArrayList<User> getFollowers() {return this.followerList;}
+    public ArrayList<String> getFollowers() {return this.followerList;}
 
-    public ArrayList<User> getFollowing() {return this.followingList;}
+    public ArrayList<String> getFollowing() {return this.followingList;}
 
-    public ArrayList<User> getFollowRequests() {return this.followRequests;}
+    public ArrayList<String> getFollowRequests() {return this.followRequests;}
 
     public ArrayList<Habit> getHistory() {return this.historylist;}
 
@@ -56,17 +56,17 @@ public class User {
         if (hasFollowing(follower))
             throw new IllegalArgumentException("Follower already existed.");
 
-        this.followerList.add(follower);
+        this.followerList.add(follower.getUsername());
         return;
     }
 
     private boolean hasFollowing(User user) {
-        return this.followingList.contains(user);
+        return this.followingList.contains(user.getUsername());
     }
 
 
     public void removeFollower(User follower) {
-        this.followerList.remove(follower);
+        this.followerList.remove(follower.getUsername());
         return;
     }
 
@@ -88,12 +88,12 @@ public class User {
         return;
     }
 
-    public void setFollowers(ArrayList<User> followers){
-        this.followerList = (ArrayList<User>)followers.clone();
+    public void setFollowers(ArrayList<String> followers){
+        this.followerList = (ArrayList<String>)followers.clone();
     }
 
-    public void setFollowing(ArrayList<User> following){
-        this.followingList = (ArrayList<User>)following.clone();
+    public void setFollowing(ArrayList<String> following){
+        this.followingList = (ArrayList<String>)following.clone();
     }
 
     public ArrayList<Habit> filterHistoryByType(String keyword) {

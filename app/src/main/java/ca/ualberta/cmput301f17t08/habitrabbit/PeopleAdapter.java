@@ -13,7 +13,7 @@ import java.util.ArrayList;
  */
 
 public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.ViewHolder> {
-    private ArrayList<User> peoples;
+    private ArrayList<String> peoples;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -27,7 +27,7 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.ViewHolder
         }
     }
 
-    public PeopleAdapter(ArrayList<User> peoples) {
+    public PeopleAdapter(ArrayList<String> peoples) {
         this.peoples = peoples;
     }
 
@@ -46,7 +46,7 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.ViewHolder
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.peopleNameLabel.setText(peoples.get(position).getUsername());
+        holder.peopleNameLabel.setText(peoples.get(position));
 
     }
 
