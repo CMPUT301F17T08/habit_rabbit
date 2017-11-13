@@ -170,10 +170,17 @@ public class Habit implements Serializable{
             this.averageTime = now.getTime() % 8640000;     // milliseconds elapsed until now today
         }
 
-        // update the streak if the last update was yesterday
-        if (this.lastCompleted != null && now.getTime() - this.lastCompleted.getTime() > 86400000){
+        // update the streak
+        /*
+        TODO we need to make the streak 0 somewhere if the difference between now and last completed is greater than 1 day
+        TODO we can do this whenever the activity is loaded or right after login
+         */
+        if (this.lastCompleted != null && now.getTime() - this.lastCompleted.getTime() < 86400000){
             this.streak += 1;
+        }else if (lastCompleted == null) {
+            this.streak = 1;
         }
+
 
         this.lastCompleted = new Date();
 
