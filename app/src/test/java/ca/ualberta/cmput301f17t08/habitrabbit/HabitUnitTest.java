@@ -60,11 +60,17 @@ public class HabitUnitTest {
         Habit habit = new Habit("Name", "Reason", now, frequency);
         int daysCompleted1 = (int) habit.getStatistics().get(0);
         assertEquals(daysCompleted1, 0);
+        int streak = (int)habit.getStatistics().get(1);
+        assertEquals(streak, 0);
 
         habit.markDone();
 
         int daysCompleted2 = (int) habit.getStatistics().get(0);
         assertEquals(daysCompleted2, 1);
 
+        int streak1 = (int)habit.getStatistics().get(1);
+        assertEquals(streak1, 1);
+
     }
+
 }

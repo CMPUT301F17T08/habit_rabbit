@@ -3,80 +3,74 @@ package ca.ualberta.cmput301f17t08.habitrabbit;
 import android.graphics.Bitmap;
 import android.location.Location;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.io.File;
-import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
-import java.util.concurrent.Exchanger;
+import java.util.TimeZone;
 
-import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.fail;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 public class HabitEventUnitTest {
 
+    String comment1, comment2;
     Bitmap picture1, picture2;
-
     Location location1, location2;
-
-    String comment1 = "Comment one";
-    String comment2 = "Comment two";
-    Date dateCompleted ;
+    Date dateCompleted;
     Habit habit;
-
-
 
     @Before
     public void setUp() {
 
-        try{
-            picture1 = null;
-            picture2 = null;
-        } catch(Exception e){
-            fail("Failed to create temporary picture files!");
-        }
+        ArrayList<Integer> frequency = new ArrayList<Integer>(Collections.nCopies(7, 0));
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
+        Date startDate = calendar.getTime();
 
-//        location1 = new Location("");
-//        location2 = new Location("");
-//
-//        location1.setLatitude(10);
-//        location1.setLongitude(10);
-//
-//        location2.setLatitude(20);
-//        location2.setLongitude(20);
+        habit = new Habit("name","reason",startDate, frequency);
+
+        comment1 = "comment 1";
+        comment1 = "comment 2";
+
+        // create the two unique images
+        picture1 = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888);
+        picture2 = Bitmap.createBitmap(2, 2, Bitmap.Config.ARGB_8888);
+
+        // TODO needs to be completed when we have a proper way to get the location
+        location1 = null;
+        location2 = null;
+
     }
 
     @Test
     public void testHabitEventGetters() throws Exception {
 
-        HabitEvent habitEvent = new HabitEvent(habit,dateCompleted,comment1, null, picture1);
+        HabitEvent habitEvent = new HabitEvent(habit,dateCompleted,comment1, location1, picture1);
 
         // Test getters:
         assertEquals(habit, habitEvent.getHabit());
         assertEquals(dateCompleted,habitEvent.getDateCompleted());
         assertEquals(comment1, habitEvent.getComment());
+        assertEquals(picture1, habitEvent.getPicture());
 //        assertTrue(location1.distanceTo(habitEvent.getLocation()) < 10);
     }
 
     @Test
     public void testHabitEventSetters() throws Exception {
-        HabitEvent habitEvent = new HabitEvent(habit,dateCompleted,comment2, null, picture2);
+        HabitEvent habitEvent = new HabitEvent(habit,dateCompleted,comment2, location2, picture2);
+
         habitEvent.setComment(comment1);
-        habitEvent.setLocation(null);
+        habitEvent.setLocation(location1);
         habitEvent.setPicture(picture1);
         habitEvent.setDateCompleted(dateCompleted);
 
-        // Test getters:
         assertEquals(dateCompleted,habitEvent.getDateCompleted());
         assertEquals(comment1, habitEvent.getComment());
+        assertEquals(location1, habitEvent.getLocation());
+        assertEquals(picture1, habitEvent.getPicture());
 //        assertTrue(location1.distanceTo(habitEvent.getLocation()) < 10);
-//        assertTrue(picture1.getCanonicalPath().equals(habitEvent.getPicture().getCanonicalPath()));
 
     }
 }

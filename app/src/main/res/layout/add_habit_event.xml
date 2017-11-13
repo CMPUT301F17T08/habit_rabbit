@@ -91,11 +91,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:onClick="pickImage"
-                android:layout_toStartOf="@+id/location_button"
+                android:layout_toStartOf="@+id/add_habit_button"
                 app:srcCompat="@drawable/picture_icon"/>
 
             <ImageButton
-                android:id="@+id/location_button"
+                android:id="@+id/add_habit_button"
                 style="@android:style/Widget.DeviceDefault.Button.Borderless.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
