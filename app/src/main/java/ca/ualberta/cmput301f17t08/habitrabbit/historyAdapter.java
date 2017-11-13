@@ -57,10 +57,10 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
         LayoutInflater inflater = LayoutInflater.from(context);//initialize the layout inflater
 
         // Inflate the custom layout
-        View historyView = inflater.inflate(R.layout.post, parent, false);
+        View feedView = inflater.inflate(R.layout.post, parent, false);
 
         // Return a new holder instance
-        historyAdapter.ViewHolder viewHolder = new historyAdapter.ViewHolder(historyView);
+        historyAdapter.ViewHolder viewHolder = new historyAdapter.ViewHolder(feedView);
         return viewHolder;
     }
 
