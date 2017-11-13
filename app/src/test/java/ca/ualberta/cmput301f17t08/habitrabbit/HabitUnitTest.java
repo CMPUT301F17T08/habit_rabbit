@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 public class HabitUnitTest {
@@ -60,11 +61,26 @@ public class HabitUnitTest {
         Habit habit = new Habit("Name", "Reason", now, frequency);
         int daysCompleted1 = (int) habit.getStatistics().get(0);
         assertEquals(daysCompleted1, 0);
+        int streak = (int) habit.getStatistics().get(1);
+        String averageTime = (String) habit.getStatistics().get(2);
+        float percentComplete = (float) habit.getStatistics().get(3);
+
+        assertEquals(streak, 0);
 
         habit.markDone();
 
         int daysCompleted2 = (int) habit.getStatistics().get(0);
         assertEquals(daysCompleted2, 1);
 
+        String averageTime1 = (String)habit.getStatistics().get(2);
+        assertNotEquals(averageTime,averageTime1);
+
+        int streak1 = (int)habit.getStatistics().get(1);
+        assertEquals(streak1, 1);
+
+        float percentComplete1 = (float) habit.getStatistics().get(3);
+        assertNotEquals(percentComplete, percentComplete1);
+
     }
+
 }
