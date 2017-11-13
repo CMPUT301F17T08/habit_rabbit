@@ -24,11 +24,11 @@ public class feedAdapter extends RecyclerView.Adapter<feedAdapter.ViewHolder> {
     // Used to cache the views within the item layout for fast access
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView feedName; //the name of the feed
-        public TextView numLike; // the num of likes in feed
-        public TextView feedComment;//comment on each feed
+        public TextView feedName;
+        public TextView numLike;
+        public TextView feedComment;
         public TextView userNameView; // the username of user who posts the feed
-        public Button likeButton; // the like button
+        public Button likeButton;
         public TextView feedDate;// the date that feed is created
         public ImageView imagePreview;// the image attached with the feed
 
@@ -37,6 +37,7 @@ public class feedAdapter extends RecyclerView.Adapter<feedAdapter.ViewHolder> {
             // Stores the itemView in a public final member variable that can be used
             // to access the context from any ViewHolder instance.
             super(feedView);
+
             feedName = feedView.findViewById(R.id.feed_name);
             numLike = feedView.findViewById(R.id.num_like);
             likeButton = feedView.findViewById(R.id.like_button);
