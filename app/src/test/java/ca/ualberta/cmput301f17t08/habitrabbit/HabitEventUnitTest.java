@@ -65,7 +65,6 @@ public class HabitEventUnitTest {
     @Test
     public void testHabitEventSetters() throws Exception {
         HabitEvent habitEvent = new HabitEvent(habit,dateCompleted,comment2, null, picture2);
-
         habitEvent.setComment(comment1);
         habitEvent.setLocation(null);
         habitEvent.setPicture(picture1);

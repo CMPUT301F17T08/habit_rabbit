@@ -5,7 +5,10 @@ import com.google.firebase.database.Exclude;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -88,13 +91,36 @@ public class Habit implements Serializable{
     // TODO: Separate this into various getters/setters, refactor formatting into calling class.
     // Firebase will not be able to save/retrieve without this.
     public List<Object> getStatistics(){
+        List <Integer> frequency_tracker = new ArrayList<Integer>();
+
+        for(int index =0; index < this.frequency.size(); index ++){
+            if(this.frequency.get(index).equals(1)){
+                if(index != 6) {
+                    frequency_tracker.add(index + 2);
+                }
+                else {
+                    frequency_tracker.add(1);
+                }
+            }
+        }
+        int daysSinceStart = 0;
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
         Date now = calendar.getTime();
+        Calendar timeNow = Calendar.getInstance();
+        timeNow.setTime(now);
+        Calendar startDay = Calendar.getInstance();
+        startDay.setTime(this.startDate);
+        while (timeNow.after(startDay)) {
+            for (int each =0; each < frequency_tracker.size(); each++) {
+                if (startDay.get(Calendar.DAY_OF_WEEK) == frequency_tracker.get(each)) {
+                    daysSinceStart += 1;
+                }
+                startDay.add(Calendar.DATE, 1);
+            }
+        }
 
-        int daysSinceStart = (int) Math.abs(now.getTime() - this.startDate.getTime())/(24 * 60 * 60 * 1000);
 
         String averageTimeStr = new SimpleDateFormat("HH:mm").format(this.averageTime);
-
         List<Object> statistics = new ArrayList<Object>();
         statistics.add(this.daysCompleted);
         statistics.add(this.streak);
