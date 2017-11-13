@@ -5,7 +5,10 @@ import com.google.firebase.database.Exclude;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -88,13 +91,55 @@ public class Habit implements Serializable{
     // TODO: Separate this into various getters/setters, refactor formatting into calling class.
     // Firebase will not be able to save/retrieve without this.
     public List<Object> getStatistics(){
+        List <Integer> frequency_tracker = new ArrayList<Integer>();
+
+        for(int index =0; index < this.frequency.size(); index ++){
+            if(this.frequency.get(index).equals(1)){
+                if(index != 6) {
+                    frequency_tracker.add(index + 2);
+                }
+                else {
+                    frequency_tracker.add(1);
+                }
+            }
+
+        }
+        frequency_tracker.add(3);
+        frequency_tracker.add(1);
+        System.out.println(frequency_tracker.toString());
+        int daysSinceStart = 0;
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
         Date now = calendar.getTime();
+        System.out.println(now.toString());
+        System.out.println("start date"+startDate.toString());
+        Calendar timeNow = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
+        timeNow.setTime(now);
+        Calendar startDay = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
+        startDay.setTime(startDate);
+        System.out.println(frequency_tracker.toString());
 
-        int daysSinceStart = (int) Math.abs(now.getTime() - this.startDate.getTime())/(24 * 60 * 60 * 1000);
+//        System.out.println(timeNow.after(startDay));
+        long time_counter = startDay.getTimeInMillis();
+        System.out.println(time_counter);
+        System.out.println(timeNow.getTimeInMillis());
+        while (time_counter < timeNow.getTimeInMillis()) {
+            System.out.println("loop going");
+            for (int each = 0; each < frequency_tracker.size(); each++) {
+                System.out.println("hsdh");
+
+                if (startDay.get(Calendar.DAY_OF_WEEK) == frequency_tracker.get(each)) {
+                    daysSinceStart += 1;
+
+                }
+                System.out.println(daysSinceStart);
+                time_counter += 24*60*60*1000;
+//                startDay.add(Calendar.DATE, 1);
+                System.out.println("loop");
+            }
+        }
+
 
         String averageTimeStr = new SimpleDateFormat("HH:mm").format(this.averageTime);
-
         List<Object> statistics = new ArrayList<Object>();
         statistics.add(this.daysCompleted);
         statistics.add(this.streak);
@@ -104,7 +149,7 @@ public class Habit implements Serializable{
 
         // % completed
         if (daysSinceStart != 0) {
-            statistics.add((float)this.daysCompleted / daysSinceStart);
+            statistics.add((float)2/ daysSinceStart);
         }else{
             statistics.add((float)1);      // 100% completed by default
         }

@@ -35,11 +35,6 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
         public LinearLayout frequencyLayout;
         public TextView percentage;
 
-
-
-
-
-
         public ViewHolder(View habitView) {
             super(habitView);
 
@@ -48,11 +43,7 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
             frequencyLayout = (LinearLayout) habitView.findViewById(R.id.habbitLayout);
             percentage = (TextView)habitView.findViewById(R.id.habit_percentage);
 
-
-
-        }
-
-    }
+        }}
 
     public HabitsAdapter(ArrayList<Habit> habits, Activity context) {
         this.habits = habits;
@@ -67,7 +58,6 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
         HabitsAdapter.ViewHolder viewHolder = new HabitsAdapter.ViewHolder(habitView);
 
         return viewHolder;
-
     }
 
     // Replace the contents of a view (invoked by the layout manager)
@@ -92,20 +82,14 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
         ArrayList<String> DayList = new ArrayList<String>(Arrays.asList(new String []{"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"}));
 //        System.out.println(frequencyList.toString());
 
-
-
-
         ArrayList<Integer> frequency = habit.getFrequency();
-
 
         // change the frequency button backgrounds for this habit item
         for (int counter = 0; counter < frequency.size(); counter++) {
             if (frequency.get(counter) == 1){
                 Button button = (Button)holder.frequencyLayout.findViewWithTag(Integer.toString(counter+1));
                 button.setBackgroundResource(R.drawable.gradient);
-            }
-        }
-
+            }}
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,7 +99,6 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
                 context.startActivity(intent);
             }
         });
-
     }
 
     // Return the size of your dataset (invoked by the layout manager)
