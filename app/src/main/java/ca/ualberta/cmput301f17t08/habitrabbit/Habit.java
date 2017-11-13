@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.TimeZone;
 
 /**
- * Created by maharshmellow on 2017-10-23.
+ * The class for a habit, has all the properties for a habit
  */
 
 public class Habit implements Serializable{

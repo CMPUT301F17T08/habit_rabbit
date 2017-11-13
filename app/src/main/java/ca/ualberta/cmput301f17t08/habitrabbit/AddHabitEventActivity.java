@@ -18,6 +18,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+/**
+ * The activity allows the user to add a habit event
+ */
+
 public class AddHabitEventActivity extends AppCompatActivity {
     private AddHabitEventActivity activity = this;
     private ImageView imagePreview;

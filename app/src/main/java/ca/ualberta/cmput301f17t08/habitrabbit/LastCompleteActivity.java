@@ -17,6 +17,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
+/**
+ * The activity for the the feed function, it shows the most recent completed activity
+ */
+
 public class LastCompleteActivity extends AppCompatActivity {
     private ArrayList<HabitEvent> lastCompleteList;
     private ArrayList<HabitEvent> lastComplete;

@@ -21,6 +21,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+/**
+ * The activity allows the user to add a habit
+ */
+
 public class AddHabitActivity extends AppCompatActivity {
     private AddHabitActivity activity = this;
     private ArrayList<Integer> frequency;

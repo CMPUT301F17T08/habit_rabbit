@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by micah on 01/11/17.
+ * The activity for habit statistic
  */
 
 public class HabitStatsActivity extends AppCompatActivity {

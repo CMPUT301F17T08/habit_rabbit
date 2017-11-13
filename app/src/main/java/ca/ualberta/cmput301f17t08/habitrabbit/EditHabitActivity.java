@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.TimeZone;
 
 
-/*
-Allows the user to edit a habit
+/**
+ * The activity allows the user to edit a habit
  */
 public class EditHabitActivity extends AppCompatActivity {
     private EditHabitActivity activity = this;

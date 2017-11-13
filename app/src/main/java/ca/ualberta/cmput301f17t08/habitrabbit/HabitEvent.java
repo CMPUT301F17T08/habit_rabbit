@@ -8,6 +8,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 
+/**
+ * The class for habit event, it has date and other properties for habit event
+ */
+
 public class HabitEvent {
 
     private Date dateCompleted;

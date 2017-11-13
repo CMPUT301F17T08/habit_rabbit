@@ -9,6 +9,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+/**
+ * The activity for signup when user don't have an account
+ */
+
 public class SignupActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {

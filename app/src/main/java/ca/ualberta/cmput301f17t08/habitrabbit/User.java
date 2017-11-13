@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by mseneshen on 2017-10-23.
+ * The class for a singal user, has all user's property, like name, and user's habit
  */
 
 public class User {
