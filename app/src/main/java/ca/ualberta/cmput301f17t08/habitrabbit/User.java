@@ -74,7 +74,7 @@ public class User {
         if (hasHabit(habit))
             throw new IllegalArgumentException("Habit already existed.");
 
-        this.habitList.add (habit);
+        this.habitList.add(habit);
         return;
     }
 

@@ -65,7 +65,6 @@ public class AddHabitActivity extends AppCompatActivity {
         dateSelector.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 DatePickerDialog datePicker = new DatePickerDialog(AddHabitActivity.this, R.style.date_picker, date, calendar
                         .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
                         calendar.get(Calendar.DAY_OF_MONTH));
