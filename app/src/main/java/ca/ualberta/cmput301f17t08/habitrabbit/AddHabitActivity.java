@@ -38,7 +38,7 @@ public class AddHabitActivity extends AppCompatActivity {
         final EditText habitTitle = findViewById(R.id.habit_title_field);
         final EditText habitReason = findViewById(R.id.habit_reason_field);
         final EditText dateSelector = findViewById(R.id.habit_date_selector);
-        Button addHabitButton = findViewById(R.id.location_button);
+        Button addHabitButton = findViewById(R.id.add_habit_button);
 
         // Date Picker (Source: https://goo.gl/nmN56M)
         final SimpleDateFormat format = new SimpleDateFormat("EEE, MMM d, yyyy");
@@ -65,7 +65,6 @@ public class AddHabitActivity extends AppCompatActivity {
         dateSelector.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 DatePickerDialog datePicker = new DatePickerDialog(AddHabitActivity.this, R.style.date_picker, date, calendar
                         .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
                         calendar.get(Calendar.DAY_OF_MONTH));
