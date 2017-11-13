@@ -4,7 +4,6 @@ package ca.ualberta.cmput301f17t08.habitrabbit;
  * Created by yuxuanzhao on 2017-11-07.
  */
 
-
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
@@ -25,13 +24,13 @@ public class feedAdapter extends RecyclerView.Adapter<feedAdapter.ViewHolder> {
     // Used to cache the views within the item layout for fast access
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView feedName;
-        public TextView numLike;
-        public TextView feedComment;
-        public TextView userNameView;
-        public Button likeButton;
-        public TextView feedDate;
-        public ImageView imagePreview;
+        public TextView feedName; //the name of the feed
+        public TextView numLike; // the num of likes in feed
+        public TextView feedComment;//comment on each feed
+        public TextView userNameView; // the username of user who posts the feed
+        public Button likeButton; // the like button
+        public TextView feedDate;// the date that feed is created
+        public ImageView imagePreview;// the image attached with the feed
 
 
         public ViewHolder(View feedView) {
@@ -45,20 +44,16 @@ public class feedAdapter extends RecyclerView.Adapter<feedAdapter.ViewHolder> {
             userNameView = feedView.findViewById(R.id.feed_username);
             feedDate = feedView.findViewById(R.id.feed_time);
             imagePreview = feedView.findViewById(R.id.feed_image);
-
-
-
-
         }
     }
     public feedAdapter(String username,ArrayList<HabitEvent> habitEvents) {
-        this.habitEvents = habitEvents;
-        this.username =  username;
+        this.habitEvents = habitEvents; //get the habitsEvents list passed in
+        this.username =  username;//get the username passed in from activity class
     }
     @Override
     public feedAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
-        LayoutInflater inflater = LayoutInflater.from(context);
+        Context context = parent.getContext();//get the context
+        LayoutInflater inflater = LayoutInflater.from(context);//initialize the layout inflater
 
         // Inflate the custom layout
         View feedView = inflater.inflate(R.layout.feed_post, parent, false);
@@ -70,32 +65,27 @@ public class feedAdapter extends RecyclerView.Adapter<feedAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(feedAdapter.ViewHolder viewHolder, final int position) {
+        //change the text and appearance of each elements on the layout
         viewHolder.feedName.setText(habitEvents.get(position).getHabit().getName());
         viewHolder.feedComment.setText(habitEvents.get(position).getComment());
         viewHolder.feedDate.setText(habitEvents.get(position).getDateCompleted().toString());
         viewHolder.numLike.setText(Integer.toString(habitEvents.get(position).getLikeCount())+" likes");
         viewHolder.userNameView.setText(username);
-
+        //get the image the user uploaded, set the image if exist
         Bitmap userImage = habitEvents.get(position).getPicture();
         if (userImage != null){
             viewHolder.imagePreview.setImageBitmap(userImage);
         }
-
+        //functionality of likes to the post
         viewHolder.likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 habitEvents.get(position).like(LoginManager.getInstance().getCurrentUser().getUsername());
             }
         });
-
-
     }
     @Override
     public int getItemCount() {
         return 1;
     }
-
-
-
-
 }
