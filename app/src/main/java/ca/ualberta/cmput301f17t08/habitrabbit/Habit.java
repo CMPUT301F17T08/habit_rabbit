@@ -100,7 +100,7 @@ public class Habit implements Serializable{
         sdf.setTimeZone(TimeZone.getTimeZone("America/Edmonton"));
 
         if (this.averageTime == -1){
-            averageTimeStr = "00:00";
+            averageTimeStr = "N/A";
         }else{
             averageTimeStr = sdf.format(this.averageTime);
         }
@@ -138,7 +138,10 @@ public class Habit implements Serializable{
         /*
         TODO we need to make the streak 0 somewhere if the difference between now and last completed is greater than 1 day
         TODO we can do this whenever the activity is loaded or right after login
+        Note: we don't need to worry about this function being called multiple times in one day since
+        the habit will disappear from the today page
          */
+
         if (this.lastCompleted != null && now.getTime() - this.lastCompleted.getTime() < 86400000){
             this.streak += 1;
         }else if (lastCompleted == null) {
@@ -146,7 +149,7 @@ public class Habit implements Serializable{
         }
 
 
-        this.lastCompleted = new Date();
+        this.lastCompleted = now;
 
         // TODO create habit event here and jump to the add to habit history activity
 
