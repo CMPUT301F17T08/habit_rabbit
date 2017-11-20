@@ -3,7 +3,7 @@
           package="ca.ualberta.cmput301f17t08.habitrabbit">
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -30,24 +30,24 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".SignupActivity"></activity>
-        <activity android:name=".historyActivity"></activity>
-        <activity android:name=".MyHabitActivity"></activity>
-        <activity android:name=".HabitStatsActivity"></activity>
-        <activity android:name=".AddHabitActivity"></activity>
-        <activity android:name=".EditHabitActivity"></activity>
-        <activity android:name=".MenuActivity"></activity>
-        <activity android:name=".AddHabitEventActivity"></activity>
-        <activity android:name=".MapActivity" />
+        <activity android:name=".SignupActivity"/>
+        <activity android:name=".historyActivity"/>
+        <activity android:name=".MyHabitActivity"/>
+        <activity android:name=".HabitStatsActivity"/>
+        <activity android:name=".AddHabitActivity"/>
+        <activity android:name=".EditHabitActivity"/>
+        <activity android:name=".MenuActivity"/>
+        <activity android:name=".AddHabitEventActivity"/>
+        <activity android:name=".MapActivity"/>
         <activity
             android:name=".LastCompleteActivity"
             android:label="@string/title_activity_last_complete"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme"/>
         <activity android:name=".FollowUserActivity">
         </activity>
-        <activity android:name=".PeopleActivity"></activity>
-
-
+        <activity android:name=".PeopleActivity"/>
+        <activity android:name=".EditHabitEventActivity">
+        </activity>
     </application>
 
 </manifest>
