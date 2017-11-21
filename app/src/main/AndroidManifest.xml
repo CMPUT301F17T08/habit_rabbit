@@ -46,7 +46,8 @@
         <activity android:name=".FollowUserActivity" />
         <activity android:name=".PeopleActivity" />
         <activity android:name=".TodayActivtiy" />
-        <activity android:name=".TodayActivity"></activity>
+        <activity android:name=".TodayActivity" />
+        <activity android:name=".FeedActivity"></activity>
     </application>
 
 </manifest>

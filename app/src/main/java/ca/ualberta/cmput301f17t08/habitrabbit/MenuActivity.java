@@ -25,9 +25,9 @@ public class MenuActivity extends AppCompatActivity {
         feedButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(activity, historyActivity.class);
-//                startActivity(intent);
-                System.out.println("the feed");
+                Intent intent = new Intent(activity, FeedActivity.class);
+                startActivity(intent);
+
             }
         });
 
