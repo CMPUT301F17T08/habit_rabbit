@@ -31,7 +31,7 @@ public class historyActivity extends AppCompatActivity {
         historyList = LoginManager.getInstance().getCurrentUser().getHistory();
         // set up the adapter
 
-        cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), historyList);
+        cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), historyList,this);
         historyRecyclerView.setAdapter(cAdapt);
 
     }
