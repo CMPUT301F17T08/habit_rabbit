@@ -1,9 +1,11 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import java.util.ArrayList;
 
@@ -46,6 +48,16 @@ public class PeopleActivity extends AppCompatActivity {
         cAdapt2 = new PeopleAdapter(followerList);
         peopleFollowingRecyclerView.setAdapter(cAdapt2);
 
+    }
+    // plus button clicked
+    public void showFollowUserActivity(View v){
+        Intent intent = new Intent(this, FollowUserActivity.class);
+        startActivity(intent);
+    }
+
+    public void showMenu(View v){
+        Intent intent = new Intent(this, MenuActivity.class);
+        startActivity(intent);
     }
 
 }
