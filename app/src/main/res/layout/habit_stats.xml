@@ -19,6 +19,7 @@
             android:id="@+id/edit_habit_button"
             android:layout_width="30dp"
             android:layout_height="30dp"
+            android:onClick="showEditHabitActivity"
             android:background="@drawable/ic_edit_black_24dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
