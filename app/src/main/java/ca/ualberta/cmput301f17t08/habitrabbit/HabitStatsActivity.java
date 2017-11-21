@@ -1,10 +1,12 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import org.w3c.dom.Text;
@@ -47,6 +49,13 @@ public class HabitStatsActivity extends AppCompatActivity {
         completedPercentCount.setText(Math.round(Math.floor((Float)statistics.get(3) * 100)) + "%");
         daysCompletedCount.setText("" + statistics.get(0));
         averageTimeCount.setText("" + statistics.get(2));
+    }
+
+
+    public void showEditHabitActivity(View v){
+        Intent intent = new Intent(this, EditHabitActivity.class);
+        intent.putExtra("habit", habit);
+        startActivity(intent);
     }
 
 }
