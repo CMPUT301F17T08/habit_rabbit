@@ -28,6 +28,10 @@ public class FeedActivity extends AppCompatActivity {
         //get the followers
         followerList = LoginManager.getInstance().getCurrentUser().getFollowers();
 
+        //testing code
+        followerList.add("Yuxuan");
+
+
         String username;
         ArrayList<HabitEvent> followerFeedList;
 
@@ -39,6 +43,10 @@ public class FeedActivity extends AppCompatActivity {
                 feedList.add(followerFeedList.get(index));
             }
         }
+
+
+
+
 
 
         // set up the adapter
