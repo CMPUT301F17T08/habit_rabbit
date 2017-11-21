@@ -46,8 +46,11 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".FollowUserActivity" />
         <activity android:name=".PeopleActivity" />
+
         <activity android:name=".TodayActivity" />
+        <activity android:name=".FeedActivity"></activity>
         <activity android:name=".EditHabitEventActivity"></activity>
+
     </application>
 
 </manifest>
