@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
 
@@ -24,6 +25,7 @@ public class PeopleActivity extends AppCompatActivity {
     private PeopleAdapter cAdapt2;
     private RecyclerView peopleFollowingRecyclerView;
     private RecyclerView peopleFollowerRecyclerView;
+    private Button menuButton;
     private Button followPersonButton;
 
     @Override
@@ -51,11 +53,19 @@ public class PeopleActivity extends AppCompatActivity {
         peopleFollowingRecyclerView.setAdapter(cAdapt2);
 
         followPersonButton = (Button) findViewById(R.id.follow_person_button);
-
         followPersonButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(activity, FollowUserActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        menuButton = (Button) findViewById(R.id.menu_button);
+        menuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity, MenuActivity.class);
                 startActivity(intent);
             }
         });
