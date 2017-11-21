@@ -180,5 +180,12 @@ public class Habit implements Serializable{
         return result;
     }
 
+    public void removeHabitEvent(HabitEvent event){
+        if (this.habiteventlist.contains(event)){
+            this.habiteventlist.remove(event);
+        }
+
+    }
+
 
 }
