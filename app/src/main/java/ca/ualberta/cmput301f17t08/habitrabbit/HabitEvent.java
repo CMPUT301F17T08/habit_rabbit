@@ -5,10 +5,11 @@ import android.location.Location;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class HabitEvent {
+public class HabitEvent implements Serializable {
 
     private Date dateCompleted;
     private String comment;
