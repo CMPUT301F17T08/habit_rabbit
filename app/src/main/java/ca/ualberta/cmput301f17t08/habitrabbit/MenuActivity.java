@@ -34,7 +34,8 @@ public class MenuActivity extends AppCompatActivity {
         todayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("Today");
+                Intent intent = new Intent(activity, TodayActivity.class);
+                startActivity(intent);
             }
         });
 
