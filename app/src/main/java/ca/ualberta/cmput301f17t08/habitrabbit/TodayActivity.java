@@ -18,7 +18,7 @@ import java.util.Date;
 public class TodayActivity extends AppCompatActivity {
     //initialize the variables needed in the class
     private ArrayList<Habit> habitList;
-    private HabitsAdapter cAdapt;
+    private TodayAdapter cAdapt;
     private RecyclerView habitRecyclerView;
 
 
@@ -57,7 +57,7 @@ public class TodayActivity extends AppCompatActivity {
             }
         }
         // set up the adapter
-        cAdapt = new HabitsAdapter( todayHabit,this);
+        cAdapt = new TodayAdapter( todayHabit,this);
         habitRecyclerView.setAdapter(cAdapt);
 
     }
