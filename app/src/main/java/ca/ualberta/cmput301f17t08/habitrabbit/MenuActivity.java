@@ -14,6 +14,7 @@ public class MenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu);
 
+        Button menButton = findViewById(R.id.menu_button);
         Button feedButton = findViewById(R.id.feed_button);
         Button todayButton = findViewById(R.id.today_button);
         Button peopleButton = findViewById(R.id.people_button);
@@ -66,6 +67,14 @@ public class MenuActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 System.out.println("Notifications");
+            }
+        });
+
+        menButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                // close the menu button
+                finish();
             }
         });
     }
