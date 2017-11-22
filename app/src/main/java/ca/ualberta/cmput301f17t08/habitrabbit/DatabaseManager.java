@@ -31,6 +31,11 @@ public class DatabaseManager {
         public void onUserDataFailed(String message);
     }
 
+    public interface OnSaveListener {
+        public void onSaveSuccess();
+        public void onSaveFailure(String message);
+    }
+
     public static DatabaseManager getInstance(){
         if(databaseManager == null){
             databaseManager = new DatabaseManager();
@@ -131,6 +136,38 @@ public class DatabaseManager {
         // saves the locally saved data to the database
         // make it so that this function automatically gets called when the network is available
         // after a disconnect
+
+    }
+
+    public void saveHabit(final Habit habit, final OnSaveListener listener) {
+
+        // Get ID of habit
+        String habitId = habit.getId();
+
+        final DatabaseReference habitsRef = database.getReference("habits");
+        final DatabaseReference habitRef;
+
+        if(habitId == null){
+            // Habit is new, needs an ID.
+            habitId = habitsRef.push().getKey();
+        }
+
+        habit.setSynced(true);
+        habit.setId(habitId);
+
+        habitRef = habitsRef.child(habitId);
+        habitRef.setValue(habit, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                if (databaseError != null) {
+                    Log.e("Database Manager Error", "Database error: " + databaseError.getMessage());
+                    listener.onSaveFailure("Failed to sync habit due to a database error: " + databaseError.getMessage());
+                    habit.setSynced(false);
+                } else {
+                    listener.onSaveSuccess();
+                }
+            }
+        });
 
     }
 

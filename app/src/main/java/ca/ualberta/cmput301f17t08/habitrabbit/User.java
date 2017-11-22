@@ -10,13 +10,13 @@ import java.util.List;
 
 public class User {
     private String username;
-    private ArrayList<Habit> habitList;
+    private ArrayList<String> habitList;
     private ArrayList<String> followerList;
     private ArrayList<String> followingList;
     private ArrayList<String> followRequests;
     private ArrayList<HabitEvent> historylist;
     public User(){
-        this.habitList = new ArrayList<Habit>();
+        this.habitList = new ArrayList<String>();
         this.followerList = new ArrayList<String>();
         this.followingList = new ArrayList<String>();
         this.followRequests = new ArrayList<String>();
@@ -25,7 +25,7 @@ public class User {
 
     public User(String username){
         this.username = username;
-        this.habitList = new ArrayList<Habit>();
+        this.habitList = new ArrayList<String>();
         this.followerList = new ArrayList<String>();
         this.followingList = new ArrayList<String>();
         this.followRequests = new ArrayList<String>();
@@ -34,7 +34,7 @@ public class User {
 
     public void setUsername(String username) {this.username = username;}
 
-    public void setHabits(ArrayList<Habit> habits){
+    public void setHabits(ArrayList<String> habits){
         this.habitList = habits;
     }
 
@@ -42,7 +42,7 @@ public class User {
         return this.username;
     }
 
-    public ArrayList<Habit> getHabits(){return this.habitList;}
+    public ArrayList<String> getHabits(){return this.habitList;}
 
     public ArrayList<String> getFollowers() {return this.followerList;}
 
@@ -72,12 +72,11 @@ public class User {
 
     public void addHabit(Habit habit) {
         if (hasHabit(habit))
-            throw new IllegalArgumentException("Habit already existed.");
+            throw new IllegalArgumentException("Habit already exists.");
 
-        this.habitList.add(habit);
+        this.habitList.add(habit.getId());
         return;
     }
-
 
     private boolean hasHabit(Habit habit) {
         return this.habitList.contains(habit);
@@ -97,7 +96,10 @@ public class User {
     }
 
     public ArrayList<Habit> filterHistoryByType(String keyword) {
+        // TODO: We need to rework this using
+        /*
         ArrayList<Habit> result = new ArrayList<>();
+
 
             for (Habit habit : habitList) {
                 if (habit.getName() == keyword) {
@@ -105,6 +107,9 @@ public class User {
                 }
             }
             return result;
+        */
+
+        return null;
     }
 
     public ArrayList<Habit> HabitMissed(Habit habit){
