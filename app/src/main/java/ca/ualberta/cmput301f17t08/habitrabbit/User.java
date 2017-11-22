@@ -116,5 +116,8 @@ public class User {
         return null;
     }
 
+    public void addToHistory(HabitEvent event){
+        this.historylist.add(event);
+    }
 
 }
