@@ -84,7 +84,6 @@ public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.ViewHolder> 
 //        System.out.println(frequencyList.toString());
 
         ArrayList<Integer> frequency = habit.getFrequency();
-
         // change the frequency button backgrounds for this habit item
         for (int counter = 0; counter < frequency.size(); counter++) {
             if (frequency.get(counter) == 1){
@@ -103,6 +102,7 @@ public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.ViewHolder> 
             }
         });
 
+        //TODO pash in username instead of the id to habitStatsActivity
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

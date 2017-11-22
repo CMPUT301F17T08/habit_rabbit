@@ -33,7 +33,6 @@ public class historyActivity extends AppCompatActivity {
 
         cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), historyList,this);
         historyRecyclerView.setAdapter(cAdapt);
-
     }
 
     public void showMenu(View v){
