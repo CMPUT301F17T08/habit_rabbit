@@ -34,7 +34,7 @@ public class LastCompleteActivity extends AppCompatActivity {
         lastCompleteList = LoginManager.getInstance().getCurrentUser().getHistory();
         if (lastCompleteList.size() != 0){
         lastComplete = (ArrayList<HabitEvent>) lastCompleteList.subList(lastCompleteList.size()-1,lastCompleteList.size()-1);}
-        cAdapt = new historyAdapter(username,lastComplete);
+        cAdapt = new historyAdapter(username,lastComplete,this);
         lastCompleteRecyclerView.setAdapter(cAdapt);
     }
 

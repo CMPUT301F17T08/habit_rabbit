@@ -45,12 +45,8 @@ public class FeedActivity extends AppCompatActivity {
         }
 
 
-
-
-
-
         // set up the adapter
-        cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), feedList);
+        cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), feedList,this);
         feedRecyclerView.setAdapter(cAdapt);
     }
 
