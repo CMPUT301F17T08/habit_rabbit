@@ -37,7 +37,7 @@
             android:id="@+id/textView2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Feed"
+            android:text="FEED"
             android:textAlignment="center"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="16dp"
