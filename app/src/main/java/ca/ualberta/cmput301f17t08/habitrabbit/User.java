@@ -83,8 +83,13 @@ public class User {
         return this.habitList.contains(habit);
     }
 
-    public void removeHabit(Habit habit) {
-        this.habitList.remove(habit);
+    public void removeHabit(String habitName) {
+        for (Habit habit : this.habitList){
+            if (habit.getName().equals(habitName)){
+                habitList.remove(habit);
+                break;
+            }
+        }
         return;
     }
 
