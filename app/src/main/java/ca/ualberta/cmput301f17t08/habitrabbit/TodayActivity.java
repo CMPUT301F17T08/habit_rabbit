@@ -10,6 +10,7 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Created by yuxuanzhao on 2017-11-07.
@@ -36,7 +37,8 @@ public class TodayActivity extends AppCompatActivity {
 
         //get the day of week in terms of index in frequency
         Date now = new Date();
-        Calendar calendar = Calendar.getInstance();
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
+
         calendar.setTime(now);
         int current_day = calendar.get(Calendar.DAY_OF_WEEK);
         if (current_day == 0){
@@ -51,8 +53,10 @@ public class TodayActivity extends AppCompatActivity {
         ArrayList<Habit> todayHabit = new ArrayList<Habit>();
 
         //check if the day of week is in frequency list
-        for(int index=0;index <habitList.size();index++){
+        for(int index = 0; index < habitList.size(); index++){
+            System.out.println("TEST" + habitList.get(index).getName());
             if(habitList.get(index).getFrequency().get(current_day) == 1){
+                System.out.println("ADD" + habitList.get(index).getName());
                 todayHabit.add(habitList.get(index));
             }
         }

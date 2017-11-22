@@ -147,16 +147,21 @@ public class EditHabitActivity extends AppCompatActivity {
                     frequency = new ArrayList<Integer>(Collections.nCopies(7, 1));
                 }
 
-                // TODO check that the habit name doesn't exist already
+                // TODO check that the habit name doesn't exist already outside of current habit
 
                 if (!error){
                     // update the habit object with the new values
+                    User currentUser = LoginManager.getInstance().getCurrentUser();
+                    currentUser.removeHabit(habit.getName());
+
                     habit.setName(title);
                     habit.setReason(reason);
                     habit.setDate(date);
                     habit.setFrequency(frequency);
+
+                    currentUser.addHabit(habit);
+                    finish();
                 }
-                // TODO exit the activity here
             }
         });
 
@@ -164,8 +169,9 @@ public class EditHabitActivity extends AppCompatActivity {
         deleteHabitButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                // TODO remove the habit object from the user's habit list
-                LoginManager.getInstance().getCurrentUser().removeHabit(habit);
+                LoginManager.getInstance().getCurrentUser().removeHabit(habit.getName());
+                // TODO need to close the previous activity too and not just the current one
+                finish();
             }
         });
 
