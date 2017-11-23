@@ -39,7 +39,6 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
         public TextView historyDate;
         public ImageView imagePreview;
 
-
         public ViewHolder(View historyView) {
             // Stores the itemView in a public final member variable that can be used
             // to access the context from any ViewHolder instance.
@@ -52,6 +51,7 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
             userNameView = historyView.findViewById(R.id.post_username);
             historyDate = historyView.findViewById(R.id.post_time);
             imagePreview = historyView.findViewById(R.id.post_image);
+
         }
     }
     public historyAdapter(String username, ArrayList<HabitEvent> habitEvents,Activity context) {
@@ -87,6 +87,10 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
         viewHolder.historyDate.setText(habitEvents.get(position).getDateCompleted().toString());
         viewHolder.numLike.setText(Integer.toString(habitEvents.get(position).getLikeCount())+" likes");
         viewHolder.userNameView.setText(username);
+        String username = LoginManager.getInstance().getCurrentUser().getUsername();
+        if (habitEvents.get(position).getLikes().contains(username)){
+            viewHolder.likeButton.setBackgroundResource(R.drawable.black_like);
+        }
         //get the image the user uploaded, set the image if exist
         Bitmap userImage = habitEvents.get(position).getPicture();
         if (userImage != null){
@@ -99,6 +103,8 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
             public void onClick(View view) {
                 int num_like = habitEvents.get(position).like(LoginManager.getInstance().getCurrentUser().getUsername());
                 viewHolder.numLike.setText(Integer.toString(num_like)+" likes");
+                viewHolder.likeButton.setBackgroundResource (R.drawable.black_like);
+
             }
         });
 
