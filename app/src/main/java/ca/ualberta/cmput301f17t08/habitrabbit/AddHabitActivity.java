@@ -111,6 +111,7 @@ public class AddHabitActivity extends AppCompatActivity {
 
                 // TODO check that the habit name doesn't exist already
 
+
                 if (!error){
                     // TODO create a new habit object here and associate that with the user
                     Habit habit = new Habit(title, reason, date, frequency);

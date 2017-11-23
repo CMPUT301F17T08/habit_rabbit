@@ -80,7 +80,14 @@ public class User {
 
 
     private boolean hasHabit(Habit habit) {
-        return this.habitList.contains(habit);
+        boolean result = false;
+        String habitName = habit.getName();
+        for (Habit signalhabit : this.habitList) {
+            if (signalhabit.getName().equals(habitName)) {
+                result = true;
+            }
+        }
+        return result;
     }
 
     public void removeHabit(String habitName) {
