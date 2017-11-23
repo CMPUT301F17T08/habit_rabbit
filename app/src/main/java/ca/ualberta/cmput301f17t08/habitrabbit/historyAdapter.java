@@ -15,12 +15,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+
 
 public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHolder> {
     private  ArrayList<HabitEvent> habitEvents;
@@ -39,8 +39,6 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
         public TextView historyDate;
         public ImageView imagePreview;
 
-
-
         public ViewHolder(View historyView) {
             // Stores the itemView in a public final member variable that can be used
             // to access the context from any ViewHolder instance.
@@ -53,10 +51,17 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
             userNameView = historyView.findViewById(R.id.post_username);
             historyDate = historyView.findViewById(R.id.post_time);
             imagePreview = historyView.findViewById(R.id.post_image);
+
         }
     }
     public historyAdapter(String username, ArrayList<HabitEvent> habitEvents,Activity context) {
         this.habitEvents = habitEvents; //get the habitsEvents list passed in
+        //testing code
+        ArrayList<Integer> frequency = new ArrayList<Integer>(Arrays.asList(new Integer[]{1,0,1,0,1,0,1}));
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
+        Date now = calendar.getTime();
+        habitEvents.add(new HabitEvent(new Habit("haha","hahha",now,frequency),now,"the comment",null,null));
+        //testing code
         this.username =  username;//get the username passed in from activity class
         this.context = context;
     }
@@ -74,8 +79,7 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(historyAdapter.ViewHolder viewHolder, final int position) {
-
+    public void onBindViewHolder(final historyAdapter.ViewHolder viewHolder, final int position) {
 
         //change the text and appearance of each elements on the layout
         viewHolder.habitName.setText(habitEvents.get(position).getHabit().getName());
@@ -83,19 +87,25 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
         viewHolder.historyDate.setText(habitEvents.get(position).getDateCompleted().toString());
         viewHolder.numLike.setText(Integer.toString(habitEvents.get(position).getLikeCount())+" likes");
         viewHolder.userNameView.setText(username);
+        String username = LoginManager.getInstance().getCurrentUser().getUsername();
+        //check if the current user has liked the feed before
+        if (habitEvents.get(position).getLikes().contains(username)){
+            viewHolder.likeButton.setBackgroundResource(R.drawable.black_like);
+        }
         //get the image the user uploaded, set the image if exist
         Bitmap userImage = habitEvents.get(position).getPicture();
         if (userImage != null){
             viewHolder.imagePreview.setImageBitmap(userImage);
         }
 
-
-
         //functionality of likes to the post
         viewHolder.likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 habitEvents.get(position).like(LoginManager.getInstance().getCurrentUser().getUsername());
+                viewHolder.numLike.setText(Integer.toString(habitEvents.get(position).getLikeCount())+" likes");
+                viewHolder.likeButton.setBackgroundResource (R.drawable.black_like);
+
             }
         });
 

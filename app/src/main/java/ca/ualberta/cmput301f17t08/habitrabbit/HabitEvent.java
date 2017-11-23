@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 public class HabitEvent implements Serializable {
@@ -57,11 +58,13 @@ public class HabitEvent implements Serializable {
         return picture;
     }
 
-    public int like(String username){
+    public void like(String username){
         if (!this.likes.contains(username)){
             this.likes.add(username);
         }
-        return this.likes.size();
+    }
+    public ArrayList<String> getLikes(){
+        return likes;
     }
 
     public int getLikeCount(){
