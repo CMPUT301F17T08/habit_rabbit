@@ -88,6 +88,7 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
         viewHolder.numLike.setText(Integer.toString(habitEvents.get(position).getLikeCount())+" likes");
         viewHolder.userNameView.setText(username);
         String username = LoginManager.getInstance().getCurrentUser().getUsername();
+        //check if the current user has liked the feed before
         if (habitEvents.get(position).getLikes().contains(username)){
             viewHolder.likeButton.setBackgroundResource(R.drawable.black_like);
         }
@@ -101,8 +102,8 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
         viewHolder.likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int num_like = habitEvents.get(position).like(LoginManager.getInstance().getCurrentUser().getUsername());
-                viewHolder.numLike.setText(Integer.toString(num_like)+" likes");
+                habitEvents.get(position).like(LoginManager.getInstance().getCurrentUser().getUsername());
+                viewHolder.numLike.setText(Integer.toString(habitEvents.get(position).getLikeCount())+" likes");
                 viewHolder.likeButton.setBackgroundResource (R.drawable.black_like);
 
             }

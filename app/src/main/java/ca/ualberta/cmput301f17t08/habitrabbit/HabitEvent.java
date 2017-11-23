@@ -58,11 +58,10 @@ public class HabitEvent implements Serializable {
         return picture;
     }
 
-    public int like(String username){
+    public void like(String username){
         if (!this.likes.contains(username)){
             this.likes.add(username);
         }
-        return this.likes.size();
     }
     public ArrayList<String> getLikes(){
         return likes;
