@@ -53,7 +53,7 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
     // Create new views (invoked by the layout manager)
     @Override
     public HabitsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                   int viewType) {
+                                                       int viewType) {
         View habitView = LayoutInflater.from(parent.getContext()).inflate(R.layout.habit_item, parent, false);
         HabitsAdapter.ViewHolder viewHolder = new HabitsAdapter.ViewHolder(habitView);
 
