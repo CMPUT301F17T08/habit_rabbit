@@ -109,7 +109,11 @@ public class AddHabitActivity extends AppCompatActivity {
                     frequency = new ArrayList<Integer>(Collections.nCopies(7, 1));
                 }
 
-                // TODO check that the habit name doesn't exist already
+                User user = LoginManager.getInstance().getCurrentUser();
+                if (user.hasHabit(title)){
+                    habitTitle.setError("Habit already exists.");
+                    error = true;
+                }
 
 
                 if (!error){

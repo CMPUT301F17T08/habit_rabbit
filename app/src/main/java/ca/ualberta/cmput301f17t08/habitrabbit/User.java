@@ -71,7 +71,7 @@ public class User {
     }
 
     public void addHabit(Habit habit) {
-        if (hasHabit(habit))
+        if (hasHabit(habit.getName()))
             throw new IllegalArgumentException("Habit already existed.");
 
         this.habitList.add(habit);
@@ -79,9 +79,8 @@ public class User {
     }
 
 
-    private boolean hasHabit(Habit habit) {
+    public boolean hasHabit(String habitName) {
         boolean result = false;
-        String habitName = habit.getName();
         for (Habit signalhabit : this.habitList) {
             if (signalhabit.getName().equals(habitName)) {
                 result = true;
