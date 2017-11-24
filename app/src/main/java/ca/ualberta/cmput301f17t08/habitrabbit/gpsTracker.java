@@ -49,7 +49,7 @@ public class gpsTracker extends Service implements LocationListener {
     }
 
     public Location getLocation() {
-        if (ContextCompat.checkSelfPermission((Activity) mContext, android.Manifest.permission.
+        if (ContextCompat.checkSelfPermission((Activity)mContext, android.Manifest.permission.
                 ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
 
             Log.i("GPS", "Requesting coarse permission.");
