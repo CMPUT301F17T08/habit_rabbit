@@ -39,14 +39,11 @@ public class TodayActivity extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(now);
         int current_day = calendar.get(Calendar.DAY_OF_WEEK);
-        if (current_day == 0){
-            current_day = 6;
-        }
-        else{
-            current_day -= 2;
-        }
 
-
+        //convert the date index from calendar class to frenquency list
+        int [] day_convert = {0,6,0,1,2,3,4,5};
+        current_day = day_convert[current_day];
+        
         //set up an arraylist used to store the today's habit
         ArrayList<Habit> todayHabit = new ArrayList<Habit>();
 
