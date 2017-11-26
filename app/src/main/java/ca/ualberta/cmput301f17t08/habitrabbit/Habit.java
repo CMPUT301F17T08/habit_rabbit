@@ -93,7 +93,32 @@ public class Habit implements Serializable{
     public List<Object> getStatistics(){
 
         // TODO need a way to get the days since start based on the frequency
+
+        // count the total days since the start that the user was supposed to complete this habit
         int daysSinceStart = 0;
+
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
+        Date currentDate = calendar.getTime();
+        Date tempDate = this.startDate;
+
+        System.out.println("Start: " + startDate);
+        while (tempDate.before(currentDate)){
+            calendar.setTime(tempDate);
+            int tempDayIndex = calendar.get(Calendar.DAY_OF_WEEK);
+
+            // converts between the built in day index to the frequency array indices
+            int [] conversion_table = {0, 6, 0, 1, 2, 3, 4, 5};
+
+            // check if the user is following the habit on this day
+            if (frequency.get(conversion_table[tempDayIndex]) == 1){
+                daysSinceStart += 1;
+            }
+
+            // increment the temp date by 1 day
+            calendar.add(Calendar.DATE, 1);
+            tempDate = calendar.getTime();
+
+        }
 
         String averageTimeStr;
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
@@ -113,7 +138,7 @@ public class Habit implements Serializable{
 
         // % completed
         if (daysSinceStart != 0) {
-            statistics.add((float)2/ daysSinceStart);
+            statistics.add((float) daysCompleted / daysSinceStart);
         }else{
             statistics.add((float)1);      // 100% completed by default
         }
@@ -122,6 +147,7 @@ public class Habit implements Serializable{
     }
 
     public void markDone(){
+
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
         Date now = calendar.getTime();
 
@@ -129,7 +155,11 @@ public class Habit implements Serializable{
 
         // update the average time of completion
         if (this.averageTime != -1){
-            this.averageTime = averageTime + (1/this.daysCompleted)*(now.getTime() % 86400000 - averageTime);
+            System.out.println("Previous Average Time: " + this.averageTime);
+            this.averageTime = (long) (this.averageTime + ((float)1/this.daysCompleted)*(now.getTime() % 86400000 - this.averageTime));
+            System.out.println("New Average Time: " + this.averageTime);
+            System.out.println("Increment: " + ((float)1/this.daysCompleted)*(now.getTime() % 86400000 - this.averageTime));
+
         }else{
             this.averageTime = now.getTime() % 86400000;     // milliseconds elapsed until now today
         }

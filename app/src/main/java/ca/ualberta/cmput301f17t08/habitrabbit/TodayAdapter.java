@@ -95,14 +95,16 @@ public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.ViewHolder> 
             @Override
             public void onClick(View view) {
                 Habit habit = habits.get(position);
+                habit.markDone();
+
                 Intent intent = new Intent(context, AddHabitEventActivity.class);
-                intent.putExtra("habit",habit);
+                intent.putExtra("habit", habit);
                 context.startActivity(intent);
 
             }
         });
 
-        //TODO pash in username instead of the id to habitStatsActivity
+        //TODO pass in username instead of the id to habitStatsActivity
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
