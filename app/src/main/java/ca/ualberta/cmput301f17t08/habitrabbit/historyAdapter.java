@@ -56,12 +56,6 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
     }
     public historyAdapter(String username, ArrayList<HabitEvent> habitEvents,Activity context) {
         this.habitEvents = habitEvents; //get the habitsEvents list passed in
-        //testing code
-        ArrayList<Integer> frequency = new ArrayList<Integer>(Arrays.asList(new Integer[]{1,0,1,0,1,0,1}));
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
-        Date now = calendar.getTime();
-        habitEvents.add(new HabitEvent(new Habit("haha","hahha",now,frequency),now,"the comment",null,null));
-        //testing code
         this.username =  username;//get the username passed in from activity class
         this.context = context;
     }
