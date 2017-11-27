@@ -1,7 +1,5 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
-import android.view.View;
-
 /**
  * Created by mseneshen on 2017-10-23.
  */
@@ -35,6 +33,7 @@ public class LoginManager {
             public void onUserData(User user) {
                 currentUser = user;
                 listener.onLoginComplete();
+
             }
 
             @Override
@@ -73,7 +72,6 @@ public class LoginManager {
     /* NOTE
     * We won't need the setCurrentUser() even though it's in the UML since login() can do its job
     * */
-
 
 
 }

@@ -88,6 +88,10 @@ public class Habit implements Serializable{
         return this.habiteventlist;
     }
 
+    public void resetStreak(){ this.streak = 0; }
+
+    public Date getLastCompleted() { return this.lastCompleted; }
+
     // TODO: Separate this into various getters/setters, refactor formatting into calling class.
     // Firebase will not be able to save/retrieve without this.
     public List<Object> getStatistics(){
