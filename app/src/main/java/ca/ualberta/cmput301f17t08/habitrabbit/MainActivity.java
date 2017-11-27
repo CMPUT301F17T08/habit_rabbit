@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
                     public void onLoginComplete() {
                         // TODO: transition activity
                         Log.i("MainActivity", "Login success!");
+                        receiver = new StreakChecker();
+                        registerReceiver(receiver, new IntentFilter(Intent.ACTION_TIME_TICK));
 
                         Intent intent = new Intent(activity, MyHabitActivity.class);
                         startActivity(intent);
@@ -62,10 +64,10 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
+
             }
         });
-        receiver = new StreakChecker();
-        registerReceiver(receiver, new IntentFilter(Intent.ACTION_TIME_TICK));
+
 
 
 
