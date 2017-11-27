@@ -3,6 +3,7 @@ package ca.ualberta.cmput301f17t08.habitrabbit;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,7 @@ import android.widget.EditText;
 
 public class MainActivity extends AppCompatActivity {
     private MainActivity activity = this;
+    private StreakChecker receiver;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,6 +64,10 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+        receiver = new StreakChecker();
+        registerReceiver(receiver, new IntentFilter(Intent.ACTION_TIME_TICK));
+
+
 
         // small signup button below the login button
         signupButton.setOnClickListener(new View.OnClickListener(){
@@ -72,5 +78,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        // Unregister Receivers
+        unregisterReceiver(receiver);
     }
 }
