@@ -51,7 +51,9 @@ public class TodayActivity extends AppCompatActivity {
 
         //check if the day of week is in frequency list
         for(int index = 0; index < habitList.size(); index++){
-            if(habitList.get(index).getFrequency().get(current_day) == 1){
+            Habit tempHabit = habitList.get(index);
+            if(tempHabit.getFrequency().get(current_day) == 1 &&
+                    now.getTime() - tempHabit.getLastCompleted().getTime() < 86400000){
                 todayHabit.add(habitList.get(index));
             }
         }
@@ -63,6 +65,15 @@ public class TodayActivity extends AppCompatActivity {
 
     public void showMenu(View v){
         Intent intent = new Intent(this, MenuActivity.class);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Intent intent = getIntent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        finish();
         startActivity(intent);
     }
 }

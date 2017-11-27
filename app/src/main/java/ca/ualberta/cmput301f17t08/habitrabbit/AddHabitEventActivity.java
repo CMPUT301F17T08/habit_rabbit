@@ -61,6 +61,7 @@ public class AddHabitEventActivity extends AppCompatActivity {
                     LoginManager.getInstance().getCurrentUser().addToHistory(event);
 //                    System.out.println("Created Habit Event");
                     habit.markDone();
+
                     finish();
                 }
             }
