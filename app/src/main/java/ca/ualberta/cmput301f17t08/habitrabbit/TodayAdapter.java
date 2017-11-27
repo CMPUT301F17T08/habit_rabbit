@@ -95,7 +95,6 @@ public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.ViewHolder> 
             @Override
             public void onClick(View view) {
                 Habit habit = habits.get(position);
-                habit.markDone();
 
                 Intent intent = new Intent(context, AddHabitEventActivity.class);
                 intent.putExtra("habit", habit);

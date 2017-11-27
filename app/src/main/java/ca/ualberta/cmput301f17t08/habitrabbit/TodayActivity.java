@@ -51,9 +51,7 @@ public class TodayActivity extends AppCompatActivity {
 
         //check if the day of week is in frequency list
         for(int index = 0; index < habitList.size(); index++){
-            System.out.println("TEST" + habitList.get(index).getName());
             if(habitList.get(index).getFrequency().get(current_day) == 1){
-                System.out.println("ADD" + habitList.get(index).getName());
                 todayHabit.add(habitList.get(index));
             }
         }
