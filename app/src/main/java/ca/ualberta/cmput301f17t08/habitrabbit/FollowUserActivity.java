@@ -22,9 +22,11 @@ public class FollowUserActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String username = usernameField.getText().toString();
 
-                if (username.length() > 0){
-                    // TODO get the user associated with username from the database and add current user's name to their pending list
-                    System.out.println(username);
+                // get the user associated with username from the database and add current user's name to their pending list
+                if (username.length() > 0) {
+                    User followedUser = new User(username);
+                    followedUser.getFollowRequests().add(LoginManager.getInstance().getCurrentUser().getUsername());
+
                     return;
                 }
             }

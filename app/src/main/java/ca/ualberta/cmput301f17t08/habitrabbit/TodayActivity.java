@@ -45,7 +45,7 @@ public class TodayActivity extends AppCompatActivity {
         //convert the date index from calendar class to frenquency list
         int [] day_convert = {0,6,0,1,2,3,4,5};
         current_day = day_convert[current_day];
-        
+
         //set up an arraylist used to store the today's habit
         ArrayList<Habit> todayHabit = new ArrayList<Habit>();
 
