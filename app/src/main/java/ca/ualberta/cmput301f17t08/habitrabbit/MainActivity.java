@@ -32,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
                 String username = usernameField.getText().toString();
 
                 System.out.println("Login Button Clicked - Username:" + username);
-
                 LoginManager.getInstance().login(username, new LoginManager.OnLoginCompleteListener() {
                     @Override
                     public void onLoginComplete() {

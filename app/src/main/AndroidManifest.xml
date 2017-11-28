@@ -30,7 +30,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity android:name=".SignupActivity" />
         <activity android:name=".historyActivity" />
         <activity android:name=".MyHabitActivity" />
@@ -46,8 +45,8 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".FollowUserActivity" />
         <activity android:name=".PeopleActivity" />
-
         <activity android:name=".TodayActivity" />
+
         <activity android:name=".FeedActivity"></activity>
         <activity android:name=".EditHabitEventActivity"></activity>
 
@@ -56,7 +55,6 @@
                 <action android:name="android.intent.action.ACTION_TIME_TICK" />
             </intent-filter>
         </receiver>
-
     </application>
 
 </manifest>
