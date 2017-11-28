@@ -46,9 +46,15 @@
         <activity android:name=".FollowUserActivity" />
         <activity android:name=".PeopleActivity" />
         <activity android:name=".TodayActivity" />
-        <activity android:name=".FeedActivity" />
-        <activity android:name=".EditHabitEventActivity" />
-        <activity android:name=".FilterActivity"></activity>
+
+        <activity android:name=".FeedActivity"></activity>
+        <activity android:name=".EditHabitEventActivity"></activity>
+
+        <receiver android:name=".StreakChecker" >
+            <intent-filter>
+                <action android:name="android.intent.action.ACTION_TIME_TICK" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
