@@ -31,7 +31,7 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
     // Used to cache the views within the item layout for fast access
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        
+
         public TextView habitName;
         public TextView numLike;
         public TextView Comment;
