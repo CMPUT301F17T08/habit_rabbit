@@ -61,6 +61,8 @@ public class HabitEvent implements Serializable {
     public void like(String username){
         if (!this.likes.contains(username)){
             this.likes.add(username);
+        }else{
+            this.likes.remove(username);
         }
     }
     public ArrayList<String> getLikes(){
