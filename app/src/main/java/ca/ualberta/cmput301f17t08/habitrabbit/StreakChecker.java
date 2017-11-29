@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 /**
- * Created by yuxuanzhao on 2017-11-26.
+ * The Streak class to calculate habits' streak
  */
 
 public class StreakChecker extends BroadcastReceiver {

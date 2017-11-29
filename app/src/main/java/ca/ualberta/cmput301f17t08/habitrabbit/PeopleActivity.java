@@ -13,9 +13,8 @@ import android.widget.Button;
 import java.util.ArrayList;
 
 /**
- * Created by micah on 01/11/17.
+ * The activity for people option in the main menu
  */
-
 public class PeopleActivity extends AppCompatActivity {
 
     private PeopleActivity activity = this;

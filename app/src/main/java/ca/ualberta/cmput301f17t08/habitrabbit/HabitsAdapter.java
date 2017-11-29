@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.zip.Inflater;
 
 /**
- * Created by micah on 01/11/17.
+ * The adapter for defined habit view
  */
 
 public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder> {

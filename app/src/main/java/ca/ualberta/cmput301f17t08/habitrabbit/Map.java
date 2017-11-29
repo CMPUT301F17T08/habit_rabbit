@@ -4,7 +4,9 @@ import android.location.Location;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
-
+/**
+ * The class map, it could add, remove, and get location
+ */
 public class Map {
 
     private ArrayList<Location> locations;

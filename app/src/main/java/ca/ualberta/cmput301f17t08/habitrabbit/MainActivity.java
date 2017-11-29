@@ -10,7 +10,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
+/**
+ * The main activity for the app, could allow user to login or sign up
+ */
 public class MainActivity extends AppCompatActivity {
     private MainActivity activity = this;
     private StreakChecker receiver;

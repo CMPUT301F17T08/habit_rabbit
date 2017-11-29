@@ -11,7 +11,7 @@ import android.widget.Button;
 import java.util.ArrayList;
 
 /**
- * Created by yuxuanzhao on 2017-11-07.
+ * The activity for history page
  */
 
 public class historyActivity extends AppCompatActivity {

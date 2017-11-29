@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.TimeZone;
 
 
-/*
-Allows the user to edit a habit
+/**
+ * The activity allows the user to edit a habit
  */
 public class EditHabitActivity extends AppCompatActivity {
     private EditHabitActivity activity = this;
@@ -170,7 +170,8 @@ public class EditHabitActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 LoginManager.getInstance().getCurrentUser().removeHabit(habit.getName());
-                // TODO need to close the previous activity too and not just the current one
+                Intent intent = new Intent(activity, TodayActivity.class);
+                startActivity(intent);
                 finish();
             }
         });

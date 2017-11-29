@@ -19,7 +19,7 @@ import java.util.Set;
 
 
 /**
- * Created by zhipengchang on 2017-11-23.
+ * Filter activity for filter page, could filter habits by name and comment
  */
 public class FilterActivity extends AppCompatActivity {
     private FilterActivity activity = this;
@@ -50,6 +50,7 @@ public class FilterActivity extends AppCompatActivity {
         habit_list_view = (RecyclerView) findViewById(R.id.habit_list);
         habitList = LoginManager.getInstance().getCurrentUser().getHabits(); // get the user's habits list that contain all habits
         habit_list_view.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+
 
         //before user type in anything to search, display all the habit options
         cAdapt = new FilterAdapter(habitList,FilterActivity.this );

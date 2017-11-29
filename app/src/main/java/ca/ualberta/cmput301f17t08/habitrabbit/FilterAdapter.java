@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * Created by Jackson on 2017-11-25.
+ * The defined filter layout adapter
  */
 
 public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder> {
