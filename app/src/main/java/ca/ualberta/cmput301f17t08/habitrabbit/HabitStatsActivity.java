@@ -78,4 +78,9 @@ public class HabitStatsActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void showMenu(View v){
+        Intent intent = new Intent(this, MenuActivity.class);
+        startActivity(intent);
+    }
+
 }

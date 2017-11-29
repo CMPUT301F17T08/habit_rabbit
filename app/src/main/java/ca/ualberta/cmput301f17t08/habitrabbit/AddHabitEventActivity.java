@@ -58,7 +58,8 @@ public class AddHabitEventActivity extends AppCompatActivity {
                 if (!error){
                     // TODO assign the habit event to the habit
                     HabitEvent event = new HabitEvent(habit, "username",calendar.getTime(), comment, null, bmp);
-                    System.out.println("Created Habit Event");
+                    LoginManager.getInstance().getCurrentUser().addToHistory(event);
+                    finish();
                 }
             }
         });
