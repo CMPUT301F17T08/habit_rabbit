@@ -63,12 +63,11 @@ public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.ViewHolder> 
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-
     public void onBindViewHolder(ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
 
-        Habit habit = habits.get(position);
+        final Habit habit = habits.get(position);
 
         // TODO remove this later - just a temporary fix since the items in the database don't contain a frequency
         if (habit.getFrequency() == null){
@@ -78,13 +77,9 @@ public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.ViewHolder> 
         holder.habitNameLabel.setText(habit.getName());
         holder.habitReasonLabel.setText(habit.getReason());
 
-
-
-        ArrayList<String> DayList = new ArrayList<String>(Arrays.asList(new String []{"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"}));
-//        System.out.println(frequencyList.toString());
-
-        ArrayList<Integer> frequency = habit.getFrequency();
         // change the frequency button backgrounds for this habit item
+        ArrayList<Integer> frequency = habit.getFrequency();
+
         for (int counter = 0; counter < frequency.size(); counter++) {
             if (frequency.get(counter) == 1){
                 Button button = (Button)holder.frequencyLayout.findViewWithTag(Integer.toString(counter+1));
@@ -95,22 +90,43 @@ public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.ViewHolder> 
             @Override
             public void onClick(View view) {
                 Habit habit = habits.get(position);
+
                 Intent intent = new Intent(context, AddHabitEventActivity.class);
-                intent.putExtra("habit",habit);
-                context.startActivity(intent);
+                intent.putExtra("habit", habit);
+                intent.putExtra("position", position);
+                context.startActivityForResult(intent, 1);
+//                context.startActivity(intent);
+                System.out.println("FINISHED ACTIVITY");
+
 
             }
         });
 
-        //TODO pash in username instead of the id to habitStatsActivity
+        //TODO pass in username instead of the id to habitStatsActivity
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, HabitStatsActivity.class);
-                intent.putExtra("habit_id",position);
+
+                // need to get the position in the original habits list instead of the position
+                // passed into this function (which is the position in the todayActivity list)
+                int habit_id = LoginManager.getInstance().getCurrentUser().getHabits().indexOf(habit);
+
+                intent.putExtra("habit_id",habit_id);
                 context.startActivity(intent);
             }
         });
+
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK){
+                Integer position = data.getIntExtra("position", -1);
+
+                habits.get(position).markDone();
+            }
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -118,4 +134,5 @@ public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.ViewHolder> 
     public int getItemCount() {
         return habits.size();
     }
+
 }

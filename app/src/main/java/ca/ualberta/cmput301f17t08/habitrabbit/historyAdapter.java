@@ -102,9 +102,28 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
         viewHolder.likeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                habitEvents.get(position).like(LoginManager.getInstance().getCurrentUser().getUsername());
-                viewHolder.numLike.setText(Integer.toString(habitEvents.get(position).getLikeCount())+" likes");
-                viewHolder.likeButton.setBackgroundResource (R.drawable.black_like);
+                HabitEvent event = habitEvents.get(position);
+                int oldLikeCount = event.getLikeCount();
+
+                // mark the event as liked by this user
+                String username = LoginManager.getInstance().getCurrentUser().getUsername();
+                event.like(username);
+
+                // display the updated like count
+                int newLikeCount = event.getLikeCount();
+                viewHolder.numLike.setText(Integer.toString(newLikeCount)+" likes");
+
+                // change the colour of the like button based on if this was the like or dislike
+                if (oldLikeCount < newLikeCount){
+                    // event was liked
+                    viewHolder.likeButton.setBackgroundResource (R.drawable.black_like);
+                }
+                else{
+                    // event was disliked
+                    viewHolder.likeButton.setBackgroundResource (R.drawable.like);
+                }
+
+
 
             }
         });
@@ -117,6 +136,7 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
             public void onClick(View view) {
                 Intent intent = new Intent(context, EditHabitEventActivity.class);
                 intent.putExtra("habitEvent",habitEvents.get(position));
+                intent.putExtra("position", position);
                 context.startActivity(intent);
             }
         });
