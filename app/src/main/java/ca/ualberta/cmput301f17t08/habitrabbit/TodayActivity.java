@@ -1,6 +1,5 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -37,6 +36,7 @@ public class TodayActivity extends AppCompatActivity {
         habitList = LoginManager.getInstance().getCurrentUser().getHabits();
 
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
+        Date now = calendar.getTime();
 
         // set to midnight to make it easier to check if the habit was completed before today
         calendar.set(Calendar.HOUR_OF_DAY, 0);
@@ -56,7 +56,7 @@ public class TodayActivity extends AppCompatActivity {
         //check if the day of week is in frequency list
         for(int index = 0; index < habitList.size(); index++){
             Habit tempHabit = habitList.get(index);
-            if(tempHabit.getFrequency().get(current_day) == 1){
+            if(tempHabit.getDate().before(now) && tempHabit.getFrequency().get(current_day) == 1){
 
                 // don't display the habit if it was already completed today
                 if (tempHabit.getLastCompleted() == null ||

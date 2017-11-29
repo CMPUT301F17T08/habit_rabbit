@@ -39,6 +39,7 @@ public class Habit implements Serializable{
         this.startDate = startDate;
         this.frequency = frequency;
 
+        System.out.println("SET START DATE1:" + startDate);
 
         this.lastCompleted = null;
         this.daysCompleted = 0;
@@ -95,9 +96,7 @@ public class Habit implements Serializable{
     // TODO: Separate this into various getters/setters, refactor formatting into calling class.
     // Firebase will not be able to save/retrieve without this.
     public List<Object> getStatistics(){
-
-        // TODO need a way to get the days since start based on the frequency
-
+        
         // count the total days since the start that the user was supposed to complete this habit
         int daysSinceStart = 0;
 
@@ -144,7 +143,7 @@ public class Habit implements Serializable{
         if (daysSinceStart != 0) {
             statistics.add((float) daysCompleted / daysSinceStart);
         }else{
-            statistics.add((float)1);      // 100% completed by default
+            statistics.add((float)0);      // 100% completed by default
         }
 
         return statistics;
@@ -159,19 +158,13 @@ public class Habit implements Serializable{
 
         // update the average time of completion
         if (this.averageTime != -1){
-            System.out.println("Previous Average Time: " + this.averageTime);
             this.averageTime = (long) (this.averageTime + ((float)1/this.daysCompleted)*(now.getTime() % 86400000 - this.averageTime));
-            System.out.println("New Average Time: " + this.averageTime);
-            System.out.println("Increment: " + ((float)1/this.daysCompleted)*(now.getTime() % 86400000 - this.averageTime));
-
         }else{
             this.averageTime = now.getTime() % 86400000;     // milliseconds elapsed until now today
         }
 
         // update the streak
         /*
-        TODO we need to make the streak 0 somewhere if the difference between now and last completed is greater than 1 day
-        TODO we can do this whenever the activity is loaded or right after login
         Note: we don't need to worry about this function being called multiple times in one day since
         the habit will disappear from the today page
          */

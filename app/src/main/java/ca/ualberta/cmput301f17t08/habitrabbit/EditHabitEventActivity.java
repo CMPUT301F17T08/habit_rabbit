@@ -65,9 +65,6 @@ public class EditHabitEventActivity extends AppCompatActivity {
                 }
 
                 if (!error){
-                    // TODO edit the original habit event and close activity / refresh the main page
-
-                    // TODO return the habit event and the position so the adapter can change them
                     habitEvent.setComment(comment);
                     habitEvent.setPicture(bmp);
 

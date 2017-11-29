@@ -77,13 +77,9 @@ public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.ViewHolder> 
         holder.habitNameLabel.setText(habit.getName());
         holder.habitReasonLabel.setText(habit.getReason());
 
-
-
-        ArrayList<String> DayList = new ArrayList<String>(Arrays.asList(new String []{"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"}));
-//        System.out.println(frequencyList.toString());
-
-        ArrayList<Integer> frequency = habit.getFrequency();
         // change the frequency button backgrounds for this habit item
+        ArrayList<Integer> frequency = habit.getFrequency();
+
         for (int counter = 0; counter < frequency.size(); counter++) {
             if (frequency.get(counter) == 1){
                 Button button = (Button)holder.frequencyLayout.findViewWithTag(Integer.toString(counter+1));
@@ -120,7 +116,6 @@ public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.ViewHolder> 
                 context.startActivity(intent);
             }
         });
-
 
     }
 
