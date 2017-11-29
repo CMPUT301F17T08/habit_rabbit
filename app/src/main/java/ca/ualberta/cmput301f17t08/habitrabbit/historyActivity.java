@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 
 import java.util.ArrayList;
 
@@ -18,6 +19,8 @@ public class historyActivity extends AppCompatActivity {
     private ArrayList<HabitEvent> historyList;
     private historyAdapter cAdapt;
     private RecyclerView historyRecyclerView;
+    private Button filter_button;
+    private historyActivity activity = this;
 
 
     @Override
@@ -33,6 +36,21 @@ public class historyActivity extends AppCompatActivity {
 
         cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), historyList,this);
         historyRecyclerView.setAdapter(cAdapt);
+
+
+
+    // added by Zhipeng
+        Button filter_button = (Button) findViewById(R.id.filter_button);
+        filter_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, FilterActivity.class);
+                startActivity(intent);
+            }
+        });
+
+    // end of adding by Zhipeng
+
     }
 
     public void showMenu(View v){
