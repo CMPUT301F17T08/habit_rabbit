@@ -28,6 +28,7 @@ public class AddHabitEventActivity extends AppCompatActivity {
         setContentView(R.layout.add_habit_event);
 
         final Habit habit = (Habit) getIntent().getSerializableExtra("habit");
+        final int position = (int) getIntent().getSerializableExtra("position");
 
         final EditText habitTitle = findViewById(R.id.habit_name_field);
         final EditText habitComment = findViewById(R.id.habit_comment_field);
@@ -59,8 +60,10 @@ public class AddHabitEventActivity extends AppCompatActivity {
                     // TODO assign the habit event to the habit and add the habitevent to the habit
                     HabitEvent event = new HabitEvent(habit, calendar.getTime(), comment, null, bmp);
                     LoginManager.getInstance().getCurrentUser().addToHistory(event);
-//                    System.out.println("Created Habit Event");
-                    habit.markDone();
+
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("position", position);
+                    setResult(Activity.RESULT_OK, returnIntent);
 
                     finish();
                 }

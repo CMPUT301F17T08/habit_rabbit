@@ -63,7 +63,6 @@ public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.ViewHolder> 
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-
     public void onBindViewHolder(ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
@@ -98,7 +97,11 @@ public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.ViewHolder> 
 
                 Intent intent = new Intent(context, AddHabitEventActivity.class);
                 intent.putExtra("habit", habit);
-                context.startActivity(intent);
+                intent.putExtra("position", position);
+                context.startActivityForResult(intent, 1);
+//                context.startActivity(intent);
+                System.out.println("FINISHED ACTIVITY");
+
 
             }
         });
@@ -112,6 +115,18 @@ public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.ViewHolder> 
                 context.startActivity(intent);
             }
         });
+
+
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 1) {
+            if(resultCode == Activity.RESULT_OK){
+                Integer position = data.getIntExtra("position", -1);
+
+                habits.get(position).markDone();
+            }
+        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)
@@ -119,4 +134,5 @@ public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.ViewHolder> 
     public int getItemCount() {
         return habits.size();
     }
+
 }
