@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
@@ -33,22 +34,34 @@ public class HabitStatsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.habit_stats);
 
-        int habit_id = (int)getIntent().getSerializableExtra("habit_id");
-        habit = LoginManager.getInstance().getCurrentUser().getHabits().get(habit_id);
-
-        streakCount = (TextView)findViewById(R.id.streak_count);
+        streakCount = (TextView) findViewById(R.id.streak_count);
         completedPercentCount = (TextView)findViewById(R.id.percent_completed_count);
         daysCompletedCount = (TextView)findViewById(R.id.days_completed_count);
         averageTimeCount = (TextView)findViewById(R.id.avg_time_count);
 
-        // TODO: Clean up getStatistics to create several different getters/setters for each member.
-        // Firebase does not properly save and retrieve these due to this.
-        List<Object> statistics = habit.getStatistics();
+        final int habit_id = (int)getIntent().getSerializableExtra("habit_id");
+        LoginManager.getInstance().getCurrentUser().getHabits(
+            new DatabaseManager.OnHabitsListener() {
+                @Override
+                public void onHabitsSuccess(ArrayMap<String, Habit> habits) {
 
-        streakCount.setText("" + statistics.get(1));
-        completedPercentCount.setText(Math.round(Math.floor((Float)statistics.get(3) * 100)) + "%");
-        daysCompletedCount.setText("" + statistics.get(0));
-        averageTimeCount.setText("" + statistics.get(2));
+                    habit = habits.get(habit_id);
+                    // TODO: Clean up getStatistics to create several different getters/setters for each member.
+                    // Firebase does not properly save and retrieve these due to this.
+                    List<Object> statistics = habit.getStatistics();
+
+                    streakCount.setText("" + statistics.get(1));
+                    completedPercentCount.setText(Math.round(Math.floor((Float)statistics.get(3) * 100)) + "%");
+                    daysCompletedCount.setText("" + statistics.get(0));
+                    averageTimeCount.setText("" + statistics.get(2));
+                }
+
+                @Override
+                public void onHabitsFailed(String message) {
+                    Log.e("HabitStatsActivity", "Failed to get habit: " + message);
+                    finish();
+                }
+            });
     }
 
 

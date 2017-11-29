@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.ArrayMap;
 import android.view.View;
 import android.widget.Button;
 
@@ -23,7 +24,7 @@ public class MyHabitActivity extends AppCompatActivity {
 
     private MyHabitActivity activity = this;
 
-    private ArrayList<String> habitList;
+    private ArrayList<Habit> habitList;
     private HabitsAdapter cAdapt;
     private RecyclerView habitsRecyclerView;
     private Button menuButton;
@@ -34,16 +35,27 @@ public class MyHabitActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_habits);
 
-        habitList = LoginManager.getInstance().getCurrentUser().getHabits();
+        habitList = new ArrayList<Habit>();
+
+        final MyHabitActivity self = this;
+        LoginManager.getInstance().getCurrentUser().getHabits(new DatabaseManager.OnHabitsListener() {
+            @Override
+            public void onHabitsSuccess(ArrayMap<String, Habit> habits) {
+                cAdapt = new HabitsAdapter(habitList, self);
+                habitsRecyclerView.setAdapter(cAdapt);
+            }
+
+            @Override
+            public void onHabitsFailed(String message) {
+
+            }
+        });
 
         menuButton = (Button) findViewById(R.id.menu_button);
         addHabitButton = (Button) findViewById(R.id.add_habit_button);
 
         habitsRecyclerView = (RecyclerView) findViewById(R.id.habit_recyclerview);
         habitsRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-
-        cAdapt = new HabitsAdapter(habitList, this);
-        habitsRecyclerView.setAdapter(cAdapt);
 
         menuButton.setOnClickListener(new View.OnClickListener() {
             @Override

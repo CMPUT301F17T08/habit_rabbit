@@ -49,24 +49,9 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
 
         }}
 
-    public HabitsAdapter(ArraySet<String> habitIds, Activity context) {
-        this.habitIds = habitIds;
+    public HabitsAdapter(ArrayList<Habit> habits, Activity context) {
+        this.habits = habits;
         this.context = context;
-
-        final HabitsAdapter self = this;
-
-        DatabaseManager.getInstance().getHabitsInSet(habitIds, new DatabaseManager.OnHabitsListener() {
-            @Override
-            public void onHabitsSuccess(ArrayMap<String, Habit> habits) {
-                self.habits = new ArrayList<Habit>(habits.values());
-                self.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onHabitsFailed(String message) {
-                Log.e("HabitsAdapter", "Failed to retrieve habits from habit keys!");
-            }
-        });
     }
 
     // Create new views (invoked by the layout manager)

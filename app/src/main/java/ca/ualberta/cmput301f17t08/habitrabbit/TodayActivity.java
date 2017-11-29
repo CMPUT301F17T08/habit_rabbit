@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.ArrayMap;
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -32,33 +34,46 @@ public class TodayActivity extends AppCompatActivity {
         habitRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 
         //get the current user's history list
-        habitList = LoginManager.getInstance().getCurrentUser().getHabits();
+        habitList = new ArrayList<Habit>();
 
-        //get the day of week in terms of index in frequency
-        Date now = new Date();
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(now);
-        int current_day = calendar.get(Calendar.DAY_OF_WEEK);
-        if (current_day == 0){
-            current_day = 6;
-        }
-        else{
-            current_day -= 2;
-        }
+        final TodayActivity self = this;
+
+        LoginManager.getInstance().getCurrentUser().getHabits(new DatabaseManager.OnHabitsListener() {
+            @Override
+            public void onHabitsSuccess(ArrayMap<String, Habit> habits) {
+                //get the day of week in terms of index in frequency
+                Date now = new Date();
+                Calendar calendar = Calendar.getInstance();
+                calendar.setTime(now);
+                int current_day = calendar.get(Calendar.DAY_OF_WEEK);
+                if (current_day == 0){
+                    current_day = 6;
+                }
+                else{
+                    current_day -= 2;
+                }
 
 
-        //set up an arraylist used to store the today's habit
-        ArrayList<Habit> todayHabit = new ArrayList<Habit>();
+                //set up an arraylist used to store the today's habit
+                ArrayList<Habit> todayHabit = new ArrayList<Habit>();
 
-        //check if the day of week is in frequency list
-        for(int index=0;index <habitList.size();index++){
-            if(habitList.get(index).getFrequency().get(current_day) == 1){
-                todayHabit.add(habitList.get(index));
+                //check if the day of week is in frequency list
+                for(int index=0;index <habitList.size();index++){
+                    if(habitList.get(index).getFrequency().get(current_day) == 1){
+                        todayHabit.add(habitList.get(index));
+                    }
+                }
+                // set up the adapter
+                cAdapt = new TodayAdapter(todayHabit, self);
+                habitRecyclerView.setAdapter(cAdapt);
             }
-        }
-        // set up the adapter
-        cAdapt = new TodayAdapter( todayHabit,this);
-        habitRecyclerView.setAdapter(cAdapt);
+
+            @Override
+            public void onHabitsFailed(String message) {
+                Log.e("TodayActivity", "Failed to retrieve habits from user!");
+                self.finish();
+            }
+        });
 
     }
 
