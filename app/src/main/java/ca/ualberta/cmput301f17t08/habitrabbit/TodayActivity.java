@@ -1,5 +1,6 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -52,9 +53,14 @@ public class TodayActivity extends AppCompatActivity {
         //check if the day of week is in frequency list
         for(int index = 0; index < habitList.size(); index++){
             Habit tempHabit = habitList.get(index);
-            if(tempHabit.getFrequency().get(current_day) == 1 &&
-                    now.getTime() - tempHabit.getLastCompleted().getTime() < 86400000){
-                todayHabit.add(habitList.get(index));
+            if(tempHabit.getFrequency().get(current_day) == 1){
+                System.out.println(tempHabit.getLastCompleted());
+                if (tempHabit.getLastCompleted() == null ||
+                        (tempHabit.getLastCompleted() != null && now.getTime() - tempHabit.getLastCompleted().getTime() > 86400000)){
+                    todayHabit.add(tempHabit);
+                    System.out.println("TODAY:" + tempHabit.getName());
+                }
+
             }
         }
         // set up the adapter
@@ -75,5 +81,10 @@ public class TodayActivity extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         finish();
         startActivity(intent);
+    }
+    // pass the result from the add habit event activity to the adapter since the habit is located there
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        cAdapt.onActivityResult(requestCode, resultCode, data);
     }
 }
