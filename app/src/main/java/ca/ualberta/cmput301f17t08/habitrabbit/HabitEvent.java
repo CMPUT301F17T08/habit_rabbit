@@ -9,6 +9,9 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+/**
+ * The class for habit event, it has date and other properties for habit event
+ */
 
 public class HabitEvent implements Serializable {
 
@@ -18,9 +21,11 @@ public class HabitEvent implements Serializable {
     private transient Bitmap picture;
     private Habit habit;
     private ArrayList<String> likes;
+    private String username;
 
-    public HabitEvent(Habit habit, Date dateCompleted, String comment, Location location, Bitmap picture) {
+    public HabitEvent(Habit habit, String username,Date dateCompleted, String comment, Location location, Bitmap picture) {
         this.habit = habit;
+        this.username = username;
         this.dateCompleted = dateCompleted;
         this.comment = comment;
         this.location = location;
@@ -29,6 +34,8 @@ public class HabitEvent implements Serializable {
     }
 
     public Habit getHabit(){ return habit;}
+
+    public String getUsername(){ return username;}
 
     public Date getDateCompleted() {return dateCompleted;}
 

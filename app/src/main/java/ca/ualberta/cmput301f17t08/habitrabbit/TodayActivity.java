@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 /**
- * Created by yuxuanzhao on 2017-11-07.
+ * Today activity for today page
  */
 
 public class TodayActivity extends AppCompatActivity {

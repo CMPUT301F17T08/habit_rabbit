@@ -1,7 +1,7 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
 /**
- * Created by yuxuanzhao on 2017-11-07.
+ * The defined adapter for history page
  */
 
 import android.app.Activity;
@@ -31,6 +31,7 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
     // Used to cache the views within the item layout for fast access
 
     public class ViewHolder extends RecyclerView.ViewHolder {
+
         public TextView habitName;
         public TextView numLike;
         public TextView Comment;
@@ -40,6 +41,7 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
         public ImageView imagePreview;
 
         public ViewHolder(View historyView) {
+
             // Stores the itemView in a public final member variable that can be used
             // to access the context from any ViewHolder instance.
             super(historyView);
@@ -55,12 +57,14 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
         }
     }
     public historyAdapter(String username, ArrayList<HabitEvent> habitEvents,Activity context) {
+
         this.habitEvents = habitEvents; //get the habitsEvents list passed in
-        this.username =  username;//get the username passed in from activity class
+        this.username =  username;
         this.context = context;
     }
     @Override
     public historyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
         Context context = parent.getContext();//get the context
         LayoutInflater inflater = LayoutInflater.from(context);//initialize the layout inflater
 
@@ -80,12 +84,14 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
         viewHolder.Comment.setText(habitEvents.get(position).getComment());
         viewHolder.historyDate.setText(habitEvents.get(position).getDateCompleted().toString());
         viewHolder.numLike.setText(Integer.toString(habitEvents.get(position).getLikeCount())+" likes");
-        viewHolder.userNameView.setText(username);
+        viewHolder.userNameView.setText(habitEvents.get(position).getUsername());
         String username = LoginManager.getInstance().getCurrentUser().getUsername();
+
         //check if the current user has liked the feed before
         if (habitEvents.get(position).getLikes().contains(username)){
             viewHolder.likeButton.setBackgroundResource(R.drawable.black_like);
         }
+
         //get the image the user uploaded, set the image if exist
         Bitmap userImage = habitEvents.get(position).getPicture();
         if (userImage != null){

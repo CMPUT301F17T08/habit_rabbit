@@ -11,7 +11,7 @@ import android.widget.Button;
 import java.util.ArrayList;
 
 /**
- * Created by yuxuanzhao on 2017-11-07.
+ * The activity for history page
  */
 
 public class historyActivity extends AppCompatActivity {
@@ -39,8 +39,7 @@ public class historyActivity extends AppCompatActivity {
 
 
 
-    // added by Zhipeng
-        Button filter_button = (Button) findViewById(R.id.filter_button);
+        filter_button = (Button) findViewById(R.id.filter_button);
         filter_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,7 +48,6 @@ public class historyActivity extends AppCompatActivity {
             }
         });
 
-    // end of adding by Zhipeng
 
     }
 

@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 /**
- * Created by micah on 01/11/17.
+ * The defined adapter for today page layout
  */
 
 public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.ViewHolder> {

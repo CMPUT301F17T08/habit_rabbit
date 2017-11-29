@@ -12,11 +12,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * Created by Jackson on 2017-11-25.
+ * The defined filter layout adapter
  */
 
 public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder> {
-    private ArrayList<Habit> habits;
+    private static ArrayList<Habit> habits;
     private Activity context;
 
     // Provide a reference to the views for each data item
@@ -58,7 +58,6 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder
         Habit habit = habits.get(position);
 
         holder.habitNameLabel.setText(habit.getName());
-
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override

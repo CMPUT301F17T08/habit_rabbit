@@ -16,7 +16,9 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
-
+/**
+ * The class for database
+ */
 public class DatabaseManager {
 
     private static DatabaseManager databaseManager = null;
