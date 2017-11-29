@@ -15,7 +15,7 @@ public class HabitEvent implements Serializable {
     private Date dateCompleted;
     private String comment;
     private Location location;
-    private Bitmap picture;
+    private transient Bitmap picture;
     private Habit habit;
     private ArrayList<String> likes;
 

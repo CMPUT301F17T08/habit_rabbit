@@ -28,6 +28,8 @@ public class EditHabitEventActivity extends AppCompatActivity {
         setContentView(R.layout.edit_habit_event);
 
         final HabitEvent habitEvent = (HabitEvent) getIntent().getSerializableExtra("habitEvent");
+        final int position = (int) getIntent().getSerializableExtra("position");
+
         System.out.println(habitEvent.getComment());
         final Habit habit = habitEvent.getHabit();
 
@@ -64,9 +66,19 @@ public class EditHabitEventActivity extends AppCompatActivity {
 
                 if (!error){
                     // TODO edit the original habit event and close activity / refresh the main page
+
+                    // TODO return the habit event and the position so the adapter can change them
                     habitEvent.setComment(comment);
                     habitEvent.setPicture(bmp);
 
+                    User currentUser = LoginManager.getInstance().getCurrentUser();
+                    currentUser.editEventFromHistory(position, habitEvent);
+//                    Intent returnIntent = new Intent();
+//                    returnIntent.putExtra("habitEvent", habitEvent);
+//                    returnIntent.putExtra("position", position);
+//                    setResult(Activity.RESULT_OK, returnIntent);
+
+                    finish();
                 }
             }
         });
@@ -76,6 +88,7 @@ public class EditHabitEventActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 habit.removeHabitEvent(habitEvent);
+
             }
         });
     }
