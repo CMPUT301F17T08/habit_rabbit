@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 
+import java.sql.BatchUpdateException;
 import java.util.ArrayList;
 
 /**
@@ -21,6 +22,7 @@ public class historyActivity extends AppCompatActivity {
     private RecyclerView historyRecyclerView;
     private Button filter_button;
     private historyActivity activity = this;
+    private Button map_button;
 
 
     @Override
@@ -44,6 +46,14 @@ public class historyActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(activity, FilterActivity.class);
+                startActivity(intent);
+            }
+        });
+        map_button = (Button) findViewById(R.id.map_button);
+        map_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, gpsActivity.class);
                 startActivity(intent);
             }
         });

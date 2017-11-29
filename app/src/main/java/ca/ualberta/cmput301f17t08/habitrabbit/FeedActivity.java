@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 
 import java.util.ArrayList;
 /**
@@ -16,6 +17,9 @@ public class FeedActivity extends AppCompatActivity {
     public ArrayList<HabitEvent> feedList;
     public ArrayList<String> followerList;
     private historyAdapter cAdapt;
+    private Button map_button;
+    private FeedActivity activity = this;
+
 
 
     @Override
@@ -50,6 +54,14 @@ public class FeedActivity extends AppCompatActivity {
         // set up the adapter
         cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), feedList,this);
         feedRecyclerView.setAdapter(cAdapt);
+        map_button = (Button) findViewById(R.id.map_button);
+        map_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, gpsActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
     public void showMenu(View v){
