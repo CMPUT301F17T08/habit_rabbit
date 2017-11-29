@@ -67,7 +67,7 @@ public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.ViewHolder> 
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
 
-        Habit habit = habits.get(position);
+        final Habit habit = habits.get(position);
 
         // TODO remove this later - just a temporary fix since the items in the database don't contain a frequency
         if (habit.getFrequency() == null){
@@ -111,7 +111,12 @@ public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.ViewHolder> 
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, HabitStatsActivity.class);
-                intent.putExtra("habit_id",position);
+
+                // need to get the position in the original habits list instead of the position
+                // passed into this function (which is the position in the todayActivity list)
+                int habit_id = LoginManager.getInstance().getCurrentUser().getHabits().indexOf(habit);
+
+                intent.putExtra("habit_id",habit_id);
                 context.startActivity(intent);
             }
         });
