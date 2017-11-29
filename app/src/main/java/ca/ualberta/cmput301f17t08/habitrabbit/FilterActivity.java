@@ -19,7 +19,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * Created by zhipengchang on 2017-11-23.
+ * Filter activity for filter page, could filter habits by name and comment
  */
 public class FilterActivity extends AppCompatActivity {
     private FilterActivity activity = this;
@@ -58,7 +58,6 @@ public class FilterActivity extends AppCompatActivity {
 
 
         habitList_display.addAll(habitList); // copy the habitlist and display it
-        System.out.print(habitList_display);
         habit_list_view.setAdapter(cAdapt);
 
         cAdapt.notifyDataSetChanged(); // TODO adapter is not working

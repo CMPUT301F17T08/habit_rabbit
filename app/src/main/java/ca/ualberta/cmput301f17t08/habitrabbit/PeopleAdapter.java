@@ -9,9 +9,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 /**
- * Created by micah on 01/11/17.
+ * The defined adapter for the people layout
  */
-
 public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.ViewHolder> {
     private ArrayList<String> peoples;
 

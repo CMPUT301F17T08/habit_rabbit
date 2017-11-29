@@ -17,6 +17,10 @@ import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+/**
+ * The activity allows the user to edit a habit event
+ */
+
 
 public class EditHabitEventActivity extends AppCompatActivity {
     private EditHabitEventActivity activity = this;
