@@ -9,14 +9,14 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
 
 /**
  * Created by zhipengchang on 2017-11-23.
@@ -51,17 +51,12 @@ public class FilterActivity extends AppCompatActivity {
         habitList = LoginManager.getInstance().getCurrentUser().getHabits(); // get the user's habits list that contain all habits
         habit_list_view.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 
-        // end of initialization
-
-        habitList_display = new ArrayList<>();  // set the list to display, at the very beginning, it's the copy of the habitlist
-        cAdapt = new FilterAdapter(habitList_display, this); // set adapter
-
-
-        habitList_display.addAll(habitList); // copy the habitlist and display it
-        System.out.print(habitList_display);
+        //before user type in anything to search, display all the habit options
+        cAdapt = new FilterAdapter(habitList,FilterActivity.this );
         habit_list_view.setAdapter(cAdapt);
 
-        cAdapt.notifyDataSetChanged(); // TODO adapter is not working
+        // habitlist used for displaying
+        habitList_display = new ArrayList<>();
 
         // set menu button
         menu_button.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +66,7 @@ public class FilterActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        // end of setting the menu button
+
 
         // set the filter edit text listner
         filter.addTextChangedListener(new TextWatcher() {
@@ -87,31 +82,44 @@ public class FilterActivity extends AppCompatActivity {
 
                 //once user type some letter in the edit text, it will be return to this function as CharSequence s
 
-                habitList_display = new ArrayList<>(); // set the display list as the new empty list
-                cAdapt.notifyDataSetChanged(); //TODO adapter is not working
+                habitList_display.clear(); // set the display list as the new empty list
+
                 for (Habit habit : habitList){ // check every habit in habitlist
-                    if (habit.getName().contains(s)){ // for every habit, if the name of the habit contains the Char, then add it to the display list
+                    if (habit.getName().contains(s)){// for every habit, if the name of the habit contains the Char, then add it to the display list
                         habitList_display.add(habit);
-                        cAdapt.notifyDataSetChanged();
                     }
                     for (HabitEvent habitevent : habit.getHabitEvents()){
-                        if (habitevent.getComment().contains(s) && !habit.getName().contains(s)){ // for every habit event, if the comment contain the char, then dispay it
-                            habitList_display.add(habit);
-                            cAdapt.notifyDataSetChanged();
+                        if (habitevent.getComment().contains(s)){// for every habit event, if the comment contain the char, then dispay it
+                            if(!habitList_display.contains(habit)) {
+                                habitList_display.add(habit);
+                            }
                         }
                     }
                 }
+
+
+                cAdapt = new FilterAdapter(habitList_display,FilterActivity.this );
+                habit_list_view.setAdapter(cAdapt);
 
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.toString().isEmpty()){ // if nothing entered into the edit text, then display the orginal habitlist
-                    habitList_display.addAll(habitList);
-                    cAdapt.notifyDataSetChanged();
 
+                    //remove the duplicate element in the filter list
+                    Set<Habit> hs = new HashSet<>();
+                    hs.addAll(habitList);
+                    habitList_display.clear();
+                    habitList_display.addAll(hs);
+                    System.out.println(habitList_display.toString());
+
+                    //set up the adapter
+                    cAdapt = new FilterAdapter(habitList_display,FilterActivity.this );
+                    habit_list_view.setAdapter(cAdapt);
 
                 }
+
             }
         });
 
