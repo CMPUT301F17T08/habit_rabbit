@@ -73,10 +73,6 @@ public class EditHabitEventActivity extends AppCompatActivity {
 
                     User currentUser = LoginManager.getInstance().getCurrentUser();
                     currentUser.editEventFromHistory(position, habitEvent);
-//                    Intent returnIntent = new Intent();
-//                    returnIntent.putExtra("habitEvent", habitEvent);
-//                    returnIntent.putExtra("position", position);
-//                    setResult(Activity.RESULT_OK, returnIntent);
 
                     finish();
                 }
@@ -88,6 +84,11 @@ public class EditHabitEventActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 habit.removeHabitEvent(habitEvent);
+
+                User currentUser = LoginManager.getInstance().getCurrentUser();
+                currentUser.removeFromHistory(position);
+
+                finish();
 
             }
         });
