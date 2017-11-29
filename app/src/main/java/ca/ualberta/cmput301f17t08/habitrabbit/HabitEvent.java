@@ -21,9 +21,11 @@ public class HabitEvent implements Serializable {
     private Bitmap picture;
     private Habit habit;
     private ArrayList<String> likes;
+    private String username;
 
-    public HabitEvent(Habit habit, Date dateCompleted, String comment, Location location, Bitmap picture) {
+    public HabitEvent(Habit habit, String username,Date dateCompleted, String comment, Location location, Bitmap picture) {
         this.habit = habit;
+        this.username = username;
         this.dateCompleted = dateCompleted;
         this.comment = comment;
         this.location = location;
@@ -32,6 +34,8 @@ public class HabitEvent implements Serializable {
     }
 
     public Habit getHabit(){ return habit;}
+
+    public String getUsername(){ return username;}
 
     public Date getDateCompleted() {return dateCompleted;}
 
