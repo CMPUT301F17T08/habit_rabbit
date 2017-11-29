@@ -63,10 +63,11 @@ public class HabitStatsActivity extends AppCompatActivity {
         habitStartDate.setText(strDate);
 
         //color list for the background of percentage block
-        String[] colorList = {"#ff0000","#ff4000","#ff8000","#ffB000","#fff000","#F0FF00","#E0FF00","#D0FF00","#B0FF00","#00FF00"};
+        String[] colorList = {"#ff0000","#ff4000","#ff8000","#ffB000","#fff000","#F0FF00","#E0FF00","#D0FF00","#B0FF00","#00FF00","#00FF00"};
 
         //pick the color based on the percentage
-        int colorIndex = (int)Math.round(Math.floor((Float)statistics.get(3) * 100))/10 - 1;
+
+        int colorIndex = (int)Math.round(Math.floor((Float)statistics.get(3) * 100))/10;
         percentCardView.setCardBackgroundColor(Color.parseColor(colorList[colorIndex]));
 
     }

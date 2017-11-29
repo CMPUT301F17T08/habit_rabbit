@@ -128,4 +128,14 @@ public class User {
         this.historylist.add(event);
     }
 
+    // TODO we can maybe fix this since it's weird to call remove by index
+    public void removeFromHistory(int position){
+        this.historylist.remove(position);
+    }
+
+    public void editEventFromHistory(int position, HabitEvent newEvent){
+        this.historylist.set(position, newEvent);
+    }
+
+
 }

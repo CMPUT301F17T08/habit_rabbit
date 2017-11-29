@@ -35,11 +35,15 @@ public class TodayActivity extends AppCompatActivity {
         //get the current user's history list
         habitList = LoginManager.getInstance().getCurrentUser().getHabits();
 
-        //get the day of week in terms of index in frequency
-        Date now = new Date();
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
+        Date now = calendar.getTime();
 
-        calendar.setTime(now);
+        // set to midnight to make it easier to check if the habit was completed before today
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
         int current_day = calendar.get(Calendar.DAY_OF_WEEK);
 
         //convert the date index from calendar class to frenquency list
@@ -51,12 +55,18 @@ public class TodayActivity extends AppCompatActivity {
 
         //check if the day of week is in frequency list
         for(int index = 0; index < habitList.size(); index++){
-            System.out.println("TEST" + habitList.get(index).getName());
-            if(habitList.get(index).getFrequency().get(current_day) == 1){
-                System.out.println("ADD" + habitList.get(index).getName());
-                todayHabit.add(habitList.get(index));
+            Habit tempHabit = habitList.get(index);
+            if(tempHabit.getDate().before(now) && tempHabit.getFrequency().get(current_day) == 1){
+
+                // don't display the habit if it was already completed today
+                if (tempHabit.getLastCompleted() == null ||
+                        (tempHabit.getLastCompleted() != null && calendar.getTime().after(tempHabit.getLastCompleted()))){
+                    todayHabit.add(tempHabit);
+                }
+
             }
         }
+
         // set up the adapter
         cAdapt = new TodayAdapter( todayHabit,this);
         habitRecyclerView.setAdapter(cAdapt);
@@ -66,5 +76,19 @@ public class TodayActivity extends AppCompatActivity {
     public void showMenu(View v){
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Intent intent = getIntent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        finish();
+        startActivity(intent);
+    }
+    // pass the result from the add habit event activity to the adapter since the habit is located there
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        cAdapt.onActivityResult(requestCode, resultCode, data);
     }
 }
