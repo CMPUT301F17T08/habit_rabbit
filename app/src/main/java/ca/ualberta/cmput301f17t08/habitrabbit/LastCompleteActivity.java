@@ -8,7 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 import java.util.ArrayList;
-
+/**
+ * The activity for the the feed function, it shows the most recent completed activity
+ */
 public class LastCompleteActivity extends AppCompatActivity {
     private ArrayList<HabitEvent> lastCompleteList;//history list from user
     private ArrayList<HabitEvent> lastComplete;//history list that will be passed to the viewAdapter

@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
+/**
+ * The activity for followuser
+ */
 public class FollowUserActivity extends AppCompatActivity {
     public User followUser;
 

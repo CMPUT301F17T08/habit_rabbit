@@ -8,7 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import java.util.ArrayList;
-
+/**
+ * Feed activity in the main menu page
+ */
 public class FeedActivity extends AppCompatActivity {
     public RecyclerView feedRecyclerView;
     public ArrayList<HabitEvent> feedList;
