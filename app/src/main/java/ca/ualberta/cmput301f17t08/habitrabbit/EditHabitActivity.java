@@ -170,7 +170,8 @@ public class EditHabitActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 LoginManager.getInstance().getCurrentUser().removeHabit(habit.getName());
-                // TODO need to close the previous activity too and not just the current one
+                Intent intent = new Intent(activity, TodayActivity.class);
+                startActivity(intent);
                 finish();
             }
         });
