@@ -36,11 +36,14 @@ public class TodayActivity extends AppCompatActivity {
         //get the current user's history list
         habitList = LoginManager.getInstance().getCurrentUser().getHabits();
 
-        //get the day of week in terms of index in frequency
-        Date now = new Date();
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
 
-        calendar.setTime(now);
+        // set to midnight to make it easier to check if the habit was completed before today
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
         int current_day = calendar.get(Calendar.DAY_OF_WEEK);
 
         //convert the date index from calendar class to frenquency list
@@ -54,15 +57,16 @@ public class TodayActivity extends AppCompatActivity {
         for(int index = 0; index < habitList.size(); index++){
             Habit tempHabit = habitList.get(index);
             if(tempHabit.getFrequency().get(current_day) == 1){
-                System.out.println(tempHabit.getLastCompleted());
+
+                // don't display the habit if it was already completed today
                 if (tempHabit.getLastCompleted() == null ||
-                        (tempHabit.getLastCompleted() != null && now.getTime() - tempHabit.getLastCompleted().getTime() > 86400000)){
+                        (tempHabit.getLastCompleted() != null && calendar.getTime().after(tempHabit.getLastCompleted()))){
                     todayHabit.add(tempHabit);
-                    System.out.println("TODAY:" + tempHabit.getName());
                 }
 
             }
         }
+
         // set up the adapter
         cAdapt = new TodayAdapter( todayHabit,this);
         habitRecyclerView.setAdapter(cAdapt);
