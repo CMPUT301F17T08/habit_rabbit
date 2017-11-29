@@ -23,7 +23,7 @@ public class MyHabitActivity extends AppCompatActivity {
 
     private MyHabitActivity activity = this;
 
-    private ArrayList<Habit> habitList;
+    private ArrayList<String> habitList;
     private HabitsAdapter cAdapt;
     private RecyclerView habitsRecyclerView;
     private Button menuButton;
@@ -35,7 +35,6 @@ public class MyHabitActivity extends AppCompatActivity {
         setContentView(R.layout.my_habits);
 
         habitList = LoginManager.getInstance().getCurrentUser().getHabits();
-
 
         menuButton = (Button) findViewById(R.id.menu_button);
         addHabitButton = (Button) findViewById(R.id.add_habit_button);

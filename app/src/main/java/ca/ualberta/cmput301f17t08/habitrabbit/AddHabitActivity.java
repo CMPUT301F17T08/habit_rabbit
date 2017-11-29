@@ -114,9 +114,18 @@ public class AddHabitActivity extends AppCompatActivity {
                 if (!error){
                     // TODO create a new habit object here and associate that with the user
                     Habit habit = new Habit(title, reason, date, frequency);
-                    LoginManager.getInstance().getCurrentUser().addHabit(habit);
-                    System.out.println("Add Activity");
-                    finish();
+                    LoginManager.getInstance().getCurrentUser().addHabit(habit, new DatabaseManager.OnSaveListener() {
+                        @Override
+                        public void onSaveSuccess() {
+                            finish();
+                        }
+
+                        @Override
+                        public void onSaveFailure(String message) {
+                            // TODO: display error popup
+                        }
+                    });
+
                 }
             }
         });

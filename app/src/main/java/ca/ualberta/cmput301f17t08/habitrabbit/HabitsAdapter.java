@@ -5,6 +5,9 @@ import android.content.Intent;
 
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
+import android.util.ArrayMap;
+import android.util.ArraySet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +26,7 @@ import java.util.zip.Inflater;
  */
 
 public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder> {
+    private ArraySet<String> habitIds;
     private ArrayList<Habit> habits;
     private Activity context;
 
@@ -45,9 +49,24 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
 
         }}
 
-    public HabitsAdapter(ArrayList<Habit> habits, Activity context) {
-        this.habits = habits;
+    public HabitsAdapter(ArraySet<String> habitIds, Activity context) {
+        this.habitIds = habitIds;
         this.context = context;
+
+        final HabitsAdapter self = this;
+
+        DatabaseManager.getInstance().getHabitsInSet(habitIds, new DatabaseManager.OnHabitsListener() {
+            @Override
+            public void onHabitsSuccess(ArrayMap<String, Habit> habits) {
+                self.habits = new ArrayList<Habit>(habits.values());
+                self.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onHabitsFailed(String message) {
+                Log.e("HabitsAdapter", "Failed to retrieve habits from habit keys!");
+            }
+        });
     }
 
     // Create new views (invoked by the layout manager)

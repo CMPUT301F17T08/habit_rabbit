@@ -1,6 +1,7 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
 import android.text.style.TtsSpan;
+import android.util.ArrayMap;
 import android.util.Log;
 
 import com.google.firebase.FirebaseApp;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Set;
 import java.util.TimeZone;
 
 public class DatabaseManager {
@@ -29,6 +31,11 @@ public class DatabaseManager {
     public interface OnUserDataListener {
         public void onUserData(User user);
         public void onUserDataFailed(String message);
+    }
+
+    public interface OnHabitsListener {
+        public void onHabitsSuccess(ArrayMap<String, Habit> habits);
+        public void onHabitsFailed(String message);
     }
 
     public interface OnSaveListener {
@@ -80,12 +87,6 @@ public class DatabaseManager {
                         }
                     }
                 });
-                ArrayList<Integer> frequency = new ArrayList<Integer>(Arrays.asList(new Integer[]{1,0,1,0,1,0,1}));
-//                System.out.print("username"+newUser.getUsername());
-                Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
-                Date now = calendar.getTime();
-                Habit newHabit = new Habit("Yuxuan","hdkhfajk",now,frequency);
-                newUser.addHabit(newHabit);
 
             }
 
@@ -139,6 +140,31 @@ public class DatabaseManager {
 
     }
 
+    public void getHabitsInSet(final Set<String> habitKeys, final OnHabitsListener listener){
+
+        final ArrayMap<String, Habit> habits = new ArrayMap<String, Habit>();
+
+        final DatabaseReference habitsRef = database.getReference("habits");
+
+        habitsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot child : dataSnapshot.getChildren()){
+                    if(habitKeys.contains(child.getKey())){
+                        habits.put(child.getKey(), child.getValue(Habit.class));
+                    }
+                }
+
+                listener.onHabitsSuccess(habits);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                listener.onHabitsFailed(databaseError.getMessage());
+            }
+        });
+    }
+
     public void saveHabit(final Habit habit, final OnSaveListener listener) {
 
         // Get ID of habit
@@ -170,5 +196,4 @@ public class DatabaseManager {
         });
 
     }
-
 }

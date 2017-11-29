@@ -212,4 +212,8 @@ public class Habit implements Serializable{
     public void sync(DatabaseManager.OnSaveListener listener){
         DatabaseManager.getInstance().saveHabit(this, listener);
     }
+
+    public void delete() {
+        // TODO: destroy habit from DB (call DB manager)
+    }
 }
