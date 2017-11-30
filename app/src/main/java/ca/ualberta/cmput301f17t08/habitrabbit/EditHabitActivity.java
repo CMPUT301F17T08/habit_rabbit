@@ -118,9 +118,9 @@ public class EditHabitActivity extends AppCompatActivity {
         saveHabitButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                String title = habitTitle.getText().toString();
-                String reason = habitReason.getText().toString();
-                Date date = calendar.getTime();
+                final String title = habitTitle.getText().toString();
+                final String reason = habitReason.getText().toString();
+                final Date date = calendar.getTime();
 
                 Boolean error = false;
 
@@ -152,26 +152,53 @@ public class EditHabitActivity extends AppCompatActivity {
 
                 if (!error){
                     // update the habit object with the new values
-                    User currentUser = LoginManager.getInstance().getCurrentUser();
-                    currentUser.removeHabit(habit);
+                    final User currentUser = LoginManager.getInstance().getCurrentUser();
 
-                    habit.setName(title);
-                    habit.setReason(reason);
-                    habit.setDate(date);
-                    habit.setFrequency(frequency);
-
-                    habit.sync(new DatabaseManager.OnSaveListener() {
+                    currentUser.removeHabit(habit, new DatabaseManager.OnSaveListener() {
                         @Override
                         public void onSaveSuccess() {
-                            finish();
+                            habit.setName(title);
+                            habit.setReason(reason);
+                            habit.setDate(date);
+                            habit.setFrequency(frequency);
+
+                            currentUser.addHabit(habit, new DatabaseManager.OnSaveListener() {
+                                @Override
+                                public void onSaveSuccess() {
+                                    finish();
+                                }
+
+                                @Override
+                                public void onSaveFailure(String message) {
+                                    // TODO: display error popup
+                                    Log.e("AddHabitActivity", "Failed to save new habit: " + message);
+                                }
+                            });
                         }
 
                         @Override
                         public void onSaveFailure(String message) {
-                            Log.e("EditHabitActivity", "Failed to save habit!");
-                            finish();
+                            // TODO: display error popup
+                            Log.e("EditHabitActivity", "Failed to save new habit: " + message);
                         }
                     });
+
+
+
+
+
+//                    habit.sync(new DatabaseManager.OnSaveListener() {
+//                        @Override
+//                        public void onSaveSuccess() {
+//                            finish();
+//                        }
+//
+//                        @Override
+//                        public void onSaveFailure(String message) {
+//                            Log.e("EditHabitActivity", "Failed to save habit!");
+//                            finish();
+//                        }
+//                    });
                 }
             }
         });
@@ -181,8 +208,8 @@ public class EditHabitActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 // TODO remove the habit object from the user's habit list
-                LoginManager.getInstance().getCurrentUser().removeHabit(habit);
-                LoginManager.getInstance().getCurrentUser().save(new DatabaseManager.OnSaveListener() {
+
+                LoginManager.getInstance().getCurrentUser().removeHabit(habit, new DatabaseManager.OnSaveListener() {
                     @Override
                     public void onSaveSuccess() {
                         finish();
@@ -190,10 +217,24 @@ public class EditHabitActivity extends AppCompatActivity {
 
                     @Override
                     public void onSaveFailure(String message) {
-                        Log.e("EditHabitActivity", "Failed to save user after deleting habit!");
-                        finish();
+                        // TODO: display error popup
+                        Log.e("EditHabitActivity", "Failed to save new habit: " + message);
                     }
                 });
+
+
+//                LoginManager.getInstance().getCurrentUser().save(new DatabaseManager.OnSaveListener() {
+//                    @Override
+//                    public void onSaveSuccess() {
+//                        finish();
+//                    }
+//
+//                    @Override
+//                    public void onSaveFailure(String message) {
+//                        Log.e("EditHabitActivity", "Failed to save user after deleting habit!");
+//                        finish();
+//                    }
+//                });
             }
         });
 
