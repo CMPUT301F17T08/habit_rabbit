@@ -64,11 +64,15 @@ public class HabitStatsActivity extends AppCompatActivity {
             });
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        finish();
+    }
 
     public void showEditHabitActivity(View v){
         Intent intent = new Intent(this, EditHabitActivity.class);
         intent.putExtra("habit", habit);
-        startActivity(intent);
+        startActivityForResult(intent, 0);
     }
 
 }

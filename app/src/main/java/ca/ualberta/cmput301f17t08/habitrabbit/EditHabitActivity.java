@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -155,6 +156,19 @@ public class EditHabitActivity extends AppCompatActivity {
                     habit.setReason(reason);
                     habit.setDate(date);
                     habit.setFrequency(frequency);
+
+                    habit.sync(new DatabaseManager.OnSaveListener() {
+                        @Override
+                        public void onSaveSuccess() {
+                            finish();
+                        }
+
+                        @Override
+                        public void onSaveFailure(String message) {
+                            Log.e("EditHabitActivity", "Failed to save habit!");
+                            finish();
+                        }
+                    });
                 }
                 // TODO exit the activity here
             }
@@ -166,6 +180,18 @@ public class EditHabitActivity extends AppCompatActivity {
             public void onClick(View v){
                 // TODO remove the habit object from the user's habit list
                 LoginManager.getInstance().getCurrentUser().removeHabit(habit);
+                LoginManager.getInstance().getCurrentUser().save(new DatabaseManager.OnSaveListener() {
+                    @Override
+                    public void onSaveSuccess() {
+                        finish();
+                    }
+
+                    @Override
+                    public void onSaveFailure(String message) {
+                        Log.e("EditHabitActivity", "Failed to save user after deleting habit!");
+                        finish();
+                    }
+                });
             }
         });
 
