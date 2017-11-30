@@ -37,6 +37,8 @@
         <activity android:name=".AddHabitActivity" />
         <activity android:name=".EditHabitActivity" />
         <activity android:name=".MenuActivity" />
+        <activity android:name=".LikesActivity" />
+        <activity android:name=".PeopleActivity" />
         <activity android:name=".AddHabitEventActivity" />
         <activity android:name=".MapActivity" />
         <activity
