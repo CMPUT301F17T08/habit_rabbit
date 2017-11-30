@@ -60,20 +60,22 @@ public class MyHabitActivity extends AppCompatActivity {
             }
         });
 
-        Log.e("Here!", "Here!");
 
         final MyHabitActivity self = this;
         LoginManager.getInstance().getCurrentUser().getHabits(new DatabaseManager.OnHabitsListener() {
             @Override
             public void onHabitsSuccess(ArrayMap<String, Habit> habits) {
+                Log.e("Here!", "Here!");
+
                 habitList = new ArrayList<Habit>(habits.values());
                 cAdapt = new HabitsAdapter(habitList, self);
                 habitsRecyclerView.setAdapter(cAdapt);
+                cAdapt.notifyDataSetChanged();
             }
 
             @Override
             public void onHabitsFailed(String message) {
-
+                Log.e("MyHabitActivity", "Failed to get habits of user!");
             }
         });
 

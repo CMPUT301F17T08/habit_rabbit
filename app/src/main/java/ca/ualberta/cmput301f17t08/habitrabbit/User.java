@@ -69,7 +69,7 @@ public class User {
     }
 
     @Exclude
-    public void getHabits(DatabaseManager.OnHabitsListener listener){
+    public void getHabits(final DatabaseManager.OnHabitsListener listener){
         if(this.habitsLoaded){
             listener.onHabitsSuccess(habitList);
             return;
@@ -80,11 +80,12 @@ public class User {
             public void onHabitsSuccess(ArrayMap<String, Habit> habits) {
                 habitList = habits;
                 habitsLoaded = true;
+                listener.onHabitsSuccess(habits);
             }
 
             @Override
             public void onHabitsFailed(String message) {
-                Log.e("DatabaseManager", message);
+                listener.onHabitsFailed(message);
             }
         });
     }

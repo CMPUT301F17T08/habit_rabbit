@@ -99,7 +99,7 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, HabitStatsActivity.class);
-                intent.putExtra("habit_id",position);
+                intent.putExtra("habit_id",habits.get(position).getId());
                 context.startActivity(intent);
             }
         });

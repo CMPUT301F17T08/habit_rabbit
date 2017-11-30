@@ -39,7 +39,7 @@ public class HabitStatsActivity extends AppCompatActivity {
         daysCompletedCount = (TextView)findViewById(R.id.days_completed_count);
         averageTimeCount = (TextView)findViewById(R.id.avg_time_count);
 
-        final int habit_id = (int)getIntent().getSerializableExtra("habit_id");
+        final String habit_id = (String)getIntent().getSerializableExtra("habit_id");
         LoginManager.getInstance().getCurrentUser().getHabits(
             new DatabaseManager.OnHabitsListener() {
                 @Override
