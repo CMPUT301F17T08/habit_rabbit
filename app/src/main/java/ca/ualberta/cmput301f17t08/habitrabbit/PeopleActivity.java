@@ -43,7 +43,7 @@ public class PeopleActivity extends AppCompatActivity {
         //create Recycleview for follower
         peopleFollowerRecyclerView = (RecyclerView) findViewById(R.id.follower_recyclerview);
         peopleFollowerRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-
+        
         //set the adapter for the following list
         cAdapt = new PeopleAdapter(followingList);
         peopleFollowingRecyclerView.setAdapter(cAdapt);
