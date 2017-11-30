@@ -2,12 +2,10 @@ package ca.ualberta.cmput301f17t08.habitrabbit;
 
 import org.junit.Test;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.TimeZone;
 
 import static org.junit.Assert.assertEquals;
@@ -63,7 +61,6 @@ public class HabitUnitTest {
         assertEquals(daysCompleted1, 0);
         int streak = (int) habit.getStatistics().get(1);
         String averageTime = (String) habit.getStatistics().get(2);
-        float percentComplete = (float) habit.getStatistics().get(3);
 
         assertEquals(streak, 0);
 
@@ -78,8 +75,6 @@ public class HabitUnitTest {
         int streak1 = (int)habit.getStatistics().get(1);
         assertEquals(streak1, 1);
 
-        float percentComplete1 = (float) habit.getStatistics().get(3);
-        assertNotEquals(percentComplete, percentComplete1);
 
     }
 

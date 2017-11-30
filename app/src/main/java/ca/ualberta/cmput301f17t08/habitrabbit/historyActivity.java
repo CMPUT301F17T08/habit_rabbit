@@ -65,4 +65,13 @@ public class historyActivity extends AppCompatActivity {
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
     }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Intent intent = getIntent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        finish();
+        startActivity(intent);
+    }
 }
