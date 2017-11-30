@@ -102,17 +102,12 @@ public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.ViewHolder> 
             }
         });
 
-        //TODO pass in username instead of the id to habitStatsActivity
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, HabitStatsActivity.class);
 
-                // need to get the position in the original habits list instead of the position
-                // passed into this function (which is the position in the todayActivity list)
-                int habit_id = LoginManager.getInstance().getCurrentUser().getHabits().indexOf(habit);
-
-                intent.putExtra("habit_id",habit_id);
+                intent.putExtra("habit",habit);
                 context.startActivity(intent);
             }
         });

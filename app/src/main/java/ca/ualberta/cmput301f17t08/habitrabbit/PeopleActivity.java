@@ -50,7 +50,7 @@ public class PeopleActivity extends AppCompatActivity {
 
         //set the adapter for the follower list
         cAdapt2 = new PeopleAdapter(followerList);
-        peopleFollowingRecyclerView.setAdapter(cAdapt2);
+        peopleFollowerRecyclerView.setAdapter(cAdapt2);
 
         followPersonButton = (Button) findViewById(R.id.follow_person_button);
         followPersonButton.setOnClickListener(new View.OnClickListener() {

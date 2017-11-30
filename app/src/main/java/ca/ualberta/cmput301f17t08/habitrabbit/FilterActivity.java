@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.ArrayMap;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -43,18 +44,41 @@ public class FilterActivity extends AppCompatActivity {
         title = (TextView) findViewById(R.id.title);
         title.setText("FILTER");
 
-
+        
         habitListView = (RecyclerView) findViewById(R.id.habit_list);
-        habitList = LoginManager.getInstance().getCurrentUser().getHabits(); // get the user's habits list that contain all habits
+        habitList = new ArrayList<Habit>();
+
+
         habitListView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 
 
-        //before user type in anything to search, display all the habit options
-        cAdapt = new FilterAdapter(habitList,FilterActivity.this );
-        habitListView.setAdapter(cAdapt);
+
+
+
+
 
         // habitlist used for displaying
         habitListDisplay = new ArrayList<>();
+
+        // get the user's habits list that contain all habits
+        LoginManager.getInstance().getCurrentUser().getHabits(new DatabaseManager.OnHabitsListener() {
+            @Override
+            public void onHabitsSuccess(ArrayMap<String, Habit> habits) {
+                habitList = new ArrayList<Habit>(habits.values());
+
+            }
+
+            @Override
+            public void onHabitsFailed(String message) {
+
+            }
+        });
+
+        cAdapt = new FilterAdapter(habitList,FilterActivity.this );
+        habitListView.setAdapter(cAdapt);
+
+        //before user type in anything to search, display all the habit options
+
 
         // set menu button
         menuButton.setOnClickListener(new View.OnClickListener() {
@@ -94,6 +118,7 @@ public class FilterActivity extends AppCompatActivity {
                         }
                     }
                 }
+                cAdapt.notifyDataSetChanged();
 
                 cAdapt = new FilterAdapter(habitListDisplay,FilterActivity.this );
                 habitListView.setAdapter(cAdapt);

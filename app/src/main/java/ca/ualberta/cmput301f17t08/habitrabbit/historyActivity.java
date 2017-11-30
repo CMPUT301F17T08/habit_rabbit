@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.ArrayMap;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -42,9 +44,23 @@ public class historyActivity extends AppCompatActivity {
             historyList = LoginManager.getInstance().getCurrentUser().getHistory();
         }
         else{
-            Habit selectedHabit = LoginManager.getInstance().getCurrentUser().getHabits().get(Global.filter);
-            System.out.println(selectedHabit.getName());
-            historyList = selectedHabit.getHabitEvents();
+
+
+            LoginManager.getInstance().getCurrentUser().getHabits(new DatabaseManager.OnHabitsListener() {
+                @Override
+                public void onHabitsSuccess(ArrayMap<String, Habit> habits) {
+                    Log.e("Here!", "Here!");
+
+                    Habit selectedHabit = new ArrayList<Habit>(habits.values()).get(Global.filter);
+                    historyList = selectedHabit.getHabitEvents();
+                }
+
+                @Override
+                public void onHabitsFailed(String message) {
+                    Log.e("MyHabitActivity", "Failed to get habits of user!");
+                }
+            });
+
         }
         // set up the adapter
 
