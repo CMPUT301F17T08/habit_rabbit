@@ -42,6 +42,9 @@ public class TodayActivity extends AppCompatActivity {
         LoginManager.getInstance().getCurrentUser().getHabits(new DatabaseManager.OnHabitsListener() {
             @Override
             public void onHabitsSuccess(ArrayMap<String, Habit> habits) {
+
+                habitList = new ArrayList<Habit>(habits.values());
+
                 Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
                 Date now = calendar.getTime();
 

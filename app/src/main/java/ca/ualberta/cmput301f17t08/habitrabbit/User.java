@@ -10,6 +10,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 
@@ -170,11 +171,11 @@ public class User {
 
     public boolean hasHabit(String title) {
         for(Habit habit : this.habitList.values()){
-            if(habit.getName() == title)
-                return false;
+            if(Objects.equals(habit.getName(), title))
+                return true;
         }
 
-        return true;
+        return false;
     }
 
     public void removeHabit(Habit habit) {
