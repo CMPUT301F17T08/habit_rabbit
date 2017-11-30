@@ -127,9 +127,23 @@ public class DatabaseManager {
         });
     }
 
-    public void saveUserData(User user){
+    public void saveUserData(User user, final OnSaveListener listener){
         // TODO
         // if the network connection isn't available, save locally here
+
+        final DatabaseReference userRef = database.getReference("users").child(user.getUsername());
+
+        userRef.setValue(user, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                if(databaseError != null){
+                    listener.onSaveFailure(databaseError.getMessage());
+                    return;
+                }
+
+                listener.onSaveSuccess();
+            }
+        });
     }
 
     public void syncLocalData(){

@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.ArrayMap;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -37,20 +38,6 @@ public class MyHabitActivity extends AppCompatActivity {
 
         habitList = new ArrayList<Habit>();
 
-        final MyHabitActivity self = this;
-        LoginManager.getInstance().getCurrentUser().getHabits(new DatabaseManager.OnHabitsListener() {
-            @Override
-            public void onHabitsSuccess(ArrayMap<String, Habit> habits) {
-                cAdapt = new HabitsAdapter(habitList, self);
-                habitsRecyclerView.setAdapter(cAdapt);
-            }
-
-            @Override
-            public void onHabitsFailed(String message) {
-
-            }
-        });
-
         menuButton = (Button) findViewById(R.id.menu_button);
         addHabitButton = (Button) findViewById(R.id.add_habit_button);
 
@@ -72,6 +59,24 @@ public class MyHabitActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Log.e("Here!", "Here!");
+
+        final MyHabitActivity self = this;
+        LoginManager.getInstance().getCurrentUser().getHabits(new DatabaseManager.OnHabitsListener() {
+            @Override
+            public void onHabitsSuccess(ArrayMap<String, Habit> habits) {
+                habitList = new ArrayList<Habit>(habits.values());
+                cAdapt = new HabitsAdapter(habitList, self);
+                habitsRecyclerView.setAdapter(cAdapt);
+            }
+
+            @Override
+            public void onHabitsFailed(String message) {
+
+            }
+        });
+
     }
     @Override
     protected void onRestart() {

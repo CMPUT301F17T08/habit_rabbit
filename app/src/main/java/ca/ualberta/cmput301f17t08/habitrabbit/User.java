@@ -8,6 +8,8 @@ import com.google.firebase.database.Exclude;
 import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -15,7 +17,7 @@ import java.util.Set;
  */
 
 public class User {
-    private ArraySet<String> habitKeyList;
+    private HashSet<String> habitKeyList;
     private String username;
     private ArrayMap<String, Habit> habitList;
     private ArrayList<String> followerList;
@@ -27,7 +29,7 @@ public class User {
 
     public User(){
         this.habitList = new ArrayMap<String, Habit>();
-        this.habitKeyList = new ArraySet<String>();
+        this.habitKeyList = new HashSet<String>();
         this.followerList = new ArrayList<String>();
         this.followingList = new ArrayList<String>();
         this.followRequests = new ArrayList<String>();
@@ -38,7 +40,7 @@ public class User {
     public User(String username){
         this.username = username;
         this.habitList = new ArrayMap<String, Habit>();
-        this.habitKeyList = new ArraySet<String>();
+        this.habitKeyList = new HashSet<String>();
         this.followerList = new ArrayList<String>();
         this.followingList = new ArrayList<String>();
         this.followRequests = new ArrayList<String>();
@@ -48,16 +50,16 @@ public class User {
 
     public void setUsername(String username) {this.username = username;}
 
-    public Set<String> getHabitKeys(){
+    public ArrayList<String> getHabitKeys(){
         if(habitsLoaded){
-            return this.habitList.keySet();
+            return new ArrayList<String>(this.habitList.keySet());
         }else{
-            return this.habitKeyList;
+            return new ArrayList<String>(this.habitKeyList);
         }
     }
 
-    public void setHabitKeys(ArraySet<String> habits){
-        habitKeyList = habits;
+    public void setHabitKeys(ArrayList<String> habits){
+        habitKeyList = new HashSet<String>(habits);
         habitsLoaded = false;
         habitList.clear();
     }
@@ -113,20 +115,54 @@ public class User {
         return;
     }
 
-    public void addHabit(Habit habit, DatabaseManager.OnSaveListener listener) {
+    public void addHabit(final Habit habit, final DatabaseManager.OnSaveListener listener) {
         if (hasHabit(habit))
             throw new IllegalArgumentException("Habit already exists.");
 
         if(habit.getSynced()){
-            listener.onSaveSuccess();
+            this.habitList.put(habit.getId(), habit);
+            this.save(new DatabaseManager.OnSaveListener() {
+                @Override
+                public void onSaveSuccess() {
+                    listener.onSaveSuccess();
+                }
+
+                @Override
+                public void onSaveFailure(String message) {
+                    listener.onSaveFailure(message);
+                }
+            });
         }else{
-            habit.sync(listener);
+            final User self = this;
+
+            habit.sync(new DatabaseManager.OnSaveListener() {
+                @Override
+                public void onSaveSuccess() {
+                    self.habitList.put(habit.getId(), habit);
+                    self.save(new DatabaseManager.OnSaveListener() {
+                        @Override
+                        public void onSaveSuccess() {
+                            listener.onSaveSuccess();
+                        }
+
+                        @Override
+                        public void onSaveFailure(String message) {
+                            listener.onSaveFailure(message);
+                        }
+                    });
+                }
+
+                @Override
+                public void onSaveFailure(String message) {
+                    listener.onSaveFailure(message);
+                }
+            });
         }
 
     }
 
     private boolean hasHabit(Habit habit) {
-        return this.habitKeyList.contains(habit);
+        return this.habitList.containsKey(habit.getId());
     }
 
     public void removeHabit(Habit habit) {
@@ -169,5 +205,7 @@ public class User {
         return null;
     }
 
-
+    public void save(DatabaseManager.OnSaveListener listener) {
+        DatabaseManager.getInstance().saveUserData(this, listener);
+    }
 }
