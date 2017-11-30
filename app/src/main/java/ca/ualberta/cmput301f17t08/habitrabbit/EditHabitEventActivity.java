@@ -46,9 +46,10 @@ public class EditHabitEventActivity extends AppCompatActivity {
         // autofill the fields with the initial value
         habitTitle.setText(habitEvent.getHabit().getName());
         habitComment.setText(habitEvent.getComment());
+        bmp = habitEvent.getPicture();
 
-        if (habitEvent.getPicture() != null){
-            imagePreview.setImageBitmap(habitEvent.getPicture());
+        if (bmp != null){
+            imagePreview.setImageBitmap(bmp);
         }
 
         addButton.setOnClickListener(new View.OnClickListener() {
