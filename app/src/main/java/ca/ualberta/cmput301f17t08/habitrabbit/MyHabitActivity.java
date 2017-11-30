@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 /**
- * Created by micah on 01/11/17.
+ * The activity for user's habit when user select it
  */
 
 public class MyHabitActivity extends AppCompatActivity {

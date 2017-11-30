@@ -12,9 +12,10 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
- * Created by yuxuanzhao on 2017-11-07.
+ * Today activity for today page
  */
 
 public class TodayActivity extends AppCompatActivity {
@@ -41,31 +42,42 @@ public class TodayActivity extends AppCompatActivity {
         LoginManager.getInstance().getCurrentUser().getHabits(new DatabaseManager.OnHabitsListener() {
             @Override
             public void onHabitsSuccess(ArrayMap<String, Habit> habits) {
-                //get the day of week in terms of index in frequency
-                Date now = new Date();
-                Calendar calendar = Calendar.getInstance();
-                calendar.setTime(now);
-                int current_day = calendar.get(Calendar.DAY_OF_WEEK);
-                if (current_day == 0){
-                    current_day = 6;
-                }
-                else{
-                    current_day -= 2;
-                }
+                Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
+                Date now = calendar.getTime();
 
+                // set to midnight to make it easier to check if the habit was completed before today
+                calendar.set(Calendar.HOUR_OF_DAY, 0);
+                calendar.set(Calendar.MINUTE, 0);
+                calendar.set(Calendar.SECOND, 0);
+                calendar.set(Calendar.MILLISECOND, 0);
+
+                int current_day = calendar.get(Calendar.DAY_OF_WEEK);
+
+                //convert the date index from calendar class to frenquency list
+                int [] day_convert = {0,6,0,1,2,3,4,5};
+                current_day = day_convert[current_day];
 
                 //set up an arraylist used to store the today's habit
                 ArrayList<Habit> todayHabit = new ArrayList<Habit>();
 
                 //check if the day of week is in frequency list
-                for(int index=0;index <habitList.size();index++){
-                    if(habitList.get(index).getFrequency().get(current_day) == 1){
-                        todayHabit.add(habitList.get(index));
+                for(int index = 0; index < habitList.size(); index++){
+                    Habit tempHabit = habitList.get(index);
+                    if(tempHabit.getDate().before(now) && tempHabit.getFrequency().get(current_day) == 1){
+
+                        // don't display the habit if it was already completed today
+                        if (tempHabit.getLastCompleted() == null ||
+                                (tempHabit.getLastCompleted() != null && calendar.getTime().after(tempHabit.getLastCompleted()))){
+                            todayHabit.add(tempHabit);
+                        }
+
                     }
                 }
+
                 // set up the adapter
-                cAdapt = new TodayAdapter(todayHabit, self);
+                cAdapt = new TodayAdapter( todayHabit, self);
                 habitRecyclerView.setAdapter(cAdapt);
+                cAdapt.notifyDataSetChanged();
             }
 
             @Override
@@ -80,5 +92,19 @@ public class TodayActivity extends AppCompatActivity {
     public void showMenu(View v){
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Intent intent = getIntent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        finish();
+        startActivity(intent);
+    }
+    // pass the result from the add habit event activity to the adapter since the habit is located there
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        cAdapt.onActivityResult(requestCode, resultCode, data);
     }
 }

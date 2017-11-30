@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
+/**
+ * The activity for followuser
+ */
 public class FollowUserActivity extends AppCompatActivity {
+    public User followUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,14 +20,30 @@ public class FollowUserActivity extends AppCompatActivity {
         final EditText usernameField = findViewById(R.id.username_input_field);
         Button addButton = findViewById(R.id.follow_user_button);
 
+
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String username = usernameField.getText().toString();
 
-                if (username.length() > 0){
-                    // TODO get the user associated with username from the database and add current user's name to their pending list
-                    System.out.println(username);
+                // get the user associated with username from the database and add current user's name to their pending list
+                if (username.length() > 0) {
+                    DatabaseManager.getInstance().getUserData(username, new DatabaseManager.OnUserDataListener() {
+                        @Override
+                        public void onUserData(User user) {
+                            followUser = user;
+                            System.out.println(followUser.getUsername());
+                            followUser.getFollowRequests().add(LoginManager.getInstance().getCurrentUser().getUsername());
+                        }
+
+                        @Override
+                        public void onUserDataFailed(String message) {
+                            usernameField.setError("User does not exist");
+                        }
+                    });
+
+
+
                     return;
                 }
             }

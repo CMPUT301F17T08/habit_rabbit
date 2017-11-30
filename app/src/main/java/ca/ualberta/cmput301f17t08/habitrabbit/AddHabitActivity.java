@@ -22,6 +22,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+/**
+ * The activity allows the user to add a habit
+ */
+
+
 public class AddHabitActivity extends AppCompatActivity {
     private AddHabitActivity activity = this;
     private ArrayList<Integer> frequency;
@@ -110,7 +115,12 @@ public class AddHabitActivity extends AppCompatActivity {
                     frequency = new ArrayList<Integer>(Collections.nCopies(7, 1));
                 }
 
-                // TODO check that the habit name doesn't exist already
+                User user = LoginManager.getInstance().getCurrentUser();
+                if (user.hasHabit(title)){
+                    habitTitle.setError("Habit already exists.");
+                    error = true;
+                }
+
 
                 if (!error){
                     // TODO create a new habit object here and associate that with the user

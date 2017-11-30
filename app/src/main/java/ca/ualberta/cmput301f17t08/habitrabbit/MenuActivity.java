@@ -5,7 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-
+/**
+ * The main menu page after user loged into the app, has six different options
+ */
 public class MenuActivity extends AppCompatActivity {
     private MenuActivity activity = this;
     

@@ -12,9 +12,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+
 /**
- * Created by mseneshen on 2017-10-23.
+ * The class for a singal user, has all user's property, like name, and user's habit
  */
+
 
 public class User {
     private HashSet<String> habitKeyList;
@@ -166,6 +168,15 @@ public class User {
         return this.habitList.containsKey(habit.getId());
     }
 
+    public boolean hasHabit(String title) {
+        for(Habit habit : this.habitList.values()){
+            if(habit.getName() == title)
+                return false;
+        }
+
+        return true;
+    }
+
     public void removeHabit(Habit habit) {
         if(habitsLoaded){
             this.habitList.remove(habit.getId());
@@ -174,6 +185,7 @@ public class User {
         }
 
         habit.delete();
+
         return;
     }
 
@@ -209,4 +221,18 @@ public class User {
     public void save(DatabaseManager.OnSaveListener listener) {
         DatabaseManager.getInstance().saveUserData(this, listener);
     }
+
+    public void addToHistory(HabitEvent event){
+        this.historylist.add(event);
+    }
+
+    // TODO we can maybe fix this since it's weird to call remove by index
+    public void removeFromHistory(int position){
+        this.historylist.remove(position);
+    }
+
+    public void editEventFromHistory(int position, HabitEvent newEvent){
+        this.historylist.set(position, newEvent);
+    }
+
 }

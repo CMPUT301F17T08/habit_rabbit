@@ -17,6 +17,10 @@ import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+/**
+ * The activity allows the user to edit a habit event
+ */
+
 
 public class EditHabitEventActivity extends AppCompatActivity {
     private EditHabitEventActivity activity = this;
@@ -28,6 +32,8 @@ public class EditHabitEventActivity extends AppCompatActivity {
         setContentView(R.layout.edit_habit_event);
 
         final HabitEvent habitEvent = (HabitEvent) getIntent().getSerializableExtra("habitEvent");
+        final int position = (int) getIntent().getSerializableExtra("position");
+
         System.out.println(habitEvent.getComment());
         final Habit habit = habitEvent.getHabit();
 
@@ -40,9 +46,10 @@ public class EditHabitEventActivity extends AppCompatActivity {
         // autofill the fields with the initial value
         habitTitle.setText(habitEvent.getHabit().getName());
         habitComment.setText(habitEvent.getComment());
+        bmp = habitEvent.getPicture();
 
-        if (habitEvent.getPicture() != null){
-            imagePreview.setImageBitmap(habitEvent.getPicture());
+        if (bmp != null){
+            imagePreview.setImageBitmap(bmp);
         }
 
         addButton.setOnClickListener(new View.OnClickListener() {
@@ -63,10 +70,13 @@ public class EditHabitEventActivity extends AppCompatActivity {
                 }
 
                 if (!error){
-                    // TODO edit the original habit event and close activity / refresh the main page
                     habitEvent.setComment(comment);
                     habitEvent.setPicture(bmp);
 
+                    User currentUser = LoginManager.getInstance().getCurrentUser();
+                    currentUser.editEventFromHistory(position, habitEvent);
+
+                    finish();
                 }
             }
         });
@@ -76,6 +86,12 @@ public class EditHabitEventActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 habit.removeHabitEvent(habitEvent);
+
+                User currentUser = LoginManager.getInstance().getCurrentUser();
+                currentUser.removeFromHistory(position);
+
+                finish();
+
             }
         });
     }

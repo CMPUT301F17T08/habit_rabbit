@@ -23,8 +23,8 @@ import java.util.List;
 import java.util.TimeZone;
 
 
-/*
-Allows the user to edit a habit
+/**
+ * The activity allows the user to edit a habit
  */
 public class EditHabitActivity extends AppCompatActivity {
     private EditHabitActivity activity = this;
@@ -148,10 +148,13 @@ public class EditHabitActivity extends AppCompatActivity {
                     frequency = new ArrayList<Integer>(Collections.nCopies(7, 1));
                 }
 
-                // TODO check that the habit name doesn't exist already
+                // TODO check that the habit name doesn't exist already outside of current habit
 
                 if (!error){
                     // update the habit object with the new values
+                    User currentUser = LoginManager.getInstance().getCurrentUser();
+                    currentUser.removeHabit(habit.getName());
+
                     habit.setName(title);
                     habit.setReason(reason);
                     habit.setDate(date);
@@ -170,7 +173,6 @@ public class EditHabitActivity extends AppCompatActivity {
                         }
                     });
                 }
-                // TODO exit the activity here
             }
         });
 

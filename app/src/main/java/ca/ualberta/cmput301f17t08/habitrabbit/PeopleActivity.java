@@ -13,9 +13,8 @@ import android.widget.Button;
 import java.util.ArrayList;
 
 /**
- * Created by micah on 01/11/17.
+ * The activity for people option in the main menu
  */
-
 public class PeopleActivity extends AppCompatActivity {
 
     private PeopleActivity activity = this;
@@ -51,7 +50,7 @@ public class PeopleActivity extends AppCompatActivity {
 
         //set the adapter for the follower list
         cAdapt2 = new PeopleAdapter(followerList);
-        peopleFollowingRecyclerView.setAdapter(cAdapt2);
+        peopleFollowerRecyclerView.setAdapter(cAdapt2);
 
         followPersonButton = (Button) findViewById(R.id.follow_person_button);
         followPersonButton.setOnClickListener(new View.OnClickListener() {

@@ -8,7 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import java.util.ArrayList;
-
+/**
+ * Feed activity in the main menu page
+ */
 public class FeedActivity extends AppCompatActivity {
     public RecyclerView feedRecyclerView;
     public ArrayList<HabitEvent> feedList;
@@ -45,12 +47,8 @@ public class FeedActivity extends AppCompatActivity {
         }
 
 
-
-
-
-
         // set up the adapter
-        cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), feedList);
+        cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), feedList,this);
         feedRecyclerView.setAdapter(cAdapt);
     }
 
