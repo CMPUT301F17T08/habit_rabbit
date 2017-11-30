@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.ArrayMap;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -48,9 +49,9 @@ public class FilterActivity extends AppCompatActivity {
 
 
         habit_list_view = (RecyclerView) findViewById(R.id.habit_list);
-        habitList = LoginManager.getInstance().getCurrentUser().getHabits(); // get the user's habits list that contain all habits
-        habit_list_view.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+        habitList = new ArrayList<Habit>();
 
+        habit_list_view.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 
         //before user type in anything to search, display all the habit options
         cAdapt = new FilterAdapter(habitList,FilterActivity.this );
@@ -58,6 +59,19 @@ public class FilterActivity extends AppCompatActivity {
 
         // habitlist used for displaying
         habitList_display = new ArrayList<>();
+
+        LoginManager.getInstance().getCurrentUser().getHabits(new DatabaseManager.OnHabitsListener() {
+            @Override
+            public void onHabitsSuccess(ArrayMap<String, Habit> habits) {
+                habitList = new ArrayList<Habit>(habits.values());
+                cAdapt.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onHabitsFailed(String message) {
+
+            }
+        }); // get the user's habits list that contain all habits
 
         // set menu button
         menu_button.setOnClickListener(new View.OnClickListener() {

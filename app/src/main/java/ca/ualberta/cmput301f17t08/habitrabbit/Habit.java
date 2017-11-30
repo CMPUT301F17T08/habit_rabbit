@@ -28,9 +28,14 @@ public class Habit implements Serializable{
     private long averageTime;        // average time of day in milliseconds
     private int streak;
     private ArrayList<HabitEvent> habiteventlist;
+    private String id;
+    private Boolean synced;
 
     public Habit(){
         this.habiteventlist = new ArrayList<HabitEvent>();
+
+        this.synced = false;
+        this.id = null;
     }
 
     public Habit(String name, String reason, Date startDate, ArrayList<Integer> frequency){
@@ -39,14 +44,15 @@ public class Habit implements Serializable{
         this.startDate = startDate;
         this.frequency = frequency;
 
-        System.out.println("SET START DATE1:" + startDate);
-
         this.lastCompleted = null;
         this.daysCompleted = 0;
         this.averageTime = -1;
         this.streak = 0;
 
         this.habiteventlist = new ArrayList<HabitEvent>();
+        this.synced = false;
+
+        this.id = null;
     }
 
     public void setName(String name){
@@ -211,8 +217,29 @@ public class Habit implements Serializable{
         if (this.habiteventlist.contains(event)){
             this.habiteventlist.remove(event);
         }
-
     }
 
+    public String getId() {
+        return id;
+    }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Boolean getSynced() {
+        return synced;
+    }
+
+    public void setSynced(Boolean synced) {
+        this.synced = synced;
+    }
+
+    public void sync(DatabaseManager.OnSaveListener listener){
+        DatabaseManager.getInstance().saveHabit(this, listener);
+    }
+
+    public void delete() {
+        // TODO: destroy habit from DB (call DB manager)
+    }
 }
