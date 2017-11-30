@@ -62,9 +62,9 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, HabitStatsActivity.class);
-                intent.putExtra("habit_id", position);
-                context.startActivity(intent);
+                Global.filter = position;
+
+                context.finish();
             }
         });
     }

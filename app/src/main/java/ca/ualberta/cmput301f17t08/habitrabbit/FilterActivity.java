@@ -1,5 +1,6 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -124,6 +125,7 @@ public class FilterActivity extends AppCompatActivity {
         finish();
         startActivity(intent);
     }
+
 }
 
 

@@ -1,5 +1,6 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,20 +24,32 @@ public class historyActivity extends AppCompatActivity {
     private historyActivity activity = this;
 
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // get the element from the Layout
         super.onCreate(savedInstanceState);
         setContentView(R.layout.history);
+
         historyRecyclerView = (RecyclerView) findViewById(R.id.recycle);
         historyRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+
+
         //get the current user's history list
-        historyList = LoginManager.getInstance().getCurrentUser().getHistory();
+        if (Global.filter == -1) {
+            historyList = LoginManager.getInstance().getCurrentUser().getHistory();
+        }
+        else{
+            Habit selectedHabit = LoginManager.getInstance().getCurrentUser().getHabits().get(Global.filter);
+            System.out.println(selectedHabit.getName());
+            historyList = selectedHabit.getHabitEvents();
+        }
         // set up the adapter
 
         cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), historyList,this);
         historyRecyclerView.setAdapter(cAdapt);
-
 
 
         filter_button = (Button) findViewById(R.id.filter_button);
@@ -47,8 +60,6 @@ public class historyActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
     }
 
     public void showMenu(View v){
@@ -60,8 +71,10 @@ public class historyActivity extends AppCompatActivity {
     protected void onRestart() {
         super.onRestart();
         Intent intent = getIntent();
+
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        finish();
+
         startActivity(intent);
     }
+
 }
