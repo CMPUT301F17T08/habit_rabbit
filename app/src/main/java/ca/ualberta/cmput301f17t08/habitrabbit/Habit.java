@@ -5,14 +5,17 @@ import com.google.firebase.database.Exclude;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
 /**
- * Created by maharshmellow on 2017-10-23.
+ * The class for a habit, has all the properties for a habit
  */
 
 public class Habit implements Serializable{
@@ -25,9 +28,14 @@ public class Habit implements Serializable{
     private long averageTime;        // average time of day in milliseconds
     private int streak;
     private ArrayList<HabitEvent> habiteventlist;
+    private String id;
+    private Boolean synced;
 
     public Habit(){
         this.habiteventlist = new ArrayList<HabitEvent>();
+
+        this.synced = false;
+        this.id = null;
     }
 
     public Habit(String name, String reason, Date startDate, ArrayList<Integer> frequency){
@@ -36,13 +44,15 @@ public class Habit implements Serializable{
         this.startDate = startDate;
         this.frequency = frequency;
 
-
         this.lastCompleted = null;
         this.daysCompleted = 0;
         this.averageTime = -1;
         this.streak = 0;
 
         this.habiteventlist = new ArrayList<HabitEvent>();
+        this.synced = false;
+
+        this.id = null;
     }
 
     public void setName(String name){
@@ -85,16 +95,51 @@ public class Habit implements Serializable{
         return this.habiteventlist;
     }
 
+    public void resetStreak(){ this.streak = 0; }
+
+    public Date getLastCompleted() { return this.lastCompleted; }
+
     // TODO: Separate this into various getters/setters, refactor formatting into calling class.
     // Firebase will not be able to save/retrieve without this.
     public List<Object> getStatistics(){
+        
+        // count the total days since the start that the user was supposed to complete this habit
+        int daysSinceStart = 0;
+
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
-        Date now = calendar.getTime();
+        Date currentDate = calendar.getTime();
+        Date tempDate = this.startDate;
 
-        int daysSinceStart = (int) Math.abs(now.getTime() - this.startDate.getTime())/(24 * 60 * 60 * 1000);
+        System.out.println("Start: " + startDate);
+        while (tempDate.before(currentDate)){
+            calendar.setTime(tempDate);
+            int tempDayIndex = calendar.get(Calendar.DAY_OF_WEEK);
 
-        String averageTimeStr = new SimpleDateFormat("HH:mm").format(this.averageTime);
+            // converts between the built in day index to the frequency array indices
+            int [] conversion_table = {0, 6, 0, 1, 2, 3, 4, 5};
 
+            // check if the user is following the habit on this day
+            if (frequency.get(conversion_table[tempDayIndex]) == 1){
+                daysSinceStart += 1;
+            }
+
+            // increment the temp date by 1 day
+            calendar.add(Calendar.DATE, 1);
+            tempDate = calendar.getTime();
+
+        }
+
+        String averageTimeStr;
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        sdf.setTimeZone(TimeZone.getTimeZone("America/Edmonton"));
+
+        if (this.averageTime == -1){
+            averageTimeStr = "N/A";
+        }else{
+            averageTimeStr = sdf.format(this.averageTime);
+        }
+
+        System.out.println(this.averageTime + "average" + averageTimeStr);
         List<Object> statistics = new ArrayList<Object>();
         statistics.add(this.daysCompleted);
         statistics.add(this.streak);
@@ -102,15 +147,16 @@ public class Habit implements Serializable{
 
         // % completed
         if (daysSinceStart != 0) {
-            statistics.add((float)this.daysCompleted / daysSinceStart);
+            statistics.add((float) daysCompleted / daysSinceStart);
         }else{
-            statistics.add(1);      // 100% completed by default
+            statistics.add((float)0);      // 100% completed by default
         }
 
         return statistics;
     }
 
     public void markDone(){
+
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
         Date now = calendar.getTime();
 
@@ -118,17 +164,25 @@ public class Habit implements Serializable{
 
         // update the average time of completion
         if (this.averageTime != -1){
-            this.averageTime = averageTime + (1/this.daysCompleted)*(now.getTime() % 86400000 - averageTime);
+            this.averageTime = (long) (this.averageTime + ((float)1/this.daysCompleted)*(now.getTime() % 86400000 - this.averageTime));
         }else{
-            this.averageTime = now.getTime() % 8640000;     // milliseconds elapsed until now today
+            this.averageTime = now.getTime() % 86400000;     // milliseconds elapsed until now today
         }
 
-        // update the streak if the last update was yesterday
-        if (this.lastCompleted != null && now.getTime() - this.lastCompleted.getTime() > 86400000){
+        // update the streak
+        /*
+        Note: we don't need to worry about this function being called multiple times in one day since
+        the habit will disappear from the today page
+         */
+
+        if (this.lastCompleted != null && now.getTime() - this.lastCompleted.getTime() < 86400000){
             this.streak += 1;
+        }else if (lastCompleted == null) {
+            this.streak = 1;
         }
 
-        this.lastCompleted = new Date();
+        System.out.println("Updated last completed to" + now);
+        this.lastCompleted = now;
 
         // TODO create habit event here and jump to the add to habit history activity
 
@@ -159,5 +213,33 @@ public class Habit implements Serializable{
         return result;
     }
 
+    public void removeHabitEvent(HabitEvent event){
+        if (this.habiteventlist.contains(event)){
+            this.habiteventlist.remove(event);
+        }
+    }
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Boolean getSynced() {
+        return synced;
+    }
+
+    public void setSynced(Boolean synced) {
+        this.synced = synced;
+    }
+
+    public void sync(DatabaseManager.OnSaveListener listener){
+        DatabaseManager.getInstance().saveHabit(this, listener);
+    }
+
+    public void delete() {
+        // TODO: destroy habit from DB (call DB manager)
+    }
 }

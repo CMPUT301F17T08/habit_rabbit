@@ -35,22 +35,19 @@ public class UserUnitTest {
 
     @Test
     public void testUserAddFollower() throws Exception {
-        assertFalse(user1.getFollowers().contains(user2));
+        assertFalse(user1.getFollowers().contains(user2.getUsername()));
 
         user1.addFollower(user2);
-
-        assertTrue(user1.getFollowers().contains(user2));
+        assertTrue(user1.getFollowers().contains(user2.getUsername()));
     }
 
     @Test
     public void testUserRemoveFollower() throws Exception {
         user1.addFollower(user2);
-
-        assertTrue(user1.getFollowers().contains(user2));
+        assertTrue(user1.getFollowers().contains(user2.getUsername()));
 
         user1.removeFollower(user2);
-
-        assertFalse(user1.getFollowers().contains(user2));
+        assertFalse(user1.getFollowers().contains(user2.getUsername()));
     }
 
     @Test
@@ -68,13 +65,13 @@ public class UserUnitTest {
 
         assertTrue(user1.getHabits().contains(habit1));
 
-        user1.removeHabit(habit1);
+        user1.removeHabit(habit1.getName());
 
         assertFalse(user1.getHabits().contains(habit1));
     }
 
     @Test
-    public void testUserFilterHabitbytype() throws Exception {
+    public void testUserFilterHabitByType() throws Exception {
         user1.addHabit(habit1);
         user1.addHabit(habit2);
         user1.addHabit(habit3);
@@ -82,20 +79,19 @@ public class UserUnitTest {
 
         user2.addHabit(habit4);
 
-        assertTrue(user1.filterHistoryBytype("Name 2").contains(habit2));
-        assertTrue(user1.filterHistoryBytype("Name 3").contains(habit3));
-        assertTrue(user1.filterHistoryBytype("Name 4").contains(habit4));
+        assertTrue(user1.filterHistoryByType("Name 2").contains(habit2));
+        assertTrue(user1.filterHistoryByType("Name 3").contains(habit3));
+        assertTrue(user1.filterHistoryByType("Name 4").contains(habit4));
 
-        assertFalse(user1.filterHistoryBytype("Name 4").contains(habit1));
+        assertFalse(user1.filterHistoryByType("Name 4").contains(habit1));
 
-
-        assertFalse(user2.filterHistoryBytype("Name 4").contains(habit1));
+        assertFalse(user2.filterHistoryByType("Name 4").contains(habit1));
 
     }
 
 
     @Test
-    public void testUserFilterHabiteventbycomment() throws Exception {
+    public void testUserFilterHabitEventByComment() throws Exception {
 
     }
 

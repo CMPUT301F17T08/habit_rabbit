@@ -5,7 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-
+/**
+ * The main menu page after user loged into the app, has six different options
+ */
 public class MenuActivity extends AppCompatActivity {
     private MenuActivity activity = this;
     
@@ -14,6 +16,7 @@ public class MenuActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu);
 
+        Button menuButton = findViewById(R.id.menu_button);
         Button feedButton = findViewById(R.id.feed_button);
         Button todayButton = findViewById(R.id.today_button);
         Button peopleButton = findViewById(R.id.people_button);
@@ -27,13 +30,15 @@ public class MenuActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(activity, FeedActivity.class);
                 startActivity(intent);
+
             }
         });
 
         todayButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("Today");
+                Intent intent = new Intent(activity, TodayActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -56,7 +61,8 @@ public class MenuActivity extends AppCompatActivity {
         historyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("History");
+                Intent intent = new Intent(activity, historyActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -65,6 +71,14 @@ public class MenuActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(activity, LikesActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        menuButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                // close the menu button
+                finish();
             }
         });
     }

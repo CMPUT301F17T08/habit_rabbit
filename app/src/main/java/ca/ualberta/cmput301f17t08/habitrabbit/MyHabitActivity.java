@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.ArrayMap;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -16,7 +18,7 @@ import java.util.Date;
 import java.util.TimeZone;
 
 /**
- * Created by micah on 01/11/17.
+ * The activity for user's habit when user select it
  */
 
 public class MyHabitActivity extends AppCompatActivity {
@@ -34,17 +36,13 @@ public class MyHabitActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_habits);
 
-        habitList = LoginManager.getInstance().getCurrentUser().getHabits();
-
+        habitList = new ArrayList<Habit>();
 
         menuButton = (Button) findViewById(R.id.menu_button);
         addHabitButton = (Button) findViewById(R.id.add_habit_button);
 
         habitsRecyclerView = (RecyclerView) findViewById(R.id.habit_recyclerview);
         habitsRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-
-        cAdapt = new HabitsAdapter(habitList, this);
-        habitsRecyclerView.setAdapter(cAdapt);
 
         menuButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,11 +60,32 @@ public class MyHabitActivity extends AppCompatActivity {
             }
         });
 
+
+        final MyHabitActivity self = this;
+        LoginManager.getInstance().getCurrentUser().getHabits(new DatabaseManager.OnHabitsListener() {
+            @Override
+            public void onHabitsSuccess(ArrayMap<String, Habit> habits) {
+                Log.e("Here!", "Here!");
+
+                habitList = new ArrayList<Habit>(habits.values());
+                cAdapt = new HabitsAdapter(habitList, self);
+                habitsRecyclerView.setAdapter(cAdapt);
+                cAdapt.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onHabitsFailed(String message) {
+                Log.e("MyHabitActivity", "Failed to get habits of user!");
+            }
+        });
+
     }
-//    @Override
-//    protected  void onResume() {
-//        super.onResume();
-//        Intent intent = new Intent(this, MapActivity.class);
-//        startActivity(intent);
-//    }
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Intent intent = getIntent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        finish();
+        startActivity(intent);
+    }
 }

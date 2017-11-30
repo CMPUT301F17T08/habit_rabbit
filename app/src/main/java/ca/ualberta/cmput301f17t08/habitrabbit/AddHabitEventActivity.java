@@ -17,7 +17,9 @@ import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
-
+/**
+ * The activity allows the user to add a habit event
+ */
 public class AddHabitEventActivity extends AppCompatActivity {
     private AddHabitEventActivity activity = this;
     private ImageView imagePreview;
@@ -28,6 +30,7 @@ public class AddHabitEventActivity extends AppCompatActivity {
         setContentView(R.layout.add_habit_event);
 
         final Habit habit = (Habit) getIntent().getSerializableExtra("habit");
+        final int position = (int) getIntent().getSerializableExtra("position");
 
         final EditText habitTitle = findViewById(R.id.habit_name_field);
         final EditText habitComment = findViewById(R.id.habit_comment_field);
@@ -57,8 +60,14 @@ public class AddHabitEventActivity extends AppCompatActivity {
 
                 if (!error){
                     // TODO assign the habit event to the habit
-                    HabitEvent event = new HabitEvent(habit, calendar.getTime(), comment, null, bmp);
-                    System.out.println("Created Habit Event");
+                    HabitEvent event = new HabitEvent(habit, "username",calendar.getTime(), comment, null, bmp);
+                    LoginManager.getInstance().getCurrentUser().addToHistory(event);
+
+                    Intent returnIntent = new Intent();
+                    returnIntent.putExtra("position", position);
+                    setResult(Activity.RESULT_OK, returnIntent);
+
+                    finish();
                 }
             }
         });
