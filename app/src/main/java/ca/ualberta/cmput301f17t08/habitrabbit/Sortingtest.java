@@ -10,14 +10,17 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.List;
 import java.util.TimeZone;
 
 public class Sortingtest extends AppCompatActivity {
 
     // TODO for testing soring purpose only, must remove this activity, the xml related to this activity and the list_item xml after the testing is done
-
+    private Sortingtest activity = this;
     private ArrayList<feedtestunit> feedList;
+    private ArrayList<feedtestunit> SortedfeedList;
+    private ListView sortedlistView;
+
+
     private ListView listView;
 
     private ArrayAdapter<feedtestunit> adapter;
@@ -27,7 +30,11 @@ public class Sortingtest extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sortingtest);
         feedList = new ArrayList<>();
-        listView = (ListView) findViewById(R.id.test);
+        SortedfeedList = new ArrayList<>();
+
+        listView = (ListView) findViewById(R.id.listview);
+        sortedlistView = (ListView) findViewById(R.id.sortedlistview);
+
 
 
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
@@ -81,6 +88,11 @@ public class Sortingtest extends AppCompatActivity {
         feedList.add(testunit4);
 
 
+        adapter = new ArrayAdapter<feedtestunit>(this, R.layout.list_item, feedList); // set up the adapter for the list view
+        listView.setAdapter(adapter);
+
+
+
 
         Collections.sort(feedList, new Comparator<feedtestunit>() {
             public int compare(feedtestunit o1, feedtestunit o2) {
@@ -88,8 +100,11 @@ public class Sortingtest extends AppCompatActivity {
             }
         });
 
+
+
         adapter = new ArrayAdapter<feedtestunit>(this, R.layout.list_item, feedList); // set up the adapter for the list view
-        listView.setAdapter(adapter);
+        sortedlistView.setAdapter(adapter);
+
 
 
 
