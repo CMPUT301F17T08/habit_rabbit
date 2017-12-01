@@ -19,15 +19,11 @@ import java.util.ArrayList;
 
 public class historyActivity extends AppCompatActivity {
     //initialize the variables needed in the class
-    private ArrayList<HabitEvent> historyList;
+    private ArrayMap<String, HabitEvent> historyList;
     private historyAdapter cAdapt;
     private RecyclerView historyRecyclerView;
     private Button filter_button;
     private historyActivity activity = this;
-
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +34,14 @@ public class historyActivity extends AppCompatActivity {
         historyRecyclerView = (RecyclerView) findViewById(R.id.recycle);
         historyRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 
+        filter_button = (Button) findViewById(R.id.filter_button);
+        filter_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, FilterActivity.class);
+                startActivity(intent);
+            }
+        });
 
         //get the current user's history list
         if (Global.filter == -1) {
@@ -45,14 +49,23 @@ public class historyActivity extends AppCompatActivity {
         }
         else{
 
-
             LoginManager.getInstance().getCurrentUser().getHabits(new DatabaseManager.OnHabitsListener() {
                 @Override
                 public void onHabitsSuccess(ArrayMap<String, Habit> habits) {
-                    Log.e("Here!", "Here!");
-
                     Habit selectedHabit = new ArrayList<Habit>(habits.values()).get(Global.filter);
-                    historyList = selectedHabit.getHabitEvents();
+                    selectedHabit.getHabitEvents(new DatabaseManager.OnHabitEventsListener() {
+                        @Override
+                        public void onHabitEventsSuccess(ArrayMap<String, HabitEvent> habitEvents) {
+                            historyList = habitEvents;
+                        }
+
+                        @Override
+                        public void onHabitEventsFailed(String message) {
+                            Log.e("HistoryActivity", "Failed to get habit events for filtered habit!");
+                            // TODO: handle this better!
+                            finish();
+                        }
+                    });
                 }
 
                 @Override
@@ -67,15 +80,6 @@ public class historyActivity extends AppCompatActivity {
         cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), historyList,this);
         historyRecyclerView.setAdapter(cAdapt);
 
-
-        filter_button = (Button) findViewById(R.id.filter_button);
-        filter_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(activity, FilterActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     public void showMenu(View v){

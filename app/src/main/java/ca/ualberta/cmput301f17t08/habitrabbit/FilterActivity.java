@@ -107,7 +107,7 @@ public class FilterActivity extends AppCompatActivity {
                         habitListDisplay.add(habit);
                     }
                     for (HabitEvent habitevent : habit.getHabitEvents()){
-                        if (habitevent.getComment().contains(s)){// for every habit event, if the comment contain the char, then dispay it
+                        if (habitevent.getComment().contains(s)){// for every habit event, if the comment contain the char, then display it
                             if(!habitListDisplay.contains(habit)) {
                                 habitListDisplay.add(habit);
                             }
