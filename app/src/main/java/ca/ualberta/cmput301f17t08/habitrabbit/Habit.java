@@ -111,7 +111,6 @@ public class Habit implements Serializable{
         Date currentDate = calendar.getTime();
         Date tempDate = this.startDate;
 
-        System.out.println("Start: " + startDate);
         while (tempDate.before(currentDate)){
             calendar.setTime(tempDate);
             int tempDayIndex = calendar.get(Calendar.DAY_OF_WEEK);
@@ -132,10 +131,6 @@ public class Habit implements Serializable{
 
         String averageTimeStr;
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-//        sdf.setTimeZone(TimeZone.getTimeZone("America/Edmonton"));
-
-
-
 
         if (this.averageTime <= 0){
             averageTimeStr = "N/A";
@@ -143,7 +138,6 @@ public class Habit implements Serializable{
             averageTimeStr = sdf.format(this.averageTime);
         }
 
-        System.out.println(this.averageTime + "average" + averageTimeStr);
         List<Object> statistics = new ArrayList<Object>();
         statistics.add(this.daysCompleted);
         statistics.add(this.streak);
