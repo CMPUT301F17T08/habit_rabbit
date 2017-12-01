@@ -25,6 +25,15 @@ public class HabitEvent implements Serializable {
     private Habit habit;
     private ArrayList<String> likes;
     private String username;
+    private String id;
+    private Boolean synced;
+
+    public HabitEvent(){
+        this.likes = new ArrayList<String>();
+
+        this.synced = false;
+        this.id = null;
+    }
 
     public HabitEvent(Habit habit, String username, Date dateCompleted, String comment, Location location, Bitmap picture) {
         this.habit = habit;
@@ -33,7 +42,10 @@ public class HabitEvent implements Serializable {
         this.comment = comment;
         this.location = location;
         this.picture = bitmapToString(picture);
-        this.likes = new ArrayList();
+        this.likes = new ArrayList<String>();
+
+        this.synced = false;
+        this.id = null;
     }
 
     public Habit getHabit(){ return habit;}
@@ -109,5 +121,29 @@ public class HabitEvent implements Serializable {
             e.getMessage();
             return null;
         }
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Boolean getSynced() {
+        return synced;
+    }
+
+    public void setSynced(Boolean synced) {
+        this.synced = synced;
+    }
+
+    public void sync(DatabaseManager.OnSaveListener listener){
+        DatabaseManager.getInstance().saveHabitEvent(this, listener);
+    }
+
+    public void delete() {
+        // TODO: destroy habit from DB (call DB manager)
     }
 }

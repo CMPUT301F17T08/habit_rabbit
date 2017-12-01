@@ -1,5 +1,7 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
+import android.util.ArrayMap;
+
 import com.google.firebase.database.Exclude;
 
 import java.io.Serializable;
@@ -11,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.TimeZone;
 
@@ -27,15 +30,19 @@ public class Habit implements Serializable{
     private int daysCompleted;
     private long averageTime;        // average time of day in milliseconds
     private int streak;
-    private ArrayList<HabitEvent> habiteventlist;
+    private HashSet<String> habitEventKeyList;
+    private ArrayMap<String, HabitEvent> habiteventlist;
     private String id;
     private Boolean synced;
+    private Boolean habitEventsLoaded;
 
     public Habit(){
-        this.habiteventlist = new ArrayList<HabitEvent>();
+        this.habitEventKeyList = new HashSet<String>();
+        this.habiteventlist = new ArrayMap<String, HabitEvent>();
 
         this.synced = false;
         this.id = null;
+        this.habitEventsLoaded = false;
     }
 
     public Habit(String name, String reason, Date startDate, ArrayList<Integer> frequency){
@@ -49,10 +56,12 @@ public class Habit implements Serializable{
         this.averageTime = -1;
         this.streak = 0;
 
-        this.habiteventlist = new ArrayList<HabitEvent>();
+        this.habitEventKeyList = new HashSet<String>();
+        this.habiteventlist = new ArrayMap<String, HabitEvent>();
         this.synced = false;
 
         this.id = null;
+        this.habitEventsLoaded = false;
     }
 
     public void setName(String name){
@@ -71,8 +80,8 @@ public class Habit implements Serializable{
         this.frequency = frequency;
     }
 
-    public void setHabitEvents(ArrayList<HabitEvent> habiteventlist){
-        this.habiteventlist = (ArrayList<HabitEvent>)habiteventlist.clone();
+    public void setHabitEvents(ArrayMap<String, HabitEvent> habiteventlist){
+        this.habiteventlist = habiteventlist;
     }
 
     public String getName(){
@@ -91,8 +100,40 @@ public class Habit implements Serializable{
         return this.frequency;
     }
 
-    public ArrayList<HabitEvent> getHabitEvents(){
-        return this.habiteventlist;
+    public ArrayList<String> getHabitKeys(){
+        if(habitEventsLoaded){
+            return new ArrayList<String>(this.habiteventlist.keySet());
+        }else{
+            return new ArrayList<String>(this.habitEventKeyList);
+        }
+    }
+
+    public void setHabitKeys(ArrayList<String> habits){
+        habitEventKeyList = new HashSet<String>(habits);
+        habitEventsLoaded = false;
+        habiteventlist.clear();
+    }
+
+    @Exclude
+    public void getHabitEvents(final DatabaseManager.OnHabitEventsListener listener){
+        if(this.habitEventsLoaded){
+            listener.onHabitEventsSuccess(habiteventlist);
+            return;
+        }
+
+        DatabaseManager.getInstance().getHabitEventsInSet(this.habitEventKeyList, new DatabaseManager.OnHabitEventsListener() {
+            @Override
+            public void onHabitEventsSuccess(ArrayMap<String, HabitEvent> habitEvents) {
+                habitEvents = habitEvents;
+                habitEventsLoaded = true;
+                listener.onHabitEventsSuccess(habitEvents);
+            }
+
+            @Override
+            public void onHabitEventsFailed(String message) {
+                listener.onHabitEventsFailed(message);
+            }
+        });
     }
 
     public void resetStreak(){ this.streak = 0; }
@@ -188,23 +229,60 @@ public class Habit implements Serializable{
 
     }
 
-    public void addHabitEvent(HabitEvent habitevent) {
-        if (hasHabitEvent(habitevent))
+    public void addHabitEvent(final HabitEvent habitEvent, final DatabaseManager.OnSaveListener listener) {
+        if (hasHabitEvent(habitEvent))
             throw new IllegalArgumentException("HabitEvent already exists.");
 
-        this.habiteventlist.add(habitevent);
-        return;
+        if(habitEvent.getSynced()){
+            this.habiteventlist.put(habitEvent.getId(), habitEvent);
+            this.sync(new DatabaseManager.OnSaveListener() {
+                @Override
+                public void onSaveSuccess() {
+                    listener.onSaveSuccess();
+                }
+
+                @Override
+                public void onSaveFailure(String message) {
+                    listener.onSaveFailure(message);
+                }
+            });
+        }else{
+            final Habit self = this;
+
+            habitEvent.sync(new DatabaseManager.OnSaveListener() {
+                @Override
+                public void onSaveSuccess() {
+                    self.habiteventlist.put(habitEvent.getId(), habitEvent);
+                    self.sync(new DatabaseManager.OnSaveListener() {
+                        @Override
+                        public void onSaveSuccess() {
+                            listener.onSaveSuccess();
+                        }
+
+                        @Override
+                        public void onSaveFailure(String message) {
+                            listener.onSaveFailure(message);
+                        }
+                    });
+                }
+
+                @Override
+                public void onSaveFailure(String message) {
+                    listener.onSaveFailure(message);
+                }
+            });
+        }
     }
 
     private boolean hasHabitEvent(HabitEvent habitevent) {
-        return this.habiteventlist.contains(habitevent);
+        return this.habiteventlist.containsKey(habitevent.getId());
     }
 
     public ArrayList<HabitEvent> filterHistoryByComment(String keyword) {
 
         ArrayList<HabitEvent> result = new ArrayList<>();
 
-        for (HabitEvent habitevent : habiteventlist) {
+        for (HabitEvent habitevent : habiteventlist.values()) {
             if (habitevent.getComment().contains(keyword)) {
                 result.add(habitevent);
             }
@@ -214,8 +292,9 @@ public class Habit implements Serializable{
     }
 
     public void removeHabitEvent(HabitEvent event){
-        if (this.habiteventlist.contains(event)){
-            this.habiteventlist.remove(event);
+        // TODO: save this
+        if (this.habiteventlist.containsKey(event.getId())){
+            this.habiteventlist.remove(event.getId());
         }
     }
 

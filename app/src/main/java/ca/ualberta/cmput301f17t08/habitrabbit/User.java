@@ -20,8 +20,8 @@ import java.util.Set;
 
 
 public class User {
-    private HashSet<String> habitKeyList;
     private String username;
+    private HashSet<String> habitKeyList;
     private ArrayMap<String, Habit> habitList;
     private ArrayList<String> followerList;
     private ArrayList<String> followingList;
@@ -185,6 +185,17 @@ public class User {
     public void removeHabit(Habit habit) {
         if(habitsLoaded){
             this.habitList.remove(habit.getId());
+            this.save(new DatabaseManager.OnSaveListener() {
+                @Override
+                public void onSaveSuccess() {
+                    // Nothing to be done.
+                }
+
+                @Override
+                public void onSaveFailure(String message){
+                    // Nothing to be done.
+                }
+            });
         }else{
             this.habitKeyList.remove(habit.getId());
         }
