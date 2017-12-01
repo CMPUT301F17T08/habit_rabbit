@@ -21,7 +21,7 @@ public class feedtestunit implements Serializable {
         this.dateCompleted = dateCompleted;
     }
 
-    public Date getDate(String username){
+    public Date getDate(){
         return dateCompleted;
     }
 
