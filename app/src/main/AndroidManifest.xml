@@ -50,12 +50,15 @@
         <activity android:name=".TodayActivity" />
         <activity android:name=".FeedActivity" />
         <activity android:name=".EditHabitEventActivity" />
-        <activity android:name=".FilterActivity"></activity>
-        <receiver android:name=".StreakChecker" >
+        <activity android:name=".FilterActivity" />
+
+        <receiver android:name=".StreakChecker">
             <intent-filter>
                 <action android:name="android.intent.action.ACTION_TIME_TICK" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".Sortingtest"></activity>
     </application>
 
 </manifest>

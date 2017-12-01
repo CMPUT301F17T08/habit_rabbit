@@ -6,17 +6,25 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.Button;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
+
 /**
  * Feed activity in the main menu page
  */
 public class FeedActivity extends AppCompatActivity {
+    private FeedActivity activity = this;
+
     public RecyclerView feedRecyclerView;
     public ArrayList<HabitEvent> feedList;
     public ArrayList<String> followingList;
     private FeedAdapter cAdapt;
-
+    private Button LocationButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,12 +32,24 @@ public class FeedActivity extends AppCompatActivity {
         setContentView(R.layout.feed);
         feedRecyclerView = (RecyclerView) findViewById(R.id.feed_recycle);
         feedRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
-
+        LocationButton = (Button) findViewById(R.id.location_button);
         feedList = new ArrayList<HabitEvent>();
+
+
+
+        //test
+        LocationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(activity, Sortingtest.class);
+                startActivity(intent);
+            }
+        });
+
+
+        //test
         //get the followers
         followingList = LoginManager.getInstance().getCurrentUser().getFollowing();
-
-        //testing code
 
         String username;
         ArrayList<String> usernameList = new ArrayList<String>();
