@@ -103,8 +103,6 @@ public class DatabaseManager {
 
     public void getUserData(final String username, final OnUserDataListener listener){
 
-        System.out.println("Getting User Data");
-
         final DatabaseReference userRef = database.getReference("users").child(username);
 
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -134,7 +132,6 @@ public class DatabaseManager {
     public void saveUserData(User user, final OnSaveListener listener){
         // TODO
         // if the network connection isn't available, save locally here
-        System.out.println("Saving User Data");
 
         final DatabaseReference userRef = database.getReference("users").child(user.getUsername());
 

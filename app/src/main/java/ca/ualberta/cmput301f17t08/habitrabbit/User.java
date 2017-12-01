@@ -123,32 +123,45 @@ public class User {
         if (hasHabit(habit))
             throw new IllegalArgumentException("Habit already exists.");
 
+        if(habit.getSynced()){
+            this.habitList.put(habit.getId(), habit);
+            this.save(new DatabaseManager.OnSaveListener() {
+                @Override
+                public void onSaveSuccess() {
+                    listener.onSaveSuccess();
+                }
 
-        final User self = this;
+                @Override
+                public void onSaveFailure(String message) {
+                    listener.onSaveFailure(message);
+                }
+            });
+        }else{
+            final User self = this;
 
-        habit.sync(new DatabaseManager.OnSaveListener() {
-            @Override
-            public void onSaveSuccess() {
-                self.habitList.put(habit.getId(), habit);
-                self.save(new DatabaseManager.OnSaveListener() {
-                    @Override
-                    public void onSaveSuccess() {
-                        listener.onSaveSuccess();
-                    }
+            habit.sync(new DatabaseManager.OnSaveListener() {
+                @Override
+                public void onSaveSuccess() {
+                    self.habitList.put(habit.getId(), habit);
+                    self.save(new DatabaseManager.OnSaveListener() {
+                        @Override
+                        public void onSaveSuccess() {
+                            listener.onSaveSuccess();
+                        }
 
-                    @Override
-                    public void onSaveFailure(String message) {
-                        listener.onSaveFailure(message);
-                    }
-                });
-            }
+                        @Override
+                        public void onSaveFailure(String message) {
+                            listener.onSaveFailure(message);
+                        }
+                    });
+                }
 
-            @Override
-            public void onSaveFailure(String message) {
-                listener.onSaveFailure(message);
-            }
-        });
-
+                @Override
+                public void onSaveFailure(String message) {
+                    listener.onSaveFailure(message);
+                }
+            });
+        }
 
     }
 
@@ -165,43 +178,14 @@ public class User {
         return false;
     }
 
-    public void removeHabit(final Habit habit, final DatabaseManager.OnSaveListener listener) {
-//        if(habitsLoaded){
-//            this.habitList.remove(habit.getId());
-//        }else{
-//            this.habitKeyList.remove(habit.getId());
-//        }
+    public void removeHabit(Habit habit) {
+        if(habitsLoaded){
+            this.habitList.remove(habit.getId());
+        }else{
+            this.habitKeyList.remove(habit.getId());
+        }
 
-//        habit.delete();
-
-        final User self = this;
-
-        habit.sync(new DatabaseManager.OnSaveListener() {
-            @Override
-            public void onSaveSuccess() {
-                self.habitList.remove(habit.getId());
-                self.habitKeyList.remove(habit.getId());
-
-                self.save(new DatabaseManager.OnSaveListener() {
-                    @Override
-                    public void onSaveSuccess() {
-                        listener.onSaveSuccess();
-                    }
-
-                    @Override
-                    public void onSaveFailure(String message) {
-                        listener.onSaveFailure(message);
-                    }
-                });
-            }
-
-            @Override
-            public void onSaveFailure(String message) {
-                listener.onSaveFailure(message);
-            }
-        });
-
-
+        habit.delete();
 
         return;
     }
