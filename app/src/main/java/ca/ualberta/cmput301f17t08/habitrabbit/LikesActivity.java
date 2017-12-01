@@ -34,11 +34,12 @@ public class LikesActivity extends AppCompatActivity {
 
        //TODO: still have to incorporate follow requests in recyclerview
 
+        likes = new ArrayList<User>();
+
         //set the adapter for the following list
         cAdapt = new LikesAdapter(likes);
         LikesRecyclerView.setAdapter(cAdapt);
 
-       
 
     }
 
