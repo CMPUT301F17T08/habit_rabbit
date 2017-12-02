@@ -230,19 +230,39 @@ public class Habit implements Serializable{
         if (hasHabitEvent(habitEvent))
             throw new IllegalArgumentException("HabitEvent already exists.");
 
+        final Habit self = this;
+
         if(habitEvent.getSynced()){
-            this.sync(listener); // Sync initial list
-            this.habiteventlist.put(habitEvent.getId(), habitEvent);
-            this.sync(listener); // Sync final list
+            this.sync(new DatabaseManager.OnSaveListener() {
+                @Override
+                public void onSaveSuccess() {
+                    self.habiteventlist.put(habitEvent.getId(), habitEvent);
+                    self.sync(listener); // Sync final list
+                }
+
+                @Override
+                public void onSaveFailure(String message) {
+                    listener.onSaveFailure(message);
+                }
+            }); // Sync initial list
+
         }else{
-            final Habit self = this;
 
             habitEvent.sync(new DatabaseManager.OnSaveListener() {
                 @Override
                 public void onSaveSuccess() {
-                    self.sync(listener); // Sync initial HabitEvents list
-                    self.habiteventlist.put(habitEvent.getId(), habitEvent);
-                    self.sync(listener); // Sync final HabitEvents list
+                    self.sync(new DatabaseManager.OnSaveListener() {
+                        @Override
+                        public void onSaveSuccess() {
+                            self.habiteventlist.put(habitEvent.getId(), habitEvent);
+                            self.sync(listener); // Sync final HabitEvents list
+                        }
+
+                        @Override
+                        public void onSaveFailure(String message) {
+                            listener.onSaveFailure(message);
+                        }
+                    }); // Sync initial HabitEvents list
                 }
 
                 @Override
