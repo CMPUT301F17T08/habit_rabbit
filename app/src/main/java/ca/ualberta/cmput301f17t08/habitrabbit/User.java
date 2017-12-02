@@ -27,6 +27,7 @@ public class User {
     private ArrayList<String> followingList;
     private ArrayList<String> followRequests;
     private ArrayList<HabitEvent> historylist;
+    private ArrayList<User> likeList;
 
     private Boolean habitsLoaded;
 
@@ -38,6 +39,7 @@ public class User {
         this.followRequests = new ArrayList<String>();
         this.historylist = new ArrayList<HabitEvent>();
         this.habitsLoaded = false;
+        this.likeList = new ArrayList<User>();
     }
 
     public User(String username){
@@ -49,9 +51,11 @@ public class User {
         this.followRequests = new ArrayList<String>();
         this.historylist = new ArrayList<HabitEvent>();
         this.habitsLoaded = false;
+        this.likeList = new ArrayList<User>();
     }
 
     public void setUsername(String username) {this.username = username;}
+
 
     public ArrayList<String> getHabitKeys(){
         if(habitsLoaded){
@@ -197,6 +201,22 @@ public class User {
     public void setFollowing(ArrayList<String> following){
         this.followingList = (ArrayList<String>)following.clone();
     }
+
+    public void addLikedUser(User newUser){
+
+        this.likeList.add(newUser);
+    }
+
+    public void removeLikedUser(User newUser){
+
+        this.likeList.remove(newUser);
+    }
+
+    public ArrayList<User> getLikeListener(){
+
+        return likeList;
+    }
+
 
     public ArrayList<Habit> filterHistoryByType(String keyword) {
         // TODO: We need to rework this by adding an extra parameter of a listener

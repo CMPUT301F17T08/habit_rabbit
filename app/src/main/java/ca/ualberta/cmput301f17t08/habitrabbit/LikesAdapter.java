@@ -61,7 +61,15 @@ public class LikesAdapter extends RecyclerView.Adapter<LikesAdapter.ViewHolder> 
         //TODO:make a function to get a date of when user liked post
         //holder.userNameLabel.setText(likes.get(position).get());
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
+
+
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override

@@ -53,10 +53,6 @@ public class FilterActivity extends AppCompatActivity {
 
 
 
-
-
-
-
         // habitlist used for displaying
         habitListDisplay = new ArrayList<>();
 
@@ -119,7 +115,6 @@ public class FilterActivity extends AppCompatActivity {
                     }
                 }
                 cAdapt.notifyDataSetChanged();
-
                 cAdapt = new FilterAdapter(habitListDisplay,FilterActivity.this );
                 habitListView.setAdapter(cAdapt);
             }
