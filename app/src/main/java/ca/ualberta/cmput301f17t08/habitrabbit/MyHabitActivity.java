@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.TimeZone;
 
 /**
@@ -64,7 +65,7 @@ public class MyHabitActivity extends AppCompatActivity {
         final MyHabitActivity self = this;
         LoginManager.getInstance().getCurrentUser().getHabits(new DatabaseManager.OnHabitsListener() {
             @Override
-            public void onHabitsSuccess(ArrayMap<String, Habit> habits) {
+            public void onHabitsSuccess(HashMap<String, Habit> habits) {
                 Log.e("Here!", "Here!");
 
                 habitList = new ArrayList<Habit>(habits.values());

@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,7 +31,6 @@ public class AddHabitEventActivity extends AppCompatActivity {
         setContentView(R.layout.add_habit_event);
 
         final Habit habit = (Habit) getIntent().getSerializableExtra("habit");
-        final int position = (int) getIntent().getSerializableExtra("position");
 
         final EditText habitTitle = findViewById(R.id.habit_name_field);
         final EditText habitComment = findViewById(R.id.habit_comment_field);
@@ -59,15 +59,28 @@ public class AddHabitEventActivity extends AppCompatActivity {
                 }
 
                 if (!error){
-                    // TODO assign the habit event to the habit
-                    HabitEvent event = new HabitEvent(habit, "username",calendar.getTime(), comment, null, bmp);
-                    LoginManager.getInstance().getCurrentUser().addToHistory(event);
+                    final HabitEvent event = new HabitEvent(habit.getId(), "username",calendar.getTime(), comment, null, bmp);
+                    habit.addHabitEvent(event, new DatabaseManager.OnSaveListener() {
+                        @Override
+                        public void onSaveSuccess() {
+                            // TODO: check if habit event is for today before setting habit as done?
+                            habit.markDone();
 
-                    Intent returnIntent = new Intent();
-                    returnIntent.putExtra("position", position);
-                    setResult(Activity.RESULT_OK, returnIntent);
+                            Intent returnIntent = new Intent();
+                            returnIntent.putExtra("habitevent_key", event.getId());
+                            setResult(Activity.RESULT_OK, returnIntent);
 
-                    finish();
+                            finish();
+                        }
+
+                        @Override
+                        public void onSaveFailure(String message) {
+                            // TODO: show error message
+                            Log.e("AddHabitEventActivity", "Failed to save HabitEvent!");
+                        }
+                    });
+
+
                 }
             }
         });

@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,7 +31,8 @@ public class FilterActivity extends AppCompatActivity {
     private RecyclerView habitListView;
     private Button menuButton;
     private FilterAdapter cAdapt;
-    private ArrayList<Habit> habitList;
+    private ArrayList<HabitEvent> historyCache;
+    private HashMap<String, Habit> habitList;
     private ArrayList<Habit> habitListDisplay;
 
     @Override
@@ -43,15 +45,13 @@ public class FilterActivity extends AppCompatActivity {
         filter = (EditText) findViewById(R.id.filter);
         title = (TextView) findViewById(R.id.title);
         title.setText("FILTER");
-
         
         habitListView = (RecyclerView) findViewById(R.id.habit_list);
-        habitList = new ArrayList<Habit>();
-
+        habitList = new HashMap<String, Habit>();
 
         habitListView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 
-
+        // TODO: We need a loading screen or overlay to prevent user input before we
 
         // habitlist used for displaying
         habitListDisplay = new ArrayList<>();
@@ -59,9 +59,10 @@ public class FilterActivity extends AppCompatActivity {
         // get the user's habits list that contain all habits
         LoginManager.getInstance().getCurrentUser().getHabits(new DatabaseManager.OnHabitsListener() {
             @Override
-            public void onHabitsSuccess(ArrayMap<String, Habit> habits) {
-                habitList = new ArrayList<Habit>(habits.values());
-
+            public void onHabitsSuccess(HashMap<String, Habit> habits) {
+                habitList = habits;
+                cAdapt = new FilterAdapter(new ArrayList<Habit>(habitList.values()),FilterActivity.this );
+                habitListView.setAdapter(cAdapt);
             }
 
             @Override
@@ -70,8 +71,19 @@ public class FilterActivity extends AppCompatActivity {
             }
         });
 
-        cAdapt = new FilterAdapter(habitList,FilterActivity.this );
-        habitListView.setAdapter(cAdapt);
+        historyCache = null;
+
+        LoginManager.getInstance().getCurrentUser().getHistory(new DatabaseManager.OnHabitEventsListener() {
+            @Override
+            public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
+                historyCache = new ArrayList<HabitEvent>(habitEvents.values());
+            }
+
+            @Override
+            public void onHabitEventsFailed(String message) {
+
+            }
+        });
 
         //before user type in anything to search, display all the habit options
 
@@ -85,7 +97,6 @@ public class FilterActivity extends AppCompatActivity {
             }
         });
 
-
         // set the filter edit text listner
         filter.addTextChangedListener(new TextWatcher() {
             @Override
@@ -96,24 +107,26 @@ public class FilterActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onTextChanged(final CharSequence s, int start, int before, int count) {
 
                 //once user type some letter in the edit text, it will be return to this function as CharSequence s
 
                 habitListDisplay.clear(); // set the display list as the new empty list
 
-                for (Habit habit : habitList){ // check every habit in habitlist
+                for (Habit habit : habitList.values()){ // check every habit in habitlist
                     if (habit.getName().contains(s)){// for every habit, if the name of the habit contains the Char, then add it to the display list
                         habitListDisplay.add(habit);
                     }
-                    for (HabitEvent habitevent : habit.getHabitEvents()){
-                        if (habitevent.getComment().contains(s)){// for every habit event, if the comment contain the char, then dispay it
-                            if(!habitListDisplay.contains(habit)) {
-                                habitListDisplay.add(habit);
-                            }
+                }
+
+                if(historyCache != null) {
+                    for(HabitEvent habitEvent : historyCache){
+                        if(habitEvent.getComment().contains(s)){
+                            habitListDisplay.add(habitList.get(habitEvent.getHabitKey()));
                         }
                     }
                 }
+
                 cAdapt.notifyDataSetChanged();
                 cAdapt = new FilterAdapter(habitListDisplay,FilterActivity.this );
                 habitListView.setAdapter(cAdapt);
@@ -125,7 +138,7 @@ public class FilterActivity extends AppCompatActivity {
 
                     //remove the duplicate element in the filter list
                     Set<Habit> hs = new HashSet<>();
-                    hs.addAll(habitList);
+                    hs.addAll(habitList.values());
                     habitListDisplay.clear();
                     habitListDisplay.addAll(hs);
 

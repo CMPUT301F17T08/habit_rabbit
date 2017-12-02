@@ -17,6 +17,7 @@ import org.w3c.dom.Text;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -53,7 +54,7 @@ public class HabitStatsActivity extends AppCompatActivity {
         LoginManager.getInstance().getCurrentUser().getHabits(
             new DatabaseManager.OnHabitsListener() {
                 @Override
-                public void onHabitsSuccess(ArrayMap<String, Habit> habits) {
+                public void onHabitsSuccess(HashMap<String, Habit> habits) {
 
                     habit = habits.get(habit_id);
                     List<Object> statistics = habit.getStatistics();

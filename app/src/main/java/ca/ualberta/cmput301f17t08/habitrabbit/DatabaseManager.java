@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Set;
 import java.util.TimeZone;
 /**
@@ -36,8 +37,13 @@ public class DatabaseManager {
     }
 
     public interface OnHabitsListener {
-        public void onHabitsSuccess(ArrayMap<String, Habit> habits);
+        public void onHabitsSuccess(HashMap<String, Habit> habits);
         public void onHabitsFailed(String message);
+    }
+
+    public interface OnHabitEventsListener {
+        public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents);
+        public void onHabitEventsFailed(String message);
     }
 
     public interface OnSaveListener {
@@ -55,9 +61,8 @@ public class DatabaseManager {
 
 
     /**
-     * Creates user in database and returns user object
+     * Creates user in database and returns user object to listener
      * @param username
-     * @return
      */
     public void createUser(final String username, final OnUserDataListener listener){
         // TODO: Data validation (not empty, etc)
@@ -158,7 +163,7 @@ public class DatabaseManager {
 
     public void getHabitsInSet(final Set<String> habitKeys, final OnHabitsListener listener){
 
-        final ArrayMap<String, Habit> habits = new ArrayMap<String, Habit>();
+        final HashMap<String, Habit> habits = new HashMap<String, Habit>();
 
         final DatabaseReference habitsRef = database.getReference("habits");
 
@@ -205,6 +210,63 @@ public class DatabaseManager {
                     Log.e("Database Manager Error", "Database error: " + databaseError.getMessage());
                     listener.onSaveFailure("Failed to sync habit due to a database error: " + databaseError.getMessage());
                     habit.setSynced(false);
+                } else {
+                    listener.onSaveSuccess();
+                }
+            }
+        });
+
+    }
+
+    public void getHabitEventsInSet(final Set<String> habitEventKeys, final OnHabitEventsListener listener){
+
+        final HashMap<String, HabitEvent> habitEvents = new HashMap<String, HabitEvent>();
+
+        final DatabaseReference habitEventsRef = database.getReference("habit_events");
+
+        habitEventsRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot child : dataSnapshot.getChildren()){
+                    if(habitEventKeys.contains(child.getKey())){
+                        habitEvents.put(child.getKey(), child.getValue(HabitEvent.class));
+                    }
+                }
+
+                listener.onHabitEventsSuccess(habitEvents);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                listener.onHabitEventsFailed(databaseError.getMessage());
+            }
+        });
+    }
+
+    public void saveHabitEvent(final HabitEvent habitEvent, final OnSaveListener listener) {
+
+        // Get ID of habit
+        String habitEventId = habitEvent.getId();
+
+        final DatabaseReference habitsRef = database.getReference("habit_events");
+        final DatabaseReference habitRef;
+
+        if(habitEventId == null){
+            // Habit is new, needs an ID.
+            habitEventId = habitsRef.push().getKey();
+        }
+
+        habitEvent.setSynced(true);
+        habitEvent.setId(habitEventId);
+
+        habitRef = habitsRef.child(habitEventId);
+        habitRef.setValue(habitEvent, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                if (databaseError != null) {
+                    Log.e("Database Manager Error", "Database error: " + databaseError.getMessage());
+                    listener.onSaveFailure("Failed to sync habit event due to a database error: " + databaseError.getMessage());
+                    habitEvent.setSynced(false);
                 } else {
                     listener.onSaveSuccess();
                 }

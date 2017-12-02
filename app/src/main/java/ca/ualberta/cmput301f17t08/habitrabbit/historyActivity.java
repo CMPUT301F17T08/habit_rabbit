@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * The activity for history page
@@ -19,15 +20,11 @@ import java.util.ArrayList;
 
 public class historyActivity extends AppCompatActivity {
     //initialize the variables needed in the class
-    private ArrayList<HabitEvent> historyList;
+    private HashMap<String, HabitEvent> historyList;
     private historyAdapter cAdapt;
     private RecyclerView historyRecyclerView;
     private Button filter_button;
     private historyActivity activity = this;
-
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,21 +35,58 @@ public class historyActivity extends AppCompatActivity {
         historyRecyclerView = (RecyclerView) findViewById(R.id.recycle);
         historyRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 
+        filter_button = (Button) findViewById(R.id.filter_button);
+        filter_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, FilterActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        final historyActivity self = this;
 
         //get the current user's history list
         if (Global.filter == -1) {
-            historyList = LoginManager.getInstance().getCurrentUser().getHistory();
+            LoginManager.getInstance().getCurrentUser().getHistory(new DatabaseManager.OnHabitEventsListener() {
+                @Override
+                public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
+                    historyList = habitEvents;
+
+                    cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), new ArrayList<HabitEvent>(historyList.values()), self);
+                    historyRecyclerView.setAdapter(cAdapt);
+                }
+
+                @Override
+                public void onHabitEventsFailed(String message) {
+
+                }
+            });
+
         }
-        else{
+        else {
 
 
             LoginManager.getInstance().getCurrentUser().getHabits(new DatabaseManager.OnHabitsListener() {
                 @Override
-                public void onHabitsSuccess(ArrayMap<String, Habit> habits) {
-                    Log.e("Here!", "Here!");
-
+                public void onHabitsSuccess(HashMap<String, Habit> habits) {
                     Habit selectedHabit = new ArrayList<Habit>(habits.values()).get(Global.filter);
-                    historyList = selectedHabit.getHabitEvents();
+                    selectedHabit.getHabitEvents(new DatabaseManager.OnHabitEventsListener() {
+                        @Override
+                        public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
+                            historyList = habitEvents;
+
+                            cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), new ArrayList<HabitEvent>(historyList.values()), self);
+                            historyRecyclerView.setAdapter(cAdapt);
+                        }
+
+                        @Override
+                        public void onHabitEventsFailed(String message) {
+                            Log.e("HistoryActivity", "Failed to get habit events for filtered habit!");
+                            // TODO: handle this better!
+                            finish();
+                        }
+                    });
                 }
 
                 @Override
@@ -62,20 +96,7 @@ public class historyActivity extends AppCompatActivity {
             });
 
         }
-        // set up the adapter
 
-        cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), historyList,this);
-        historyRecyclerView.setAdapter(cAdapt);
-
-
-        filter_button = (Button) findViewById(R.id.filter_button);
-        filter_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(activity, FilterActivity.class);
-                startActivity(intent);
-            }
-        });
     }
 
     public void showMenu(View v){
