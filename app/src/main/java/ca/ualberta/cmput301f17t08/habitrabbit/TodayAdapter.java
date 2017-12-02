@@ -84,7 +84,8 @@ public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.ViewHolder> 
             if (frequency.get(counter) == 1){
                 Button button = (Button)holder.frequencyLayout.findViewWithTag(Integer.toString(counter+1));
                 button.setBackgroundResource(R.drawable.gradient);
-            }}
+            }
+        }
 
         holder.done_layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -106,8 +107,7 @@ public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.ViewHolder> 
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, HabitStatsActivity.class);
-
-                intent.putExtra("habit",habit);
+                intent.putExtra("habit_id", habits.get(position).getId());
                 context.startActivity(intent);
             }
         });

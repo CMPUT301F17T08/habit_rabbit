@@ -108,8 +108,7 @@ public class EditHabitActivity extends AppCompatActivity {
                         .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
                         calendar.get(Calendar.DAY_OF_MONTH));
 
-                // ensure that a previous date can't be selected
-                datePicker.getDatePicker().setMinDate(System.currentTimeMillis());
+                datePicker.getDatePicker().setMinDate(habit.getDate().getTime());
                 datePicker.show();
             }
         });

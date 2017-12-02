@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The class for a habit, has all the properties for a habit
@@ -110,7 +111,6 @@ public class Habit implements Serializable{
         Date currentDate = calendar.getTime();
         Date tempDate = this.startDate;
 
-        System.out.println("Start: " + startDate);
         while (tempDate.before(currentDate)){
             calendar.setTime(tempDate);
             int tempDayIndex = calendar.get(Calendar.DAY_OF_WEEK);
@@ -131,15 +131,13 @@ public class Habit implements Serializable{
 
         String averageTimeStr;
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        sdf.setTimeZone(TimeZone.getTimeZone("America/Edmonton"));
 
-        if (this.averageTime == -1){
+        if (this.averageTime <= 0){
             averageTimeStr = "N/A";
         }else{
             averageTimeStr = sdf.format(this.averageTime);
         }
 
-        System.out.println(this.averageTime + "average" + averageTimeStr);
         List<Object> statistics = new ArrayList<Object>();
         statistics.add(this.daysCompleted);
         statistics.add(this.streak);
@@ -163,7 +161,7 @@ public class Habit implements Serializable{
         this.daysCompleted += 1;
 
         // update the average time of completion
-        if (this.averageTime != -1){
+        if (this.averageTime > 0){
             this.averageTime = (long) (this.averageTime + ((float)1/this.daysCompleted)*(now.getTime() % 86400000 - this.averageTime));
         }else{
             this.averageTime = now.getTime() % 86400000;     // milliseconds elapsed until now today
