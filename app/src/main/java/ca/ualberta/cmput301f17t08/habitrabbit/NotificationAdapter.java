@@ -1,27 +1,20 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 
 /**
  * Created by calvin on 11/12/2017.
  */
 
-public class LikesAdapter extends RecyclerView.Adapter<LikesAdapter.ViewHolder> {
+public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewHolder> {
     private ArrayList<User> likes;
     private Context context;
 
@@ -43,17 +36,17 @@ public class LikesAdapter extends RecyclerView.Adapter<LikesAdapter.ViewHolder> 
         }
     }
 
-    public LikesAdapter(Context context, ArrayList<User> likes) {
+    public NotificationAdapter(Context context, ArrayList<User> likes) {
         this.likes = likes;
         this.context = context;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public LikesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                       int viewType) {
+    public NotificationAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                             int viewType) {
         View likeView = LayoutInflater.from(parent.getContext()).inflate(R.layout.notifications_item, parent, false);
-        LikesAdapter.ViewHolder viewHolder = new LikesAdapter.ViewHolder(likeView);
+        NotificationAdapter.ViewHolder viewHolder = new NotificationAdapter.ViewHolder(likeView);
 
         return viewHolder;
     }

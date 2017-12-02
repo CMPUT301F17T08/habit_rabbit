@@ -7,13 +7,13 @@ import android.support.v7.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class LikesActivity extends AppCompatActivity {
+public class NotificationActivity extends AppCompatActivity {
 
-    private LikesActivity activity = this;
+    private NotificationActivity activity = this;
 
     private ArrayList<User> likes;
     private ArrayList<User> followRequests;
-    private LikesAdapter cAdapt;
+    private NotificationAdapter cAdapt;
 
     private RecyclerView LikesRecyclerView;
     private RecyclerView peopleFollowerRecyclerView;
@@ -35,7 +35,7 @@ public class LikesActivity extends AppCompatActivity {
        //TODO: still have to incorporate follow requests in recyclerview
 
         //set the adapter for the following list
-        cAdapt = new LikesAdapter(this,likes);
+        cAdapt = new NotificationAdapter(this,likes);
         LikesRecyclerView.setAdapter(cAdapt);
 
        
