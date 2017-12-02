@@ -11,6 +11,8 @@ import android.widget.Button;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -37,17 +39,17 @@ public class FeedActivity extends AppCompatActivity {
 
 
 
-        //test
-        LocationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(activity, Sortingtest.class);
-                startActivity(intent);
-            }
-        });
+        //
+        //LocationButton.setOnClickListener(new View.OnClickListener() {
+        //@Override
+        //    public void onClick(View view) {
+        //        Intent intent = new Intent(activity, MaoActivity.class);
+        //        startActivity(intent);
+        //    }
+        //});
 
 
-        //test
+        //
         //get the followers
         followingList = LoginManager.getInstance().getCurrentUser().getFollowing();
 
@@ -79,7 +81,11 @@ public class FeedActivity extends AppCompatActivity {
 
         }
 
-
+        Collections.sort(feedList, new Comparator<HabitEvent>() {
+            public int compare(HabitEvent H1, HabitEvent H2) {
+                return H1.getDateCompleted().compareTo(H2.getDateCompleted());
+            }
+        });
 
         // set up the adapter
         cAdapt = new FeedAdapter(usernameList, feedList,this);
