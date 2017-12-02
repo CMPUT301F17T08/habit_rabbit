@@ -63,14 +63,24 @@ public class AddHabitEventActivity extends AppCompatActivity {
                     habit.addHabitEvent(event, new DatabaseManager.OnSaveListener() {
                         @Override
                         public void onSaveSuccess() {
-                            // TODO: check if habit event is for today before setting habit as done?
                             habit.markDone();
 
-                            Intent returnIntent = new Intent();
-                            returnIntent.putExtra("habitevent_key", event.getId());
-                            setResult(Activity.RESULT_OK, returnIntent);
+                            habit.sync(new DatabaseManager.OnSaveListener() {
+                                @Override
+                                public void onSaveSuccess() {
+                                    Intent returnIntent = new Intent();
+                                    returnIntent.putExtra("habitevent_key", event.getId());
+                                    setResult(Activity.RESULT_OK, returnIntent);
 
-                            finish();
+                                    finish();
+                                }
+
+                                @Override
+                                public void onSaveFailure(String message) {
+                                    // TODO: show error message
+                                }
+                            });
+
                         }
 
                         @Override
