@@ -27,11 +27,38 @@ public class DatabaseManager {
     private static DatabaseManager databaseManager = null;
 
     private FirebaseDatabase database;
-    private ArrayMap<String, Habit> syncedHabits;
+    private boolean disconnected;
+    private DatabaseReference.CompletionListener nullCompletionListener;
 
     private DatabaseManager(){
         database = FirebaseDatabase.getInstance();
         database.setPersistenceEnabled(true);
+        disconnected = false;
+
+        // Set up continuous listener for disconnected boolean key
+        DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
+        connectedRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                boolean connected = snapshot.getValue(Boolean.class);
+
+                disconnected = !connected;
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                System.err.println("Listener was cancelled");
+            }
+        });
+
+        // Create null completion listener that does nothing
+        // Used when we are offline to prevent triggering the setValue completion listener when we regain connection.
+        nullCompletionListener = new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                // Do nothing.
+            }
+        };
     }
 
     public interface OnUserDataListener {
@@ -143,17 +170,22 @@ public class DatabaseManager {
 
         final DatabaseReference userRef = database.getReference("users").child(user.getUsername());
 
-        userRef.setValue(user, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                if(databaseError != null){
-                    listener.onSaveFailure(databaseError.getMessage());
-                    return;
-                }
+        if(disconnected) {
+            userRef.setValue(user, nullCompletionListener);
+            listener.onSaveSuccess();
+        }else {
+            userRef.setValue(user, new DatabaseReference.CompletionListener() {
+                @Override
+                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                    if (databaseError != null) {
+                        listener.onSaveFailure(databaseError.getMessage());
+                        return;
+                    }
 
-                listener.onSaveSuccess();
-            }
-        });
+                    listener.onSaveSuccess();
+                }
+            });
+        }
     }
 
     public void syncLocalData(){
@@ -206,18 +238,24 @@ public class DatabaseManager {
         habit.setId(habitId);
 
         habitRef = habitsRef.child(habitId);
-        habitRef.setValue(habit, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                if (databaseError != null) {
-                    Log.e("Database Manager Error", "Database error: " + databaseError.getMessage());
-                    listener.onSaveFailure("Failed to sync habit due to a database error: " + databaseError.getMessage());
-                    habit.setSynced(false);
-                } else {
-                    listener.onSaveSuccess();
+
+        if(disconnected){
+            habitRef.setValue(habit, nullCompletionListener);
+            listener.onSaveSuccess();
+        }else {
+            habitRef.setValue(habit, new DatabaseReference.CompletionListener() {
+                @Override
+                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                    if (databaseError != null) {
+                        Log.e("Database Manager Error", "Database error: " + databaseError.getMessage());
+                        listener.onSaveFailure("Failed to sync habit due to a database error: " + databaseError.getMessage());
+                        habit.setSynced(false);
+                    } else {
+                        listener.onSaveSuccess();
+                    }
                 }
-            }
-        });
+            });
+        }
 
     }
 
@@ -263,18 +301,23 @@ public class DatabaseManager {
         habitEvent.setId(habitEventId);
 
         habitRef = habitsRef.child(habitEventId);
-        habitRef.setValue(habitEvent, new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                if (databaseError != null) {
-                    Log.e("Database Manager Error", "Database error: " + databaseError.getMessage());
-                    listener.onSaveFailure("Failed to sync habit event due to a database error: " + databaseError.getMessage());
-                    habitEvent.setSynced(false);
-                } else {
-                    listener.onSaveSuccess();
-                }
-            }
-        });
 
+        if(disconnected){
+            habitRef.setValue(habitEvent, nullCompletionListener);
+            listener.onSaveSuccess();
+        }else {
+            habitRef.setValue(habitEvent, new DatabaseReference.CompletionListener() {
+                @Override
+                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                    if (databaseError != null) {
+                        Log.e("Database Manager Error", "Database error: " + databaseError.getMessage());
+                        listener.onSaveFailure("Failed to sync habit event due to a database error: " + databaseError.getMessage());
+                        habitEvent.setSynced(false);
+                    } else {
+                        listener.onSaveSuccess();
+                    }
+                }
+            });
+        }
     }
 }
