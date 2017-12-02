@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.Button;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * Feed activity in the main menu page
  */
@@ -38,14 +40,22 @@ public class FeedActivity extends AppCompatActivity {
         //get the followers
         followingList = LoginManager.getInstance().getCurrentUser().getFollowing();
 
-        //testing code
+        map_button = (Button) findViewById(R.id.map_button);
+        map_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, gpsActivity.class);
+                startActivity(intent);
+            }
+        });
 
+        reloadData();
+
+    }
+
+    private void reloadData(){
         String username;
-        ArrayList<String> usernameList = new ArrayList<String>();
-
-        // set up the adapter
-        cAdapt = new FeedAdapter(usernameList, feedList,this);
-        feedRecyclerView.setAdapter(cAdapt);
+        final ArrayList<String> usernameList = new ArrayList<String>();
 
         // get the followers feed, and append them to the feedList
         for(int each = 0; each < followingList.size(); each++){
@@ -58,10 +68,14 @@ public class FeedActivity extends AppCompatActivity {
                     final User followingUser = user;
                     followingUser.getHistory(new DatabaseManager.OnHabitEventsListener() {
                         @Override
-                        public void onHabitEventsSuccess(ArrayMap<String, HabitEvent> followingFeedList) {
+                        public void onHabitEventsSuccess(HashMap<String, HabitEvent> followingFeedList) {
                             for (int index = 0; index<followingFeedList.size();index++){
                                 feedList.add(followingFeedList.get(index));
                             }
+
+                            // set up the adapter
+                            cAdapt = new FeedAdapter(usernameList, feedList, activity);
+                            feedRecyclerView.setAdapter(cAdapt);
 
                             cAdapt.notifyDataSetChanged();
                         }
@@ -81,22 +95,13 @@ public class FeedActivity extends AppCompatActivity {
             });
 
         }
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-
-
-        // set up the adapter
-        cAdapt = new FeedAdapter(usernameList, feedList,this);
-        feedRecyclerView.setAdapter(cAdapt);
-        map_button = (Button) findViewById(R.id.map_button);
-        map_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(activity, gpsActivity.class);
-                startActivity(intent);
-            }
-        });
-
+        reloadData();
     }
 
     public void showMenu(View v){

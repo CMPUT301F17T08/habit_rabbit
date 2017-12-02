@@ -108,8 +108,7 @@ public class EditHabitActivity extends AppCompatActivity {
                         .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
                         calendar.get(Calendar.DAY_OF_MONTH));
 
-                // ensure that a previous date can't be selected
-                datePicker.getDatePicker().setMinDate(System.currentTimeMillis());
+                datePicker.getDatePicker().setMinDate(habit.getDate().getTime());
                 datePicker.show();
             }
         });
@@ -151,10 +150,6 @@ public class EditHabitActivity extends AppCompatActivity {
                 // TODO check that the habit name doesn't exist already outside of current habit
 
                 if (!error){
-                    // update the habit object with the new values
-                    User currentUser = LoginManager.getInstance().getCurrentUser();
-                    currentUser.removeHabit(habit);
-
                     habit.setName(title);
                     habit.setReason(reason);
                     habit.setDate(date);

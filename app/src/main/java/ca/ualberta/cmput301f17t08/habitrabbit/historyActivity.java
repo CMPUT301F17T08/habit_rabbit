@@ -13,6 +13,7 @@ import android.widget.Button;
 
 import java.sql.BatchUpdateException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * The activity for history page
@@ -20,7 +21,7 @@ import java.util.ArrayList;
 
 public class historyActivity extends AppCompatActivity {
     //initialize the variables needed in the class
-    private ArrayMap<String, HabitEvent> historyList;
+    private HashMap<String, HabitEvent> historyList;
     private historyAdapter cAdapt;
     private RecyclerView historyRecyclerView;
     private Button filter_button;
@@ -45,25 +46,61 @@ public class historyActivity extends AppCompatActivity {
             }
         });
 
+        map_button = (Button) findViewById(R.id.map_button);
+        map_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, gpsActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        reloadData();
+    }
+
+    public void showMenu(View v){
+        Intent intent = new Intent(this, MenuActivity.class);
+        startActivity(intent);
+    }
+
+    private void reloadData(){
         //get the current user's history list
-        if (Global.filter == -1) {
-            //historyList = LoginManager.getInstance().getCurrentUser().getHistory();
 
-            // set up the adapter
+        if (Global.filter == null) {
+            LoginManager.getInstance().getCurrentUser().getHistory(new DatabaseManager.OnHabitEventsListener() {
+                @Override
+                public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
+                    historyList = habitEvents;
 
-            cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), new ArrayList<HabitEvent>(historyList.values()),this);
-            historyRecyclerView.setAdapter(cAdapt);
+                    cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), new ArrayList<HabitEvent>(historyList.values()), activity);
+                    historyRecyclerView.setAdapter(cAdapt);
+
+                    cAdapt.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onHabitEventsFailed(String message) {
+
+                }
+            });
+
         }
         else {
 
+
             LoginManager.getInstance().getCurrentUser().getHabits(new DatabaseManager.OnHabitsListener() {
                 @Override
-                public void onHabitsSuccess(ArrayMap<String, Habit> habits) {
-                    Habit selectedHabit = new ArrayList<Habit>(habits.values()).get(Global.filter);
+                public void onHabitsSuccess(HashMap<String, Habit> habits) {
+                    Habit selectedHabit = habits.get(Global.filter);
                     selectedHabit.getHabitEvents(new DatabaseManager.OnHabitEventsListener() {
                         @Override
-                        public void onHabitEventsSuccess(ArrayMap<String, HabitEvent> habitEvents) {
+                        public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
                             historyList = habitEvents;
+
+                            cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), new ArrayList<HabitEvent>(historyList.values()), activity);
+                            historyRecyclerView.setAdapter(cAdapt);
+
+                            cAdapt.notifyDataSetChanged();
                         }
 
                         @Override
@@ -80,36 +117,7 @@ public class historyActivity extends AppCompatActivity {
                     Log.e("MyHabitActivity", "Failed to get habits of user!");
                 }
             });
-
         }
-
-
-        filter_button = (Button) findViewById(R.id.filter_button);
-        filter_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(activity, FilterActivity.class);
-                startActivity(intent);
-            }
-        });
-
-        map_button = (Button) findViewById(R.id.map_button);
-        map_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(activity, gpsActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
-
-
-    }
-
-    public void showMenu(View v){
-        Intent intent = new Intent(this, MenuActivity.class);
-        startActivity(intent);
     }
 
     @Override
@@ -122,4 +130,10 @@ public class historyActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        reloadData();
+    }
 }

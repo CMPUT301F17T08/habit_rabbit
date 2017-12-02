@@ -5,6 +5,8 @@ import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.util.Base64;
 
+import com.google.firebase.database.Exclude;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -12,17 +14,20 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
+
 /**
  * The class for habit event, it has date and other properties for habit event
  */
 
 public class HabitEvent implements Serializable {
 
+    private String habitKey;
+    private Habit habit;
     private Date dateCompleted;
     private String comment;
     private Location location;
     private String picture;
-    private Habit habit;
     private ArrayList<String> likes;
     private String username;
     private String id;
@@ -37,15 +42,12 @@ public class HabitEvent implements Serializable {
         this.id = null;
     }
 
-
-
-    public HabitEvent(Habit habit, String username,Date dateCompleted, String comment, Location location, Bitmap picture,double lat, double lng) {
-
-        this.habit = habit;
+    public HabitEvent(String habitKey, String username, Date dateCompleted, String comment, Location location, Bitmap picture) {
+        this.habitKey = habitKey;
         this.username = username;
         this.dateCompleted = dateCompleted;
         this.comment = comment;
-        this.location = location;
+        this.location = new Location(location);
         this.picture = bitmapToString(picture);
         this.likes = new ArrayList<String>();
 
@@ -57,7 +59,21 @@ public class HabitEvent implements Serializable {
         }
     }
 
-    public Habit getHabit(){ return habit;}
+    public void setHabitKey(String habitKey) {
+        this.habitKey = habitKey;
+    }
+
+    public String getHabitKey(){
+        return habitKey;
+    }
+
+    @Exclude
+    public void getHabit(DatabaseManager.OnHabitsListener listener){
+        HashSet<String> habit = new HashSet<String>();
+        habit.add(this.habitKey);
+
+        DatabaseManager.getInstance().getHabitsInSet(habit, listener);
+    }
 
     public String getUsername(){ return username;}
 
@@ -69,21 +85,15 @@ public class HabitEvent implements Serializable {
         this.comment = comment;
     }
 
-    public void setLocation(double lat, double lng) {
-        this.lat = lat;
-        this.lng = lng;
-    }
-
-    public double getLat() {
-        return lat ;
-    }
-
-    public double getLng() {
-        return lng ;
+    public void setLocation(Location location) {
+        this.location = new Location(location);
     }
 
     public void setPicture(Bitmap picture) {
         this.picture = bitmapToString(picture);
+    }
+    public void setPictureString(String picture){
+        this.picture = picture;
     }
 
     public String getComment(){
@@ -94,8 +104,13 @@ public class HabitEvent implements Serializable {
         return location;
     }
 
+    @Exclude
     public Bitmap getPicture(){
         return stringToBitmap(this.picture);
+    }
+
+    public String getPictureString() {
+        return this.picture;
     }
 
     public void like(String username){

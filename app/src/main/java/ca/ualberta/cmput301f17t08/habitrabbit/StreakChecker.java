@@ -10,6 +10,7 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.TimeZone;
 
 /**
@@ -24,7 +25,7 @@ public class StreakChecker extends BroadcastReceiver {
         User current_user = LoginManager.getInstance().getCurrentUser();
         current_user.getHabits(new DatabaseManager.OnHabitsListener() {
             @Override
-            public void onHabitsSuccess(ArrayMap<String, Habit> habits) {
+            public void onHabitsSuccess(HashMap<String, Habit> habits) {
                 //get the current time
                 Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
                 Date now = calendar.getTime();

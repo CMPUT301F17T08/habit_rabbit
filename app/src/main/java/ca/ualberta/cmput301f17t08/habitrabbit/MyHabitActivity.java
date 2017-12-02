@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.TimeZone;
 
 /**
@@ -60,16 +61,20 @@ public class MyHabitActivity extends AppCompatActivity {
             }
         });
 
+        reloadData();
 
-        final MyHabitActivity self = this;
+    }
+
+    private void reloadData(){
         LoginManager.getInstance().getCurrentUser().getHabits(new DatabaseManager.OnHabitsListener() {
             @Override
-            public void onHabitsSuccess(ArrayMap<String, Habit> habits) {
+            public void onHabitsSuccess(HashMap<String, Habit> habits) {
                 Log.e("Here!", "Here!");
 
                 habitList = new ArrayList<Habit>(habits.values());
-                cAdapt = new HabitsAdapter(habitList, self);
+                cAdapt = new HabitsAdapter(habitList, activity);
                 habitsRecyclerView.setAdapter(cAdapt);
+
                 cAdapt.notifyDataSetChanged();
             }
 
@@ -78,8 +83,15 @@ public class MyHabitActivity extends AppCompatActivity {
                 Log.e("MyHabitActivity", "Failed to get habits of user!");
             }
         });
-
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        reloadData();
+    }
+
     @Override
     protected void onRestart() {
         super.onRestart();

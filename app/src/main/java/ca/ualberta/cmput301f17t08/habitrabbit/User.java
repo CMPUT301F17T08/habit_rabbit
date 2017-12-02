@@ -6,6 +6,7 @@ import android.util.Log;
 import com.google.firebase.database.Exclude;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Objects;
 
@@ -18,7 +19,7 @@ import java.util.Objects;
 public class User {
     private String username;
     private HashSet<String> habitKeyList;
-    private ArrayMap<String, Habit> habitList;
+    private HashMap<String, Habit> habitList;
     private ArrayList<String> followerList;
     private ArrayList<String> followingList;
     private ArrayList<String> followRequests;
@@ -27,7 +28,7 @@ public class User {
     private Boolean habitsLoaded;
 
     public User(){
-        this.habitList = new ArrayMap<String, Habit>();
+        this.habitList = new HashMap<String, Habit>();
         this.habitKeyList = new HashSet<String>();
         this.followerList = new ArrayList<String>();
         this.followingList = new ArrayList<String>();
@@ -38,7 +39,7 @@ public class User {
 
     public User(String username){
         this.username = username;
-        this.habitList = new ArrayMap<String, Habit>();
+        this.habitList = new HashMap<String, Habit>();
         this.habitKeyList = new HashSet<String>();
         this.followerList = new ArrayList<String>();
         this.followingList = new ArrayList<String>();
@@ -49,6 +50,14 @@ public class User {
 
     public void setUsername(String username) {this.username = username;}
 
+    @Exclude
+    public HashSet<String> getHabitKeysSet(){
+        if(habitsLoaded){
+            return new HashSet<String>(this.habitList.keySet());
+        }else{
+            return this.habitKeyList;
+        }
+    }
 
     public ArrayList<String> getHabitKeys(){
         if(habitsLoaded){
@@ -70,14 +79,12 @@ public class User {
 
     @Exclude
     public void getHabits(final DatabaseManager.OnHabitsListener listener){
-        if(this.habitsLoaded){
-            listener.onHabitsSuccess(habitList);
-            return;
-        }
 
-        DatabaseManager.getInstance().getHabitsInSet(this.habitKeyList, new DatabaseManager.OnHabitsListener() {
+        // Do not use habitsLoaded flag here and return cached! Causes bug when habit is edited.
+
+        DatabaseManager.getInstance().getHabitsInSet(this.getHabitKeysSet(), new DatabaseManager.OnHabitsListener() {
             @Override
-            public void onHabitsSuccess(ArrayMap<String, Habit> habits) {
+            public void onHabitsSuccess(HashMap<String, Habit> habits) {
                 habitList = habits;
                 habitsLoaded = true;
                 listener.onHabitsSuccess(habits);
@@ -251,9 +258,9 @@ public class User {
 
         this.getHabits(new DatabaseManager.OnHabitsListener() {
             @Override
-            public void onHabitsSuccess(ArrayMap<String, Habit> habits) {
-                // We have an ArrayMap of our habits. Need to retrieve HabitEvents of each.
-                ArrayMap<String, HabitEvent> historyList = new ArrayMap<String, HabitEvent>();
+            public void onHabitsSuccess(HashMap<String, Habit> habits) {
+                // We have a HashMap of our habits. Need to retrieve HabitEvents of each.
+                HashMap<String, HabitEvent> historyList = new HashMap<String, HabitEvent>();
                 HashSet<String> historyKeyList = new HashSet<String>();
 
                 for(Habit habit : habits.values()){

@@ -2,8 +2,14 @@ package ca.ualberta.cmput301f17t08.habitrabbit;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Location;
+import android.location.LocationManager;
+import android.location.LocationProvider;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,11 +19,17 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.maps.LocationSource;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
+
 /**
  * The activity allows the user to add a habit event
  */
@@ -25,6 +37,9 @@ public class AddHabitEventActivity extends AppCompatActivity {
     private AddHabitEventActivity activity = this;
     private ImageView imagePreview;
     private Bitmap bmp;
+    private Location location;
+    private boolean locationGranted;
+    private FusedLocationProviderClient mFusedLocationClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +47,15 @@ public class AddHabitEventActivity extends AppCompatActivity {
         setContentView(R.layout.add_habit_event);
 
         final Habit habit = (Habit) getIntent().getSerializableExtra("habit");
-        final int position = (int) getIntent().getSerializableExtra("position");
 
         final EditText habitTitle = findViewById(R.id.habit_name_field);
         final EditText habitComment = findViewById(R.id.habit_comment_field);
         imagePreview = findViewById(R.id.image_preview);
         Button addButton = findViewById(R.id.add_habit_event_button);
+
+        locationGranted = false;
+
+        getLocation();
 
         habitTitle.setText(habit.getName());
 
@@ -61,18 +79,29 @@ public class AddHabitEventActivity extends AppCompatActivity {
                 }
 
                 if (!error){
-                    final HabitEvent event = new HabitEvent(habit, "username",calendar.getTime(), comment, null, bmp,1,1);
+                    final HabitEvent event = new HabitEvent(habit.getId(), "username",calendar.getTime(), comment, location, bmp);
+
                     habit.addHabitEvent(event, new DatabaseManager.OnSaveListener() {
                         @Override
                         public void onSaveSuccess() {
-                            // TODO: check if habit event is for today before setting habit as done?
                             habit.markDone();
 
-                            Intent returnIntent = new Intent();
-                            returnIntent.putExtra("habitevent_key", event.getId());
-                            setResult(Activity.RESULT_OK, returnIntent);
+                            habit.sync(new DatabaseManager.OnSaveListener() {
+                                @Override
+                                public void onSaveSuccess() {
+                                    Intent returnIntent = new Intent();
+                                    returnIntent.putExtra("habitevent_key", event.getId());
+                                    setResult(Activity.RESULT_OK, returnIntent);
 
-                            finish();
+                                    finish();
+                                }
+
+                                @Override
+                                public void onSaveFailure(String message) {
+                                    // TODO: show error message
+                                }
+                            });
+
                         }
 
                         @Override
@@ -87,6 +116,22 @@ public class AddHabitEventActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void getLocation() {
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // Permission not granted.
+            return;
+        }
+
+        locationGranted = true;
+
+        mFusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
+            @Override
+            public void onComplete(@NonNull Task<Location> task) {
+                location = new Location(task.getResult());
+            }
+        });
     }
 
     public void pickImage(View v) {
@@ -109,8 +154,7 @@ public class AddHabitEventActivity extends AppCompatActivity {
                 return;
             }
             try {
-                InputStream inputStream = activity.getContentResolver().openInputStream(data
-                            .getData());
+                InputStream inputStream = activity.getContentResolver().openInputStream(data.getData());
 
                 bmp = BitmapFactory.decodeStream(inputStream);
                 imagePreview.setImageBitmap(bmp);

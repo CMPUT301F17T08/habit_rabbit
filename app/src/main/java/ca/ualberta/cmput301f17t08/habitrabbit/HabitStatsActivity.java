@@ -17,6 +17,7 @@ import org.w3c.dom.Text;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -33,6 +34,7 @@ public class HabitStatsActivity extends AppCompatActivity {
     private TextView daysCompletedCount;
     private TextView averageTimeCount;
     private TextView habitStartDate;
+    private TextView habitLastCompletedDate;
     private CardView percentCardView;
 
     @Override
@@ -45,13 +47,14 @@ public class HabitStatsActivity extends AppCompatActivity {
         daysCompletedCount = (TextView)findViewById(R.id.days_completed_count);
         averageTimeCount = (TextView)findViewById(R.id.avg_time_count);
         habitStartDate = (TextView)findViewById(R.id.habit_start_date);
+        habitLastCompletedDate = (TextView)findViewById(R.id.last_completed_date);
         percentCardView = (CardView) findViewById(R.id.percentage_complete);
 
         final String habit_id = (String)getIntent().getSerializableExtra("habit_id");
         LoginManager.getInstance().getCurrentUser().getHabits(
             new DatabaseManager.OnHabitsListener() {
                 @Override
-                public void onHabitsSuccess(ArrayMap<String, Habit> habits) {
+                public void onHabitsSuccess(HashMap<String, Habit> habits) {
 
                     habit = habits.get(habit_id);
                     List<Object> statistics = habit.getStatistics();
@@ -64,8 +67,17 @@ public class HabitStatsActivity extends AppCompatActivity {
 
                     //format the date
                     SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy
-                    String strDate = dateFormatter.format(habit.getDate());
-                    habitStartDate.setText(strDate);
+                    String startDateStr = dateFormatter.format(habit.getDate());
+                    habitStartDate.setText(startDateStr);
+
+                    String lastCompletedDateStr;
+                    if (habit.getLastCompleted() != null){
+                        lastCompletedDateStr = dateFormatter.format(habit.getLastCompleted());
+                    }else{
+                        lastCompletedDateStr = "N/A";
+                    }
+
+                    habitLastCompletedDate.setText(lastCompletedDateStr);
 
                     //color list for the background of percentage block
                     String[] colorList = {"#ff0000","#ff4000","#ff8000","#ffB000","#fff000","#F0FF00","#E0FF00","#D0FF00","#B0FF00","#00FF00","#00FF00"};

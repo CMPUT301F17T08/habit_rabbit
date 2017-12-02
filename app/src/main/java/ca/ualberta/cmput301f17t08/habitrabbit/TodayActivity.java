@@ -12,6 +12,7 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.TimeZone;
 
 /**
@@ -34,14 +35,30 @@ public class TodayActivity extends AppCompatActivity {
         habitRecyclerView = (RecyclerView) findViewById(R.id.recycle);
         habitRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 
-        //get the current user's history list
-        habitList = new ArrayList<Habit>();
+        reloadData();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();  // Always call the superclass method first
+
+        reloadData();
+    }
+
+    public void reloadData(){
+
+        // TODO: Show loading screen?
+
+        if(habitList != null){
+            habitList.clear();
+            cAdapt.notifyDataSetChanged();
+        }
 
         final TodayActivity self = this;
 
         LoginManager.getInstance().getCurrentUser().getHabits(new DatabaseManager.OnHabitsListener() {
             @Override
-            public void onHabitsSuccess(ArrayMap<String, Habit> habits) {
+            public void onHabitsSuccess(HashMap<String, Habit> habits) {
 
                 habitList = new ArrayList<Habit>(habits.values());
 
@@ -89,7 +106,6 @@ public class TodayActivity extends AppCompatActivity {
                 self.finish();
             }
         });
-
     }
 
     public void showMenu(View v){
@@ -105,9 +121,5 @@ public class TodayActivity extends AppCompatActivity {
         finish();
         startActivity(intent);
     }
-    // pass the result from the add habit event activity to the adapter since the habit is located there
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-       // cAdapt.onActivityResult(requestCode, resultCode, data);
-    }
+
 }
