@@ -26,7 +26,16 @@ public class NotificationActivity extends AppCompatActivity {
         /*
         TODO: get the instance of the user's likes and followrequest lists from firebase
          */
-        //followingList = LoginManager.getInstance().getCurrentUser().getHabits();
+        User currentUser = LoginManager.getInstance().getCurrentUser();
+        ArrayList<User> likeList = currentUser.getLikeList();
+        ArrayList<String> pendingFollower = currentUser.getFollowRequests();
+
+        //put like and follow request lists together
+        for(User user: likeList){
+            pendingFollower.add(user.getUsername());
+        }
+
+
 
         //create recycleview for likes
         LikesRecyclerView = (RecyclerView) findViewById(R.id.likes_recyclerview);
@@ -35,7 +44,7 @@ public class NotificationActivity extends AppCompatActivity {
        //TODO: still have to incorporate follow requests in recyclerview
 
         //set the adapter for the following list
-        cAdapt = new NotificationAdapter(this,likes);
+        cAdapt = new NotificationAdapter(this,pendingFollower);
         LikesRecyclerView.setAdapter(cAdapt);
 
        

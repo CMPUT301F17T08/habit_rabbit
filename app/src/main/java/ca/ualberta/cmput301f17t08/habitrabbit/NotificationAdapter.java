@@ -15,7 +15,7 @@ import java.util.ArrayList;
  */
 
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewHolder> {
-    private ArrayList<User> likes;
+    private ArrayList<String> pendingList;
     private Context context;
 
     // Provide a reference to the views for each data item
@@ -26,18 +26,20 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
         public TextView dateLabel;
         public TextView userNameLabel;
+        public TextView infoLabel;
 
 
 
         public ViewHolder(View peopleView) {
             super(peopleView);
-            dateLabel = (TextView) peopleView.findViewById(R.id.notifications_time);
-            userNameLabel = (TextView) peopleView.findViewById(R.id.notifications_name);
+            dateLabel = (TextView) peopleView.findViewById(R.id.notification_date);
+            userNameLabel = (TextView) peopleView.findViewById(R.id.notification_user);
+            infoLabel = (TextView) peopleView.findViewById(R.id.infoLabel);
         }
     }
 
-    public NotificationAdapter(Context context, ArrayList<User> likes) {
-        this.likes = likes;
+    public NotificationAdapter(Context context, ArrayList<String> pengingList) {
+        this.pendingList = pengingList;
         this.context = context;
     }
 
@@ -56,7 +58,18 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        holder.userNameLabel.setText(likes.get(position).getUsername());
+        holder.userNameLabel.setText(pendingList.get(position));
+        User currentUser = LoginManager.getInstance().getCurrentUser();
+        ArrayList<String> follwingRequest = currentUser.getFollowRequests();
+
+        for (String username : pendingList){
+            if(follwingRequest.contains(username)){
+                holder.infoLabel.setText("wants to follow you");
+            }
+            else{
+                holder.infoLabel.setText("likes your post");
+            }
+        }
         //TODO:make a function to get a date of when user liked post
         //holder.userNameLabel.setText(likes.get(position).get());
 
@@ -67,7 +80,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 LayoutInflater inflater = LayoutInflater.from(context);
                 View new_view = null;
-                builder.setView(new_view=inflater.inflate(R.layout.followr_request, null));
+                builder.setView(new_view=inflater.inflate(R.layout.follower_request, null));
 
                 final AlertDialog Dialog = builder.create();
                 Dialog.show();
@@ -81,6 +94,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return likes.size();
+        return pendingList.size();
     }
 }

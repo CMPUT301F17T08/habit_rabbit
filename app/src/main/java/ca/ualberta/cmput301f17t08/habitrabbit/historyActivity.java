@@ -52,7 +52,6 @@ public class historyActivity extends AppCompatActivity {
                 @Override
                 public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
                     historyList = habitEvents;
-
                     cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), new ArrayList<HabitEvent>(historyList.values()), self);
                     historyRecyclerView.setAdapter(cAdapt);
                 }
@@ -75,7 +74,6 @@ public class historyActivity extends AppCompatActivity {
                         @Override
                         public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
                             historyList = habitEvents;
-
                             cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), new ArrayList<HabitEvent>(historyList.values()), self);
                             historyRecyclerView.setAdapter(cAdapt);
                         }

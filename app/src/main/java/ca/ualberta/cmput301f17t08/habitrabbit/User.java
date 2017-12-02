@@ -215,7 +215,7 @@ public class User {
         this.likeList.remove(newUser);
     }
 
-    public ArrayList<User> getLikeListener(){
+    public ArrayList<User> getLikeList(){
 
         return likeList;
     }
