@@ -1,6 +1,9 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,6 +23,7 @@ import java.util.Collections;
 
 public class LikesAdapter extends RecyclerView.Adapter<LikesAdapter.ViewHolder> {
     private ArrayList<User> likes;
+    private Context context;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -31,6 +35,7 @@ public class LikesAdapter extends RecyclerView.Adapter<LikesAdapter.ViewHolder> 
         public TextView userNameLabel;
 
 
+
         public ViewHolder(View peopleView) {
             super(peopleView);
             dateLabel = (TextView) peopleView.findViewById(R.id.notifications_time);
@@ -38,8 +43,9 @@ public class LikesAdapter extends RecyclerView.Adapter<LikesAdapter.ViewHolder> 
         }
     }
 
-    public LikesAdapter(ArrayList<User> likes) {
+    public LikesAdapter(Context context, ArrayList<User> likes) {
         this.likes = likes;
+        this.context = context;
     }
 
     // Create new views (invoked by the layout manager)
@@ -64,7 +70,14 @@ public class LikesAdapter extends RecyclerView.Adapter<LikesAdapter.ViewHolder> 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //TODO load the follower request page
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                LayoutInflater inflater = LayoutInflater.from(context);
+                View new_view = null;
+                builder.setView(new_view=inflater.inflate(R.layout.followr_request, null));
+
+                final AlertDialog Dialog = builder.create();
+                Dialog.show();
 
             }
         });
