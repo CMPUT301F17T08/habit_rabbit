@@ -15,10 +15,15 @@ import java.util.ArrayList;
 public class FeedActivity extends AppCompatActivity {
     public RecyclerView feedRecyclerView;
     public ArrayList<HabitEvent> feedList;
+
     public ArrayList<String> followerList;
     private historyAdapter cAdapt;
     private Button map_button;
     private FeedActivity activity = this;
+
+
+    public ArrayList<String> followingList;
+    private FeedAdapter cAdapt;
 
 
 
@@ -29,30 +34,44 @@ public class FeedActivity extends AppCompatActivity {
         feedRecyclerView = (RecyclerView) findViewById(R.id.feed_recycle);
         feedRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 
-        //get the current user's feed list
-        feedList = LoginManager.getInstance().getCurrentUser().getHistory();
+        feedList = new ArrayList<HabitEvent>();
         //get the followers
-        followerList = LoginManager.getInstance().getCurrentUser().getFollowers();
+        followingList = LoginManager.getInstance().getCurrentUser().getFollowing();
 
         //testing code
-        followerList.add("Yuxuan");
-
 
         String username;
-        ArrayList<HabitEvent> followerFeedList;
+        ArrayList<String> usernameList = new ArrayList<String>();
+
 
         // get the followers feed, and append them to the feedList
-        for(int each = 0; each < followerList.size(); each++){
-            username = followerList.get(each);
-            followerFeedList = new User(username).getHistory();
-            for (int index = 0; index<followerFeedList.size();index++){
-                feedList.add(followerFeedList.get(index));
-            }
+        for(int each = 0; each < followingList.size(); each++){
+            username = followingList.get(each);
+            usernameList.add(username);
+
+            DatabaseManager.getInstance().getUserData(username, new DatabaseManager.OnUserDataListener() {
+                @Override
+                public void onUserData(User user) {
+                    final User followingUser = user;
+                    ArrayList<HabitEvent> followingFeedList = followingUser.getHistory();
+
+                    for (int index = 0; index<followingFeedList.size();index++){
+                        feedList.add(followingFeedList.get(index));
+                    }
+                }
+
+                @Override
+                public void onUserDataFailed(String message) {
+
+                }
+            });
+
         }
 
 
+
         // set up the adapter
-        cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), feedList,this);
+        cAdapt = new FeedAdapter(usernameList, feedList,this);
         feedRecyclerView.setAdapter(cAdapt);
         map_button = (Button) findViewById(R.id.map_button);
         map_button.setOnClickListener(new View.OnClickListener() {
