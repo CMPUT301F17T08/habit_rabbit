@@ -60,11 +60,13 @@ public class AddHabitEventActivity extends AppCompatActivity {
                 }
 
                 if (!error){
-                    // TODO assign the habit event to the habit
                     final HabitEvent event = new HabitEvent(habit, "username",calendar.getTime(), comment, null, bmp);
                     habit.addHabitEvent(event, new DatabaseManager.OnSaveListener() {
                         @Override
                         public void onSaveSuccess() {
+                            // TODO: check if habit event is for today before setting habit as done?
+                            habit.markDone();
+
                             Intent returnIntent = new Intent();
                             returnIntent.putExtra("habitevent_key", event.getId());
                             setResult(Activity.RESULT_OK, returnIntent);

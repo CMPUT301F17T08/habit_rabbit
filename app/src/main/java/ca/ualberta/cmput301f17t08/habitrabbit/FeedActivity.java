@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.ArrayMap;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -34,6 +35,9 @@ public class FeedActivity extends AppCompatActivity {
         String username;
         ArrayList<String> usernameList = new ArrayList<String>();
 
+        // set up the adapter
+        cAdapt = new FeedAdapter(usernameList, feedList,this);
+        feedRecyclerView.setAdapter(cAdapt);
 
         // get the followers feed, and append them to the feedList
         for(int each = 0; each < followingList.size(); each++){
@@ -44,11 +48,22 @@ public class FeedActivity extends AppCompatActivity {
                 @Override
                 public void onUserData(User user) {
                     final User followingUser = user;
-                    ArrayList<HabitEvent> followingFeedList = followingUser.getHistory();
+                    followingUser.getHistory(new DatabaseManager.OnHabitEventsListener() {
+                        @Override
+                        public void onHabitEventsSuccess(ArrayMap<String, HabitEvent> followingFeedList) {
+                            for (int index = 0; index<followingFeedList.size();index++){
+                                feedList.add(followingFeedList.get(index));
+                            }
 
-                    for (int index = 0; index<followingFeedList.size();index++){
-                        feedList.add(followingFeedList.get(index));
-                    }
+                            cAdapt.notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onHabitEventsFailed(String message) {
+
+                        }
+                    });
+
                 }
 
                 @Override
@@ -59,11 +74,6 @@ public class FeedActivity extends AppCompatActivity {
 
         }
 
-
-
-        // set up the adapter
-        cAdapt = new FeedAdapter(usernameList, feedList,this);
-        feedRecyclerView.setAdapter(cAdapt);
     }
 
     public void showMenu(View v){

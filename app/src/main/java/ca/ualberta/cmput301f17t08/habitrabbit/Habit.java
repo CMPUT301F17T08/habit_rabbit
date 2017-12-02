@@ -225,8 +225,6 @@ public class Habit implements Serializable{
         System.out.println("Updated last completed to" + now);
         this.lastCompleted = now;
 
-        // TODO create habit event here and jump to the add to habit history activity
-
     }
 
     public void addHabitEvent(final HabitEvent habitEvent, final DatabaseManager.OnSaveListener listener) {

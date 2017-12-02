@@ -93,11 +93,7 @@ public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.ViewHolder> 
 
                 Intent intent = new Intent(context, AddHabitEventActivity.class);
                 intent.putExtra("habit", habit);
-                intent.putExtra("position", position);
-                context.startActivityForResult(intent, 1);
-//                context.startActivity(intent);
-                System.out.println("FINISHED ACTIVITY");
-
+                context.startActivity(intent);
 
             }
         });
@@ -112,16 +108,6 @@ public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.ViewHolder> 
             }
         });
 
-    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == 1) {
-            if(resultCode == Activity.RESULT_OK){
-                Integer position = data.getIntExtra("position", -1);
-
-                habits.get(position).markDone();
-            }
-        }
     }
 
     // Return the size of your dataset (invoked by the layout manager)
