@@ -24,6 +24,7 @@ public class AddHabitEventActivity extends AppCompatActivity {
     private AddHabitEventActivity activity = this;
     private ImageView imagePreview;
     private Bitmap bmp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -26,7 +26,10 @@ public class HabitEvent implements Serializable {
     private ArrayList<String> likes;
     private String username;
 
-    public HabitEvent(Habit habit, String username, Date dateCompleted, String comment, Location location, Bitmap picture) {
+
+
+    public HabitEvent(Habit habit, String username,Date dateCompleted, String comment, Location location, Bitmap picture) {
+
         this.habit = habit;
         this.username = username;
         this.dateCompleted = dateCompleted;
