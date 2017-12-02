@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.TimeZone;
@@ -31,14 +32,14 @@ public class Habit implements Serializable{
     private long averageTime;        // average time of day in milliseconds
     private int streak;
     private HashSet<String> habitEventKeyList;
-    private ArrayMap<String, HabitEvent> habiteventlist;
+    private HashMap<String, HabitEvent> habiteventlist;
     private String id;
     private Boolean synced;
     private Boolean habitEventsLoaded;
 
     public Habit(){
         this.habitEventKeyList = new HashSet<String>();
-        this.habiteventlist = new ArrayMap<String, HabitEvent>();
+        this.habiteventlist = new HashMap<String, HabitEvent>();
 
         this.synced = false;
         this.id = null;
@@ -57,7 +58,7 @@ public class Habit implements Serializable{
         this.streak = 0;
 
         this.habitEventKeyList = new HashSet<String>();
-        this.habiteventlist = new ArrayMap<String, HabitEvent>();
+        this.habiteventlist = new HashMap<String, HabitEvent>();
         this.synced = false;
 
         this.id = null;
@@ -80,7 +81,7 @@ public class Habit implements Serializable{
         this.frequency = frequency;
     }
 
-    public void setHabitEvents(ArrayMap<String, HabitEvent> habiteventlist){
+    public void setHabitEvents(HashMap<String, HabitEvent> habiteventlist){
         this.habiteventlist = habiteventlist;
     }
 
@@ -123,7 +124,7 @@ public class Habit implements Serializable{
 
         DatabaseManager.getInstance().getHabitEventsInSet(this.habitEventKeyList, new DatabaseManager.OnHabitEventsListener() {
             @Override
-            public void onHabitEventsSuccess(ArrayMap<String, HabitEvent> habitEvents) {
+            public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
                 habitEvents = habitEvents;
                 habitEventsLoaded = true;
                 listener.onHabitEventsSuccess(habitEvents);

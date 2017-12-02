@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * The activity for history page
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 
 public class historyActivity extends AppCompatActivity {
     //initialize the variables needed in the class
-    private ArrayMap<String, HabitEvent> historyList;
+    private HashMap<String, HabitEvent> historyList;
     private historyAdapter cAdapt;
     private RecyclerView historyRecyclerView;
     private Button filter_button;
@@ -43,25 +44,40 @@ public class historyActivity extends AppCompatActivity {
             }
         });
 
+        final historyActivity self = this;
+
         //get the current user's history list
         if (Global.filter == -1) {
-            historyList = LoginManager.getInstance().getCurrentUser().getHistory();
+            LoginManager.getInstance().getCurrentUser().getHistory(new DatabaseManager.OnHabitEventsListener() {
+                @Override
+                public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
+                    historyList = habitEvents;
 
-            // set up the adapter
+                    cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), new ArrayList<HabitEvent>(historyList.values()), self);
+                    historyRecyclerView.setAdapter(cAdapt);
+                }
 
-            cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), new ArrayList<HabitEvent>(historyList.values()),this);
-            historyRecyclerView.setAdapter(cAdapt);
+                @Override
+                public void onHabitEventsFailed(String message) {
+
+                }
+            });
+
         }
         else {
 
+
             LoginManager.getInstance().getCurrentUser().getHabits(new DatabaseManager.OnHabitsListener() {
                 @Override
-                public void onHabitsSuccess(ArrayMap<String, Habit> habits) {
+                public void onHabitsSuccess(HashMap<String, Habit> habits) {
                     Habit selectedHabit = new ArrayList<Habit>(habits.values()).get(Global.filter);
                     selectedHabit.getHabitEvents(new DatabaseManager.OnHabitEventsListener() {
                         @Override
-                        public void onHabitEventsSuccess(ArrayMap<String, HabitEvent> habitEvents) {
+                        public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
                             historyList = habitEvents;
+
+                            cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), new ArrayList<HabitEvent>(historyList.values()), self);
+                            historyRecyclerView.setAdapter(cAdapt);
                         }
 
                         @Override

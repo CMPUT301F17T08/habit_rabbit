@@ -73,10 +73,18 @@ public class EditHabitEventActivity extends AppCompatActivity {
                     habitEvent.setComment(comment);
                     habitEvent.setPicture(bmp);
 
-                    User currentUser = LoginManager.getInstance().getCurrentUser();
-                    currentUser.editEventFromHistory(position, habitEvent);
+                    habitEvent.sync(new DatabaseManager.OnSaveListener() {
+                        @Override
+                        public void onSaveSuccess() {
+                            finish();
+                        }
 
-                    finish();
+                        @Override
+                        public void onSaveFailure(String message) {
+                            // TODO: handle error
+                        }
+                    });
+
                 }
             }
         });
@@ -86,11 +94,19 @@ public class EditHabitEventActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 habit.removeHabitEvent(habitEvent);
+                habitEvent.delete();
 
-                User currentUser = LoginManager.getInstance().getCurrentUser();
-                currentUser.removeFromHistory(position);
+                habit.sync(new DatabaseManager.OnSaveListener() {
+                    @Override
+                    public void onSaveSuccess() {
+                        finish();
+                    }
 
-                finish();
+                    @Override
+                    public void onSaveFailure(String message) {
+
+                    }
+                });
 
             }
         });

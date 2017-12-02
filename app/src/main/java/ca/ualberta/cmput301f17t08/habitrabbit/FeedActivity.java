@@ -9,6 +9,8 @@ import android.util.ArrayMap;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * Feed activity in the main menu page
  */
@@ -50,7 +52,7 @@ public class FeedActivity extends AppCompatActivity {
                     final User followingUser = user;
                     followingUser.getHistory(new DatabaseManager.OnHabitEventsListener() {
                         @Override
-                        public void onHabitEventsSuccess(ArrayMap<String, HabitEvent> followingFeedList) {
+                        public void onHabitEventsSuccess(HashMap<String, HabitEvent> followingFeedList) {
                             for (int index = 0; index<followingFeedList.size();index++){
                                 feedList.add(followingFeedList.get(index));
                             }

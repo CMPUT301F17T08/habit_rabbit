@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Set;
 import java.util.TimeZone;
 /**
@@ -36,12 +37,12 @@ public class DatabaseManager {
     }
 
     public interface OnHabitsListener {
-        public void onHabitsSuccess(ArrayMap<String, Habit> habits);
+        public void onHabitsSuccess(HashMap<String, Habit> habits);
         public void onHabitsFailed(String message);
     }
 
     public interface OnHabitEventsListener {
-        public void onHabitEventsSuccess(ArrayMap<String, HabitEvent> habitEvents);
+        public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents);
         public void onHabitEventsFailed(String message);
     }
 
@@ -162,7 +163,7 @@ public class DatabaseManager {
 
     public void getHabitsInSet(final Set<String> habitKeys, final OnHabitsListener listener){
 
-        final ArrayMap<String, Habit> habits = new ArrayMap<String, Habit>();
+        final HashMap<String, Habit> habits = new HashMap<String, Habit>();
 
         final DatabaseReference habitsRef = database.getReference("habits");
 
@@ -219,7 +220,7 @@ public class DatabaseManager {
 
     public void getHabitEventsInSet(final Set<String> habitEventKeys, final OnHabitEventsListener listener){
 
-        final ArrayMap<String, HabitEvent> habitEvents = new ArrayMap<String, HabitEvent>();
+        final HashMap<String, HabitEvent> habitEvents = new HashMap<String, HabitEvent>();
 
         final DatabaseReference habitEventsRef = database.getReference("habit_events");
 

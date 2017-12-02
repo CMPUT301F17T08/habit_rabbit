@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -30,6 +31,7 @@ public class FilterActivity extends AppCompatActivity {
     private RecyclerView habitListView;
     private Button menuButton;
     private FilterAdapter cAdapt;
+    private ArrayList<HabitEvent> historyCache;
     private ArrayList<Habit> habitList;
     private ArrayList<Habit> habitListDisplay;
 
@@ -43,11 +45,9 @@ public class FilterActivity extends AppCompatActivity {
         filter = (EditText) findViewById(R.id.filter);
         title = (TextView) findViewById(R.id.title);
         title.setText("FILTER");
-
         
         habitListView = (RecyclerView) findViewById(R.id.habit_list);
         habitList = new ArrayList<Habit>();
-
 
         habitListView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 
@@ -59,7 +59,7 @@ public class FilterActivity extends AppCompatActivity {
         // get the user's habits list that contain all habits
         LoginManager.getInstance().getCurrentUser().getHabits(new DatabaseManager.OnHabitsListener() {
             @Override
-            public void onHabitsSuccess(ArrayMap<String, Habit> habits) {
+            public void onHabitsSuccess(HashMap<String, Habit> habits) {
                 habitList = new ArrayList<Habit>(habits.values());
                 cAdapt = new FilterAdapter(habitList,FilterActivity.this );
                 habitListView.setAdapter(cAdapt);
@@ -71,7 +71,19 @@ public class FilterActivity extends AppCompatActivity {
             }
         });
 
+        historyCache = null;
 
+        LoginManager.getInstance().getCurrentUser().getHistory(new DatabaseManager.OnHabitEventsListener() {
+            @Override
+            public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
+                historyCache = new ArrayList<HabitEvent>(habitEvents.values());
+            }
+
+            @Override
+            public void onHabitEventsFailed(String message) {
+
+            }
+        });
 
         //before user type in anything to search, display all the habit options
 
@@ -104,6 +116,14 @@ public class FilterActivity extends AppCompatActivity {
                 for (Habit habit : habitList){ // check every habit in habitlist
                     if (habit.getName().contains(s)){// for every habit, if the name of the habit contains the Char, then add it to the display list
                         habitListDisplay.add(habit);
+                    }
+                }
+
+                if(historyCache != null) {
+                    for(HabitEvent habitEvent : historyCache){
+                        if(habitEvent.getComment().contains(s)){
+                            habitListDisplay.add(habitEvent.getHabit());
+                        }
                     }
                 }
 
