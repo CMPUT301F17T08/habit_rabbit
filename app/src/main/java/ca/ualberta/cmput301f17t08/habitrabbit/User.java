@@ -48,7 +48,9 @@ public class User {
         this.likeList = new ArrayList<User>();
     }
 
-    public void setUsername(String username) {this.username = username;}
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
 
     public ArrayList<String> getHabitKeys(){

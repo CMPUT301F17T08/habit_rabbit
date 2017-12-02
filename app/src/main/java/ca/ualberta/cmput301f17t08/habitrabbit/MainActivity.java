@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
                 String username = usernameField.getText().toString();
 
                 System.out.println("Login Button Clicked - Username:" + username);
-                LoginManager.getInstance().login(username, new LoginManager.OnLoginCompleteListener() {
+                LoginManager.getInstance().login(username.toLowerCase(), new LoginManager.OnLoginCompleteListener() {
                     @Override
                     public void onLoginComplete() {
                         // TODO: transition activity
@@ -66,9 +66,6 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
-
-
 
         // small signup button below the login button
         signupButton.setOnClickListener(new View.OnClickListener(){

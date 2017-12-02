@@ -30,7 +30,7 @@ public class SignupActivity extends Activity {
                 System.out.println("Sign Up Button Clicked - Username:" + username);
 
                 // TODO test username is not empty
-                DatabaseManager.getInstance().createUser(username, new DatabaseManager.OnUserDataListener() {
+                DatabaseManager.getInstance().createUser(username.toLowerCase(), new DatabaseManager.OnUserDataListener() {
                     @Override
                     public void onUserData(User user) {
                         // TODO use loginmanager to set as logged in, initialize app
