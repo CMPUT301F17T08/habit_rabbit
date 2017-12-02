@@ -83,9 +83,6 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
 
         holder.percentage.setText(Math.round(Math.floor((float)habit.getStatistics().get(3)*100))+"%");
 
-        ArrayList<String> DayList = new ArrayList<String>(Arrays.asList(new String []{"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"}));
-//        System.out.println(frequencyList.toString());
-
         ArrayList<Integer> frequency = habit.getFrequency();
 
         // change the frequency button backgrounds for this habit item
@@ -93,7 +90,8 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
             if (frequency.get(counter) == 1){
                 Button button = (Button)holder.frequencyLayout.findViewWithTag(Integer.toString(counter+1));
                 button.setBackgroundResource(R.drawable.gradient);
-            }}
+            }
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
