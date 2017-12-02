@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import android.util.ArrayMap;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -33,7 +35,7 @@ public class gpsActivity extends AppCompatActivity implements OnMapReadyCallback
     private GoogleMap mainMap;
     LatLng lastKnownLocation;
     ArrayList<HabitEvent> habitEventFeed = new ArrayList<>();
-
+    ArrayList<HabitEvent> habitEventsList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -72,6 +74,20 @@ public class gpsActivity extends AppCompatActivity implements OnMapReadyCallback
 
             }
         });
+        LoginManager.getInstance().getCurrentUser().getHistory(new DatabaseManager.OnHabitEventsListener() {
+            @Override
+            public void onHabitEventsSuccess(ArrayMap<String, HabitEvent> habitEvents) {
+                habitEventsList = new ArrayList<HabitEvent>(habitEvents.values());
+            }
+
+            @Override
+            public void onHabitEventsFailed(String message) {
+                Log.e("habitEvent_Maps", "Failed to get habit events of user!");
+
+            }
+
+
+        });
 
     }
 
@@ -100,12 +116,11 @@ public class gpsActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
 
-
     }
     //TODO: once refactored version of habitevent is done, fix code so that it can go through all the habit events and mark their location
     public void loadMapMarkers(){
-        for(HabitEvent habitEvent: habitEventFeed){
-            Habit habitName =habitEvent.getHabit();
+        for(HabitEvent habitEvent: habitEventsList){
+            Habit habitEventName =habitEvent.getHabit();
 
 
             //https://developers.google.com/maps/documentation/android-api/marker
@@ -113,7 +128,7 @@ public class gpsActivity extends AppCompatActivity implements OnMapReadyCallback
 
              MarkerOptions markerInfo = new MarkerOptions()
                     .position(new LatLng(habitEvent.getLat, habitEvent.getLng))
-                    .title(habitEvent.getHabit())
+                    .title(habitEventName.getName())
                     .snippet(habitEvent.getComment())
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.bluedot));
 
