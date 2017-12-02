@@ -46,8 +46,13 @@ public class historyActivity extends AppCompatActivity {
         //get the current user's history list
         if (Global.filter == -1) {
             historyList = LoginManager.getInstance().getCurrentUser().getHistory();
+
+            // set up the adapter
+
+            cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), new ArrayList<HabitEvent>(historyList.values()),this);
+            historyRecyclerView.setAdapter(cAdapt);
         }
-        else{
+        else {
 
             LoginManager.getInstance().getCurrentUser().getHabits(new DatabaseManager.OnHabitsListener() {
                 @Override
@@ -75,10 +80,6 @@ public class historyActivity extends AppCompatActivity {
             });
 
         }
-        // set up the adapter
-
-        cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), historyList,this);
-        historyRecyclerView.setAdapter(cAdapt);
 
     }
 

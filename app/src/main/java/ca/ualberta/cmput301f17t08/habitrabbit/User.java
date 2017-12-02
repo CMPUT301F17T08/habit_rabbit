@@ -26,7 +26,7 @@ public class User {
     private ArrayList<String> followerList;
     private ArrayList<String> followingList;
     private ArrayList<String> followRequests;
-    private ArrayList<HabitEvent> historylist;
+    private ArrayMap<String, HabitEvent> historylist;
     private ArrayList<User> likeList;
 
     private Boolean habitsLoaded;
@@ -37,7 +37,7 @@ public class User {
         this.followerList = new ArrayList<String>();
         this.followingList = new ArrayList<String>();
         this.followRequests = new ArrayList<String>();
-        this.historylist = new ArrayList<HabitEvent>();
+        this.historylist = new ArrayMap<String, HabitEvent>();
         this.habitsLoaded = false;
         this.likeList = new ArrayList<User>();
     }
@@ -49,7 +49,7 @@ public class User {
         this.followerList = new ArrayList<String>();
         this.followingList = new ArrayList<String>();
         this.followRequests = new ArrayList<String>();
-        this.historylist = new ArrayList<HabitEvent>();
+        this.historylist = new ArrayMap<String, HabitEvent>();
         this.habitsLoaded = false;
         this.likeList = new ArrayList<User>();
     }
@@ -103,7 +103,7 @@ public class User {
 
     public ArrayList<String> getFollowRequests() {return this.followRequests;}
 
-    public ArrayList<HabitEvent> getHistory() {return this.historylist;}
+    public ArrayMap<String, HabitEvent> getHistory() {return this.historylist;}
 
     public void addFollower(User follower) {
         if (hasFollowing(follower))
@@ -254,17 +254,17 @@ public class User {
         DatabaseManager.getInstance().saveUserData(this, listener);
     }
 
+    // TODO: remove the history stuff below, this isn't a good design (storing the same list of habit events both in User and Habit)
     public void addToHistory(HabitEvent event){
-        this.historylist.add(event);
+        this.historylist.put(event.getId(), event);
     }
 
-    // TODO we can maybe fix this since it's weird to call remove by index
-    public void removeFromHistory(int position){
-        this.historylist.remove(position);
+    public void removeFromHistory(String key){
+        this.historylist.remove(key);
     }
 
-    public void editEventFromHistory(int position, HabitEvent newEvent){
-        this.historylist.set(position, newEvent);
+    public void editEventFromHistory(String key, HabitEvent newEvent){
+        this.historylist.replace(key, newEvent);
     }
 
 }
