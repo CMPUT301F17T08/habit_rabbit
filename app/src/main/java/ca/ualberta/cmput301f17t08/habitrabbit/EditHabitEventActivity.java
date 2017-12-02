@@ -16,6 +16,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.TimeZone;
 /**
  * The activity allows the user to edit a habit event
@@ -26,6 +27,8 @@ public class EditHabitEventActivity extends AppCompatActivity {
     private EditHabitEventActivity activity = this;
     private ImageView imagePreview;
     private Bitmap bmp;
+    private Habit habit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,17 +37,86 @@ public class EditHabitEventActivity extends AppCompatActivity {
         final HabitEvent habitEvent = (HabitEvent) getIntent().getSerializableExtra("habitEvent");
         final int position = (int) getIntent().getSerializableExtra("position");
 
-        System.out.println(habitEvent.getComment());
-        final Habit habit = habitEvent.getHabit();
-
         final EditText habitTitle = findViewById(R.id.habit_name_field);
         final EditText habitComment = findViewById(R.id.habit_comment_field);
         imagePreview = findViewById(R.id.image_preview);
-        Button addButton = findViewById(R.id.save_habit_event_button);
-        Button deleteButton = findViewById(R.id.delete_habit_event_button);
+        final Button addButton = findViewById(R.id.save_habit_event_button);
+        final Button deleteButton = findViewById(R.id.delete_habit_event_button);
+
+        habitEvent.getHabit(new DatabaseManager.OnHabitsListener() {
+            @Override
+            public void onHabitsSuccess(HashMap<String, Habit> habits) {
+                habit = (Habit)habits.values().toArray()[0];
+                habitTitle.setText(habit.getName());
+
+                addButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        String comment = habitComment.getText().toString();
+
+                        Boolean error = false;
+
+                        if (comment.length() > 20) {
+                            habitTitle.setError("Please keep title under 20 characters");
+                            error = true;
+                        }
+                        else if (bmp != null && bmp.getByteCount() > 65536){
+                            Toast.makeText(activity, "Please select a size smaller than 65Kb",
+                                    Toast.LENGTH_LONG).show();
+                            error = true;
+                        }
+
+                        if (!error){
+                            habitEvent.setComment(comment);
+                            habitEvent.setPicture(bmp);
+
+                            habitEvent.sync(new DatabaseManager.OnSaveListener() {
+                                @Override
+                                public void onSaveSuccess() {
+                                    finish();
+                                }
+
+                                @Override
+                                public void onSaveFailure(String message) {
+                                    // TODO: handle error
+                                }
+                            });
+
+                        }
+                    }
+                });
+
+                //delete button
+                deleteButton.setOnClickListener(new View.OnClickListener(){
+                    @Override
+                    public void onClick(View v){
+                        habit.removeHabitEvent(habitEvent);
+                        habitEvent.delete();
+
+                        habit.sync(new DatabaseManager.OnSaveListener() {
+                            @Override
+                            public void onSaveSuccess() {
+                                finish();
+                            }
+
+                            @Override
+                            public void onSaveFailure(String message) {
+
+                            }
+                        });
+
+                    }
+                });
+
+            }
+
+            @Override
+            public void onHabitsFailed(String message) {
+
+            }
+        });
 
         // autofill the fields with the initial value
-        habitTitle.setText(habitEvent.getHabit().getName());
         habitComment.setText(habitEvent.getComment());
         bmp = habitEvent.getPicture();
 
@@ -52,64 +124,6 @@ public class EditHabitEventActivity extends AppCompatActivity {
             imagePreview.setImageBitmap(bmp);
         }
 
-        addButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String comment = habitComment.getText().toString();
-
-                Boolean error = false;
-
-                if (comment.length() > 20) {
-                    habitTitle.setError("Please keep title under 20 characters");
-                    error = true;
-                }
-                else if (bmp != null && bmp.getByteCount() > 65536){
-                    Toast.makeText(activity, "Please select a size smaller than 65Kb",
-                            Toast.LENGTH_LONG).show();
-                    error = true;
-                }
-
-                if (!error){
-                    habitEvent.setComment(comment);
-                    habitEvent.setPicture(bmp);
-
-                    habitEvent.sync(new DatabaseManager.OnSaveListener() {
-                        @Override
-                        public void onSaveSuccess() {
-                            finish();
-                        }
-
-                        @Override
-                        public void onSaveFailure(String message) {
-                            // TODO: handle error
-                        }
-                    });
-
-                }
-            }
-        });
-
-        //delete button
-        deleteButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                habit.removeHabitEvent(habitEvent);
-                habitEvent.delete();
-
-                habit.sync(new DatabaseManager.OnSaveListener() {
-                    @Override
-                    public void onSaveSuccess() {
-                        finish();
-                    }
-
-                    @Override
-                    public void onSaveFailure(String message) {
-
-                    }
-                });
-
-            }
-        });
     }
 
     public void pickImage(View v) {
@@ -132,8 +146,7 @@ public class EditHabitEventActivity extends AppCompatActivity {
                 return;
             }
             try {
-                InputStream inputStream = activity.getContentResolver().openInputStream(data
-                        .getData());
+                InputStream inputStream = activity.getContentResolver().openInputStream(data.getData());
 
                 bmp = BitmapFactory.decodeStream(inputStream);
                 imagePreview.setImageBitmap(bmp);

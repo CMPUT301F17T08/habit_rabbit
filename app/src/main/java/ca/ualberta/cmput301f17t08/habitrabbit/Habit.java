@@ -233,36 +233,18 @@ public class Habit implements Serializable{
             throw new IllegalArgumentException("HabitEvent already exists.");
 
         if(habitEvent.getSynced()){
+            this.sync(listener); // Sync initial list
             this.habiteventlist.put(habitEvent.getId(), habitEvent);
-            this.sync(new DatabaseManager.OnSaveListener() {
-                @Override
-                public void onSaveSuccess() {
-                    listener.onSaveSuccess();
-                }
-
-                @Override
-                public void onSaveFailure(String message) {
-                    listener.onSaveFailure(message);
-                }
-            });
+            this.sync(listener); // Sync final list
         }else{
             final Habit self = this;
 
             habitEvent.sync(new DatabaseManager.OnSaveListener() {
                 @Override
                 public void onSaveSuccess() {
+                    self.sync(listener); // Sync initial HabitEvents list
                     self.habiteventlist.put(habitEvent.getId(), habitEvent);
-                    self.sync(new DatabaseManager.OnSaveListener() {
-                        @Override
-                        public void onSaveSuccess() {
-                            listener.onSaveSuccess();
-                        }
-
-                        @Override
-                        public void onSaveFailure(String message) {
-                            listener.onSaveFailure(message);
-                        }
-                    });
+                    self.sync(listener); // Sync final HabitEvents list
                 }
 
                 @Override
@@ -313,8 +295,31 @@ public class Habit implements Serializable{
         this.synced = synced;
     }
 
-    public void sync(DatabaseManager.OnSaveListener listener){
-        DatabaseManager.getInstance().saveHabit(this, listener);
+    public void sync(final DatabaseManager.OnSaveListener listener){
+
+        final Habit self = this;
+
+        DatabaseManager.getInstance().saveHabit(this, new DatabaseManager.OnSaveListener() {
+            @Override
+            public void onSaveSuccess() {
+                self.getHabitEvents(new DatabaseManager.OnHabitEventsListener() {
+                    @Override
+                    public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
+                        listener.onSaveSuccess();
+                    }
+
+                    @Override
+                    public void onHabitEventsFailed(String message) {
+                        listener.onSaveFailure(message);
+                    }
+                });
+            }
+
+            @Override
+            public void onSaveFailure(String message) {
+                listener.onSaveFailure(message);
+            }
+        });
     }
 
     public void delete() {

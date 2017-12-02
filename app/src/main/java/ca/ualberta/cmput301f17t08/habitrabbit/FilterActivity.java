@@ -32,7 +32,7 @@ public class FilterActivity extends AppCompatActivity {
     private Button menuButton;
     private FilterAdapter cAdapt;
     private ArrayList<HabitEvent> historyCache;
-    private ArrayList<Habit> habitList;
+    private HashMap<String, Habit> habitList;
     private ArrayList<Habit> habitListDisplay;
 
     @Override
@@ -47,7 +47,7 @@ public class FilterActivity extends AppCompatActivity {
         title.setText("FILTER");
         
         habitListView = (RecyclerView) findViewById(R.id.habit_list);
-        habitList = new ArrayList<Habit>();
+        habitList = new HashMap<String, Habit>();
 
         habitListView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 
@@ -60,8 +60,8 @@ public class FilterActivity extends AppCompatActivity {
         LoginManager.getInstance().getCurrentUser().getHabits(new DatabaseManager.OnHabitsListener() {
             @Override
             public void onHabitsSuccess(HashMap<String, Habit> habits) {
-                habitList = new ArrayList<Habit>(habits.values());
-                cAdapt = new FilterAdapter(habitList,FilterActivity.this );
+                habitList = habits;
+                cAdapt = new FilterAdapter(new ArrayList<Habit>(habitList.values()),FilterActivity.this );
                 habitListView.setAdapter(cAdapt);
             }
 
@@ -113,7 +113,7 @@ public class FilterActivity extends AppCompatActivity {
 
                 habitListDisplay.clear(); // set the display list as the new empty list
 
-                for (Habit habit : habitList){ // check every habit in habitlist
+                for (Habit habit : habitList.values()){ // check every habit in habitlist
                     if (habit.getName().contains(s)){// for every habit, if the name of the habit contains the Char, then add it to the display list
                         habitListDisplay.add(habit);
                     }
@@ -122,7 +122,7 @@ public class FilterActivity extends AppCompatActivity {
                 if(historyCache != null) {
                     for(HabitEvent habitEvent : historyCache){
                         if(habitEvent.getComment().contains(s)){
-                            habitListDisplay.add(habitEvent.getHabit());
+                            habitListDisplay.add(habitList.get(habitEvent.getHabitKey()));
                         }
                     }
                 }
@@ -138,7 +138,7 @@ public class FilterActivity extends AppCompatActivity {
 
                     //remove the duplicate element in the filter list
                     Set<Habit> hs = new HashSet<>();
-                    hs.addAll(habitList);
+                    hs.addAll(habitList.values());
                     habitListDisplay.clear();
                     habitListDisplay.addAll(hs);
 
