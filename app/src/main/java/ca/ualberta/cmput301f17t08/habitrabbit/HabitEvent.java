@@ -86,6 +86,9 @@ public class HabitEvent implements Serializable {
     public void setPicture(Bitmap picture) {
         this.picture = bitmapToString(picture);
     }
+    public void setPictureString(String picture){
+        this.picture = picture;
+    }
 
     public String getComment(){
         return comment;
@@ -95,8 +98,13 @@ public class HabitEvent implements Serializable {
         return location;
     }
 
+    @Exclude
     public Bitmap getPicture(){
         return stringToBitmap(this.picture);
+    }
+
+    public String getPictureString() {
+        return this.picture;
     }
 
     public void like(String username){
