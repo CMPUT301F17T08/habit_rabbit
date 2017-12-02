@@ -101,6 +101,7 @@ public class gpsActivity extends AppCompatActivity implements OnMapReadyCallback
 
             double latitude = gps.getLatitude();
             double longitude = gps.getLongitude();
+            loadMapMarkers();
 
             LatLng sydney = new LatLng(latitude, longitude);
             googleMap.addMarker(new MarkerOptions().position(sydney)
@@ -119,6 +120,7 @@ public class gpsActivity extends AppCompatActivity implements OnMapReadyCallback
     }
     //TODO: once refactored version of habitevent is done, fix code so that it can go through all the habit events and mark their location
     public void loadMapMarkers(){
+
         for(HabitEvent habitEvent: habitEventsList){
             Habit habitEventName =habitEvent.getHabit();
 
@@ -127,7 +129,7 @@ public class gpsActivity extends AppCompatActivity implements OnMapReadyCallback
             //accessed on nov 30/17
 
              MarkerOptions markerInfo = new MarkerOptions()
-                    .position(new LatLng(habitEvent.getLat, habitEvent.getLng))
+                    .position(new LatLng(habitEvent.getLat(), habitEvent.getLng()))
                     .title(habitEventName.getName())
                     .snippet(habitEvent.getComment())
                     .icon(BitmapDescriptorFactory.fromResource(R.drawable.bluedot));

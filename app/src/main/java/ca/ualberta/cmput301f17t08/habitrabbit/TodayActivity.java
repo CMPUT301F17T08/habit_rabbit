@@ -108,6 +108,6 @@ public class TodayActivity extends AppCompatActivity {
     // pass the result from the add habit event activity to the adapter since the habit is located there
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        cAdapt.onActivityResult(requestCode, resultCode, data);
+       // cAdapt.onActivityResult(requestCode, resultCode, data);
     }
 }

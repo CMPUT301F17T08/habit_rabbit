@@ -61,7 +61,7 @@ public class AddHabitEventActivity extends AppCompatActivity {
                 }
 
                 if (!error){
-                    final HabitEvent event = new HabitEvent(habit, "username",calendar.getTime(), comment, null, bmp);
+                    final HabitEvent event = new HabitEvent(habit, "username",calendar.getTime(), comment, null, bmp,1,1);
                     habit.addHabitEvent(event, new DatabaseManager.OnSaveListener() {
                         @Override
                         public void onSaveSuccess() {

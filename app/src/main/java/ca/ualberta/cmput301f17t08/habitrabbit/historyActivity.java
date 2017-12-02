@@ -47,7 +47,7 @@ public class historyActivity extends AppCompatActivity {
 
         //get the current user's history list
         if (Global.filter == -1) {
-            historyList = LoginManager.getInstance().getCurrentUser().getHistory();
+            //historyList = LoginManager.getInstance().getCurrentUser().getHistory();
 
             // set up the adapter
 

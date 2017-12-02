@@ -74,7 +74,7 @@ public class EditHabitEventActivity extends AppCompatActivity {
                     habitEvent.setPicture(bmp);
 
                     User currentUser = LoginManager.getInstance().getCurrentUser();
-                    currentUser.editEventFromHistory(position, habitEvent);
+                    //currentUser.editEventFromHistory(position, habitEvent);
 
                     finish();
                 }
@@ -88,7 +88,7 @@ public class EditHabitEventActivity extends AppCompatActivity {
                 habit.removeHabitEvent(habitEvent);
 
                 User currentUser = LoginManager.getInstance().getCurrentUser();
-                currentUser.removeFromHistory(position);
+               // currentUser.removeFromHistory(position);
 
                 finish();
 

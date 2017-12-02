@@ -27,6 +27,8 @@ public class HabitEvent implements Serializable {
     private String username;
     private String id;
     private Boolean synced;
+    private double lat ;
+    private double lng ;
 
     public HabitEvent(){
         this.likes = new ArrayList<String>();
@@ -37,7 +39,7 @@ public class HabitEvent implements Serializable {
 
 
 
-    public HabitEvent(Habit habit, String username,Date dateCompleted, String comment, Location location, Bitmap picture) {
+    public HabitEvent(Habit habit, String username,Date dateCompleted, String comment, Location location, Bitmap picture,double lat, double lng) {
 
         this.habit = habit;
         this.username = username;
@@ -49,6 +51,10 @@ public class HabitEvent implements Serializable {
 
         this.synced = false;
         this.id = null;
+        if(!Double.isNaN(lat) && !Double.isNaN(lng)) {
+            this.lat = lat;
+            this.lng = lng;
+        }
     }
 
     public Habit getHabit(){ return habit;}
@@ -63,8 +69,17 @@ public class HabitEvent implements Serializable {
         this.comment = comment;
     }
 
-    public void setLocation(Location location){
-        this.location = location;
+    public void setLocation(double lat, double lng) {
+        this.lat = lat;
+        this.lng = lng;
+    }
+
+    public double getLat() {
+        return lat ;
+    }
+
+    public double getLng() {
+        return lng ;
     }
 
     public void setPicture(Bitmap picture) {
