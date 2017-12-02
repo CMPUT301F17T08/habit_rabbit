@@ -93,19 +93,22 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
 
             }
         });
-        viewHolder.Comment.setText(habitEvents.get(position).getComment());
-        viewHolder.historyDate.setText(habitEvents.get(position).getDateCompleted().toString());
-        viewHolder.numLike.setText(Integer.toString(habitEvents.get(position).getLikeCount())+" likes");
-        viewHolder.userNameView.setText(LoginManager.getInstance().getCurrentUser().getUsername());
+
+        HabitEvent event = habitEvents.get(position);
+
+        viewHolder.Comment.setText(event.getComment());
+        viewHolder.historyDate.setText(event.getDateCompleted().toString());
+        viewHolder.numLike.setText(Integer.toString(event.getLikeCount())+" likes");
+        viewHolder.userNameView.setText(event.getUsername());
         String username = LoginManager.getInstance().getCurrentUser().getUsername();
 
         //check if the current user has liked the feed before
-        if (habitEvents.get(position).getLikes().contains(username)){
+        if (event.getLikes().contains(username)){
             viewHolder.likeButton.setBackgroundResource(R.drawable.black_like);
         }
 
         //get the image the user uploaded, set the image if exist
-        Bitmap userImage = habitEvents.get(position).getPicture();
+        Bitmap userImage = event.getPicture();
         if (userImage != null){
             viewHolder.imagePreview.setImageBitmap(userImage);
         }
@@ -149,13 +152,8 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
                     // event was disliked
                     viewHolder.likeButton.setBackgroundResource (R.drawable.like);
                 }
-
-
-
             }
         });
-
-
 
         //click function for editing the habit
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {

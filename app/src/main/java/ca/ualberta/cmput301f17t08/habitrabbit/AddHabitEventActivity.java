@@ -58,8 +58,9 @@ public class AddHabitEventActivity extends AppCompatActivity {
                     error = true;
                 }
 
+                String currentUsername = LoginManager.getInstance().getCurrentUser().getUsername();
                 if (!error){
-                    final HabitEvent event = new HabitEvent(habit.getId(), "username",calendar.getTime(), comment, null, bmp);
+                    final HabitEvent event = new HabitEvent(habit.getId(),currentUsername ,calendar.getTime(), comment, null, bmp);
                     habit.addHabitEvent(event, new DatabaseManager.OnSaveListener() {
                         @Override
                         public void onSaveSuccess() {

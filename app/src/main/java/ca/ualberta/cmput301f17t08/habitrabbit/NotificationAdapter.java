@@ -1,11 +1,15 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -17,6 +21,7 @@ import java.util.ArrayList;
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewHolder> {
     private ArrayList<String> pendingList;
     private Context context;
+    private NotificationAdapter adapter;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -38,9 +43,10 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         }
     }
 
-    public NotificationAdapter(Context context, ArrayList<String> pengingList) {
-        this.pendingList = pengingList;
+    public NotificationAdapter(Context context, ArrayList<String> pendingList) {
+        this.pendingList = pendingList;
         this.context = context;
+        this.adapter = this;
     }
 
     // Create new views (invoked by the layout manager)
@@ -55,11 +61,11 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         holder.userNameLabel.setText(pendingList.get(position));
-        User currentUser = LoginManager.getInstance().getCurrentUser();
+        final User currentUser = LoginManager.getInstance().getCurrentUser();
         ArrayList<String> follwingRequest = currentUser.getFollowRequests();
 
         for (String username : pendingList){
@@ -77,14 +83,72 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             @Override
             public void onClick(View view) {
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                final AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 LayoutInflater inflater = LayoutInflater.from(context);
                 View new_view = null;
                 builder.setView(new_view=inflater.inflate(R.layout.follower_request, null));
 
+                Button acceptButton = new_view.findViewById(R.id.accept_follower);
+                Button declineButton = new_view.findViewById(R.id.decline_follower);
+
                 final AlertDialog Dialog = builder.create();
                 Dialog.show();
 
+                acceptButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                            DatabaseManager.getInstance().getUserData(pendingList.get(position), new DatabaseManager.OnUserDataListener() {
+                                @Override
+                                public void onUserData(User user) {
+                                    User acceptUser = user;
+                                    currentUser.addFollower(acceptUser);
+                                    currentUser.removeFromFollowRequests(acceptUser);
+                                    acceptUser.addFollowing(currentUser);
+                                    ArrayList<String> followRequest = currentUser.getFollowRequests();
+
+                                    currentUser.save(new DatabaseManager.OnSaveListener() {
+                                        @Override
+                                        public void onSaveSuccess() {
+                                            adapter.notifyDataSetChanged();
+                                            Dialog.dismiss();
+
+                                        }
+
+                                        @Override
+                                        public void onSaveFailure(String message) {
+                                            Log.e("FollowUserActivity", "Failed to save user after follow request");
+
+                                        }
+                                    });
+
+                                }
+
+                                @Override
+                                public void onUserDataFailed(String message) {
+
+                                }
+                            });
+                    }
+                });
+
+                declineButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        DatabaseManager.getInstance().getUserData(pendingList.get(position), new DatabaseManager.OnUserDataListener() {
+                            @Override
+                            public void onUserData(User user) {
+                                User declineUser = user;
+                                currentUser.removeFromFollowRequests(declineUser);
+                                Dialog.dismiss();
+                            }
+
+                            @Override
+                            public void onUserDataFailed(String message) {
+
+                            }
+                        });
+                    }
+                });
             }
         });
     }
