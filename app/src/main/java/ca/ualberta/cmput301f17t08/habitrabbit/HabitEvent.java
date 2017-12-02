@@ -5,6 +5,8 @@ import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.util.Base64;
 
+import com.google.firebase.database.Exclude;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -12,31 +14,60 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.HashSet;
+
 /**
  * The class for habit event, it has date and other properties for habit event
  */
 
 public class HabitEvent implements Serializable {
 
+    private String habitKey;
+    private Habit habit;
     private Date dateCompleted;
     private String comment;
     private Location location;
     private String picture;
-    private Habit habit;
     private ArrayList<String> likes;
     private String username;
+    private String id;
+    private Boolean synced;
 
-    public HabitEvent(Habit habit, String username, Date dateCompleted, String comment, Location location, Bitmap picture) {
-        this.habit = habit;
+    public HabitEvent(){
+        this.likes = new ArrayList<String>();
+
+        this.synced = false;
+        this.id = null;
+    }
+
+    public HabitEvent(String habitKey, String username, Date dateCompleted, String comment, Location location, Bitmap picture) {
+        this.habitKey = habitKey;
         this.username = username;
         this.dateCompleted = dateCompleted;
         this.comment = comment;
         this.location = location;
         this.picture = bitmapToString(picture);
-        this.likes = new ArrayList();
+        this.likes = new ArrayList<String>();
+
+        this.synced = false;
+        this.id = null;
     }
 
-    public Habit getHabit(){ return habit;}
+    public void setHabitKey(String habitKey) {
+        this.habitKey = habitKey;
+    }
+
+    public String getHabitKey(){
+        return habitKey;
+    }
+
+    @Exclude
+    public void getHabit(DatabaseManager.OnHabitsListener listener){
+        HashSet<String> habit = new HashSet<String>();
+        habit.add(this.habitKey);
+
+        DatabaseManager.getInstance().getHabitsInSet(habit, listener);
+    }
 
     public String getUsername(){ return username;}
 
@@ -109,5 +140,29 @@ public class HabitEvent implements Serializable {
             e.getMessage();
             return null;
         }
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Boolean getSynced() {
+        return synced;
+    }
+
+    public void setSynced(Boolean synced) {
+        this.synced = synced;
+    }
+
+    public void sync(DatabaseManager.OnSaveListener listener){
+        DatabaseManager.getInstance().saveHabitEvent(this, listener);
+    }
+
+    public void delete() {
+        // TODO: destroy habit from DB (call DB manager)
     }
 }

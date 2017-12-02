@@ -1,5 +1,7 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
+import android.util.ArrayMap;
+
 import com.google.firebase.database.Exclude;
 
 import java.io.Serializable;
@@ -11,8 +13,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The class for a habit, has all the properties for a habit
@@ -27,15 +32,19 @@ public class Habit implements Serializable{
     private int daysCompleted;
     private long averageTime;        // average time of day in milliseconds
     private int streak;
-    private ArrayList<HabitEvent> habiteventlist;
+    private HashSet<String> habitEventKeyList;
+    private HashMap<String, HabitEvent> habiteventlist;
     private String id;
     private Boolean synced;
+    private Boolean habitEventsLoaded;
 
     public Habit(){
-        this.habiteventlist = new ArrayList<HabitEvent>();
+        this.habitEventKeyList = new HashSet<String>();
+        this.habiteventlist = new HashMap<String, HabitEvent>();
 
         this.synced = false;
         this.id = null;
+        this.habitEventsLoaded = false;
     }
 
     public Habit(String name, String reason, Date startDate, ArrayList<Integer> frequency){
@@ -49,10 +58,12 @@ public class Habit implements Serializable{
         this.averageTime = -1;
         this.streak = 0;
 
-        this.habiteventlist = new ArrayList<HabitEvent>();
+        this.habitEventKeyList = new HashSet<String>();
+        this.habiteventlist = new HashMap<String, HabitEvent>();
         this.synced = false;
 
         this.id = null;
+        this.habitEventsLoaded = false;
     }
 
     public void setName(String name){
@@ -71,8 +82,8 @@ public class Habit implements Serializable{
         this.frequency = frequency;
     }
 
-    public void setHabitEvents(ArrayList<HabitEvent> habiteventlist){
-        this.habiteventlist = (ArrayList<HabitEvent>)habiteventlist.clone();
+    public void setHabitEvents(HashMap<String, HabitEvent> habiteventlist){
+        this.habiteventlist = habiteventlist;
     }
 
     public String getName(){
@@ -91,8 +102,40 @@ public class Habit implements Serializable{
         return this.frequency;
     }
 
-    public ArrayList<HabitEvent> getHabitEvents(){
-        return this.habiteventlist;
+    public ArrayList<String> getHabitEventKeys(){
+        if(habitEventsLoaded){
+            return new ArrayList<String>(this.habiteventlist.keySet());
+        }else{
+            return new ArrayList<String>(this.habitEventKeyList);
+        }
+    }
+
+    public void setHabitEventKeys(ArrayList<String> habits){
+        habitEventKeyList = new HashSet<String>(habits);
+        habitEventsLoaded = false;
+        habiteventlist.clear();
+    }
+
+    @Exclude
+    public void getHabitEvents(final DatabaseManager.OnHabitEventsListener listener){
+        if(this.habitEventsLoaded){
+            listener.onHabitEventsSuccess(habiteventlist);
+            return;
+        }
+
+        DatabaseManager.getInstance().getHabitEventsInSet(this.habitEventKeyList, new DatabaseManager.OnHabitEventsListener() {
+            @Override
+            public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
+                habitEvents = habitEvents;
+                habitEventsLoaded = true;
+                listener.onHabitEventsSuccess(habitEvents);
+            }
+
+            @Override
+            public void onHabitEventsFailed(String message) {
+                listener.onHabitEventsFailed(message);
+            }
+        });
     }
 
     public void resetStreak(){ this.streak = 0; }
@@ -110,7 +153,6 @@ public class Habit implements Serializable{
         Date currentDate = calendar.getTime();
         Date tempDate = this.startDate;
 
-        System.out.println("Start: " + startDate);
         while (tempDate.before(currentDate)){
             calendar.setTime(tempDate);
             int tempDayIndex = calendar.get(Calendar.DAY_OF_WEEK);
@@ -131,15 +173,13 @@ public class Habit implements Serializable{
 
         String averageTimeStr;
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        sdf.setTimeZone(TimeZone.getTimeZone("America/Edmonton"));
 
-        if (this.averageTime == -1){
+        if (this.averageTime <= 0){
             averageTimeStr = "N/A";
         }else{
             averageTimeStr = sdf.format(this.averageTime);
         }
 
-        System.out.println(this.averageTime + "average" + averageTimeStr);
         List<Object> statistics = new ArrayList<Object>();
         statistics.add(this.daysCompleted);
         statistics.add(this.streak);
@@ -163,7 +203,7 @@ public class Habit implements Serializable{
         this.daysCompleted += 1;
 
         // update the average time of completion
-        if (this.averageTime != -1){
+        if (this.averageTime > 0){
             this.averageTime = (long) (this.averageTime + ((float)1/this.daysCompleted)*(now.getTime() % 86400000 - this.averageTime));
         }else{
             this.averageTime = now.getTime() % 86400000;     // milliseconds elapsed until now today
@@ -184,27 +224,44 @@ public class Habit implements Serializable{
         System.out.println("Updated last completed to" + now);
         this.lastCompleted = now;
 
-        // TODO create habit event here and jump to the add to habit history activity
-
     }
 
-    public void addHabitEvent(HabitEvent habitevent) {
-        if (hasHabitEvent(habitevent))
+    public void addHabitEvent(final HabitEvent habitEvent, final DatabaseManager.OnSaveListener listener) {
+        if (hasHabitEvent(habitEvent))
             throw new IllegalArgumentException("HabitEvent already exists.");
 
-        this.habiteventlist.add(habitevent);
-        return;
+        if(habitEvent.getSynced()){
+            this.sync(listener); // Sync initial list
+            this.habiteventlist.put(habitEvent.getId(), habitEvent);
+            this.sync(listener); // Sync final list
+        }else{
+            final Habit self = this;
+
+            habitEvent.sync(new DatabaseManager.OnSaveListener() {
+                @Override
+                public void onSaveSuccess() {
+                    self.sync(listener); // Sync initial HabitEvents list
+                    self.habiteventlist.put(habitEvent.getId(), habitEvent);
+                    self.sync(listener); // Sync final HabitEvents list
+                }
+
+                @Override
+                public void onSaveFailure(String message) {
+                    listener.onSaveFailure(message);
+                }
+            });
+        }
     }
 
     private boolean hasHabitEvent(HabitEvent habitevent) {
-        return this.habiteventlist.contains(habitevent);
+        return this.habiteventlist.containsKey(habitevent.getId());
     }
 
     public ArrayList<HabitEvent> filterHistoryByComment(String keyword) {
 
         ArrayList<HabitEvent> result = new ArrayList<>();
 
-        for (HabitEvent habitevent : habiteventlist) {
+        for (HabitEvent habitevent : habiteventlist.values()) {
             if (habitevent.getComment().contains(keyword)) {
                 result.add(habitevent);
             }
@@ -214,8 +271,9 @@ public class Habit implements Serializable{
     }
 
     public void removeHabitEvent(HabitEvent event){
-        if (this.habiteventlist.contains(event)){
-            this.habiteventlist.remove(event);
+        // TODO: save this
+        if (this.habiteventlist.containsKey(event.getId())){
+            this.habiteventlist.remove(event.getId());
         }
     }
 
@@ -235,8 +293,31 @@ public class Habit implements Serializable{
         this.synced = synced;
     }
 
-    public void sync(DatabaseManager.OnSaveListener listener){
-        DatabaseManager.getInstance().saveHabit(this, listener);
+    public void sync(final DatabaseManager.OnSaveListener listener){
+
+        final Habit self = this;
+
+        DatabaseManager.getInstance().saveHabit(this, new DatabaseManager.OnSaveListener() {
+            @Override
+            public void onSaveSuccess() {
+                self.getHabitEvents(new DatabaseManager.OnHabitEventsListener() {
+                    @Override
+                    public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
+                        listener.onSaveSuccess();
+                    }
+
+                    @Override
+                    public void onHabitEventsFailed(String message) {
+                        listener.onSaveFailure(message);
+                    }
+                });
+            }
+
+            @Override
+            public void onSaveFailure(String message) {
+                listener.onSaveFailure(message);
+            }
+        });
     }
 
     public void delete() {

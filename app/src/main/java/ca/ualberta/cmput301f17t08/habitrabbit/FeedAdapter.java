@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 
 public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
@@ -78,7 +79,17 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     public void onBindViewHolder(final FeedAdapter.ViewHolder viewHolder, final int position) {
 
         //change the text and appearance of each elements on the layout
-        viewHolder.habitName.setText(habitEvents.get(position).getHabit().getName());
+        habitEvents.get(position).getHabit(new DatabaseManager.OnHabitsListener() {
+            @Override
+            public void onHabitsSuccess(HashMap<String, Habit> habits) {
+                viewHolder.habitName.setText(((Habit)habits.values().toArray()[0]).getName());
+            }
+
+            @Override
+            public void onHabitsFailed(String message) {
+
+            }
+        });
         viewHolder.Comment.setText(habitEvents.get(position).getComment());
         viewHolder.historyDate.setText(habitEvents.get(position).getDateCompleted().toString());
         viewHolder.numLike.setText(Integer.toString(habitEvents.get(position).getLikeCount())+" likes");
