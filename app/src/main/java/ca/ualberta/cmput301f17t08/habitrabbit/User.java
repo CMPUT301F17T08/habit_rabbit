@@ -1,17 +1,13 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
 import android.util.ArrayMap;
-import android.util.ArraySet;
 import android.util.Log;
 
 import com.google.firebase.database.Exclude;
-import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 
 /**
@@ -26,7 +22,6 @@ public class User {
     private ArrayList<String> followerList;
     private ArrayList<String> followingList;
     private ArrayList<String> followRequests;
-    private ArrayMap<String, HabitEvent> historylist;
     private ArrayList<User> likeList;
 
     private Boolean habitsLoaded;
@@ -37,7 +32,6 @@ public class User {
         this.followerList = new ArrayList<String>();
         this.followingList = new ArrayList<String>();
         this.followRequests = new ArrayList<String>();
-        this.historylist = new ArrayMap<String, HabitEvent>();
         this.habitsLoaded = false;
         this.likeList = new ArrayList<User>();
     }
@@ -49,7 +43,6 @@ public class User {
         this.followerList = new ArrayList<String>();
         this.followingList = new ArrayList<String>();
         this.followRequests = new ArrayList<String>();
-        this.historylist = new ArrayMap<String, HabitEvent>();
         this.habitsLoaded = false;
         this.likeList = new ArrayList<User>();
     }
@@ -102,8 +95,6 @@ public class User {
     public ArrayList<String> getFollowing() {return this.followingList;}
 
     public ArrayList<String> getFollowRequests() {return this.followRequests;}
-
-    public ArrayMap<String, HabitEvent> getHistory() {return this.historylist;}
 
     public void addFollower(User follower) {
         if (hasFollowing(follower))
@@ -254,17 +245,28 @@ public class User {
         DatabaseManager.getInstance().saveUserData(this, listener);
     }
 
-    // TODO: remove the history stuff below, this isn't a good design (storing the same list of habit events both in User and Habit)
-    public void addToHistory(HabitEvent event){
-        this.historylist.put(event.getId(), event);
-    }
+    public void getHistory(final DatabaseManager.OnHabitEventsListener listener) {
+        // We need to iterate over habits and gather HabitEvents into one array.
+        User self = this;
 
-    public void removeFromHistory(String key){
-        this.historylist.remove(key);
-    }
+        this.getHabits(new DatabaseManager.OnHabitsListener() {
+            @Override
+            public void onHabitsSuccess(ArrayMap<String, Habit> habits) {
+                // We have an ArrayMap of our habits. Need to retrieve HabitEvents of each.
+                ArrayMap<String, HabitEvent> historyList = new ArrayMap<String, HabitEvent>();
+                HashSet<String> historyKeyList = new HashSet<String>();
 
-    public void editEventFromHistory(String key, HabitEvent newEvent){
-        this.historylist.replace(key, newEvent);
-    }
+                for(Habit habit : habits.values()){
+                    historyKeyList.addAll(habit.getHabitEventKeys());
+                }
 
+                DatabaseManager.getInstance().getHabitEventsInSet(historyKeyList, listener);
+            }
+
+            @Override
+            public void onHabitsFailed(String message) {
+                Log.e("User", "Failed to get habits!");
+            }
+        });
+    }
 }

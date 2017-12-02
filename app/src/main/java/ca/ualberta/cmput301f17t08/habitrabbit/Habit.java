@@ -100,7 +100,7 @@ public class Habit implements Serializable{
         return this.frequency;
     }
 
-    public ArrayList<String> getHabitKeys(){
+    public ArrayList<String> getHabitEventKeys(){
         if(habitEventsLoaded){
             return new ArrayList<String>(this.habiteventlist.keySet());
         }else{
@@ -108,7 +108,7 @@ public class Habit implements Serializable{
         }
     }
 
-    public void setHabitKeys(ArrayList<String> habits){
+    public void setHabitEventKeys(ArrayList<String> habits){
         habitEventKeyList = new HashSet<String>(habits);
         habitEventsLoaded = false;
         habiteventlist.clear();
