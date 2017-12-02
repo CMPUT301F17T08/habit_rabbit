@@ -5,7 +5,7 @@ package ca.ualberta.cmput301f17t08.habitrabbit;
  */
 
 public class Global {
-    public static int filter = -1;
+    public static String filter = null;
 
 
 }

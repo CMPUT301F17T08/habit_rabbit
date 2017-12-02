@@ -125,7 +125,7 @@ public class Habit implements Serializable{
         DatabaseManager.getInstance().getHabitEventsInSet(this.habitEventKeyList, new DatabaseManager.OnHabitEventsListener() {
             @Override
             public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
-                habitEvents = habitEvents;
+                habiteventlist = habitEvents;
                 habitEventsLoaded = true;
                 listener.onHabitEventsSuccess(habitEvents);
             }

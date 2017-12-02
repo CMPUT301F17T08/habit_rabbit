@@ -47,7 +47,7 @@ public class historyActivity extends AppCompatActivity {
         final historyActivity self = this;
 
         //get the current user's history list
-        if (Global.filter == -1) {
+        if (Global.filter == null) {
             LoginManager.getInstance().getCurrentUser().getHistory(new DatabaseManager.OnHabitEventsListener() {
                 @Override
                 public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
@@ -70,7 +70,7 @@ public class historyActivity extends AppCompatActivity {
             LoginManager.getInstance().getCurrentUser().getHabits(new DatabaseManager.OnHabitsListener() {
                 @Override
                 public void onHabitsSuccess(HashMap<String, Habit> habits) {
-                    Habit selectedHabit = new ArrayList<Habit>(habits.values()).get(Global.filter);
+                    Habit selectedHabit = habits.get(Global.filter);
                     selectedHabit.getHabitEvents(new DatabaseManager.OnHabitEventsListener() {
                         @Override
                         public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
