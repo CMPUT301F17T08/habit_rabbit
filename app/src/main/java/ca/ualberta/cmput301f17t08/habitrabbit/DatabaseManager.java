@@ -25,10 +25,13 @@ import java.util.TimeZone;
 public class DatabaseManager {
 
     private static DatabaseManager databaseManager = null;
-    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+    private FirebaseDatabase database;
+    private ArrayMap<String, Habit> syncedHabits;
 
     private DatabaseManager(){
         database = FirebaseDatabase.getInstance();
+        database.setPersistenceEnabled(true);
     }
 
     public interface OnUserDataListener {
@@ -167,7 +170,7 @@ public class DatabaseManager {
 
         final DatabaseReference habitsRef = database.getReference("habits");
 
-        habitsRef.addValueEventListener(new ValueEventListener() {
+        habitsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot child : dataSnapshot.getChildren()){
@@ -224,7 +227,7 @@ public class DatabaseManager {
 
         final DatabaseReference habitEventsRef = database.getReference("habit_events");
 
-        habitEventsRef.addValueEventListener(new ValueEventListener() {
+        habitEventsRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot child : dataSnapshot.getChildren()){
