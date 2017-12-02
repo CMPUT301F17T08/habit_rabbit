@@ -1,17 +1,13 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
 import android.util.ArrayMap;
-import android.util.ArraySet;
 import android.util.Log;
 
 import com.google.firebase.database.Exclude;
-import com.google.firebase.database.IgnoreExtraProperties;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 
 /**
@@ -20,13 +16,12 @@ import java.util.Set;
 
 
 public class User {
-    private HashSet<String> habitKeyList;
     private String username;
+    private HashSet<String> habitKeyList;
     private ArrayMap<String, Habit> habitList;
     private ArrayList<String> followerList;
     private ArrayList<String> followingList;
     private ArrayList<String> followRequests;
-    private ArrayList<HabitEvent> historylist;
     private ArrayList<User> likeList;
 
     private Boolean habitsLoaded;
@@ -37,7 +32,6 @@ public class User {
         this.followerList = new ArrayList<String>();
         this.followingList = new ArrayList<String>();
         this.followRequests = new ArrayList<String>();
-        this.historylist = new ArrayList<HabitEvent>();
         this.habitsLoaded = false;
         this.likeList = new ArrayList<User>();
     }
@@ -49,7 +43,6 @@ public class User {
         this.followerList = new ArrayList<String>();
         this.followingList = new ArrayList<String>();
         this.followRequests = new ArrayList<String>();
-        this.historylist = new ArrayList<HabitEvent>();
         this.habitsLoaded = false;
         this.likeList = new ArrayList<User>();
     }
@@ -102,8 +95,6 @@ public class User {
     public ArrayList<String> getFollowing() {return this.followingList;}
 
     public ArrayList<String> getFollowRequests() {return this.followRequests;}
-
-    public ArrayList<HabitEvent> getHistory() {return this.historylist;}
 
     public void addFollower(User follower) {
         if (hasFollowing(follower))
@@ -185,6 +176,17 @@ public class User {
     public void removeHabit(Habit habit) {
         if(habitsLoaded){
             this.habitList.remove(habit.getId());
+            this.save(new DatabaseManager.OnSaveListener() {
+                @Override
+                public void onSaveSuccess() {
+                    // Nothing to be done.
+                }
+
+                @Override
+                public void onSaveFailure(String message){
+                    // Nothing to be done.
+                }
+            });
         }else{
             this.habitKeyList.remove(habit.getId());
         }
@@ -243,17 +245,28 @@ public class User {
         DatabaseManager.getInstance().saveUserData(this, listener);
     }
 
-    public void addToHistory(HabitEvent event){
-        this.historylist.add(event);
-    }
+    public void getHistory(final DatabaseManager.OnHabitEventsListener listener) {
+        // We need to iterate over habits and gather HabitEvents into one array.
+        User self = this;
 
-    // TODO we can maybe fix this since it's weird to call remove by index
-    public void removeFromHistory(int position){
-        this.historylist.remove(position);
-    }
+        this.getHabits(new DatabaseManager.OnHabitsListener() {
+            @Override
+            public void onHabitsSuccess(ArrayMap<String, Habit> habits) {
+                // We have an ArrayMap of our habits. Need to retrieve HabitEvents of each.
+                ArrayMap<String, HabitEvent> historyList = new ArrayMap<String, HabitEvent>();
+                HashSet<String> historyKeyList = new HashSet<String>();
 
-    public void editEventFromHistory(int position, HabitEvent newEvent){
-        this.historylist.set(position, newEvent);
-    }
+                for(Habit habit : habits.values()){
+                    historyKeyList.addAll(habit.getHabitEventKeys());
+                }
 
+                DatabaseManager.getInstance().getHabitEventsInSet(historyKeyList, listener);
+            }
+
+            @Override
+            public void onHabitsFailed(String message) {
+                Log.e("User", "Failed to get habits!");
+            }
+        });
+    }
 }

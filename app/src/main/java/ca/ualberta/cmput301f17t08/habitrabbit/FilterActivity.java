@@ -51,7 +51,7 @@ public class FilterActivity extends AppCompatActivity {
 
         habitListView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 
-
+        // TODO: We need a loading screen or overlay to prevent user input before we
 
         // habitlist used for displaying
         habitListDisplay = new ArrayList<>();
@@ -61,7 +61,8 @@ public class FilterActivity extends AppCompatActivity {
             @Override
             public void onHabitsSuccess(ArrayMap<String, Habit> habits) {
                 habitList = new ArrayList<Habit>(habits.values());
-
+                cAdapt = new FilterAdapter(habitList,FilterActivity.this );
+                habitListView.setAdapter(cAdapt);
             }
 
             @Override
@@ -70,8 +71,7 @@ public class FilterActivity extends AppCompatActivity {
             }
         });
 
-        cAdapt = new FilterAdapter(habitList,FilterActivity.this );
-        habitListView.setAdapter(cAdapt);
+
 
         //before user type in anything to search, display all the habit options
 
@@ -85,7 +85,6 @@ public class FilterActivity extends AppCompatActivity {
             }
         });
 
-
         // set the filter edit text listner
         filter.addTextChangedListener(new TextWatcher() {
             @Override
@@ -96,7 +95,7 @@ public class FilterActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onTextChanged(final CharSequence s, int start, int before, int count) {
 
                 //once user type some letter in the edit text, it will be return to this function as CharSequence s
 
@@ -106,14 +105,8 @@ public class FilterActivity extends AppCompatActivity {
                     if (habit.getName().contains(s)){// for every habit, if the name of the habit contains the Char, then add it to the display list
                         habitListDisplay.add(habit);
                     }
-                    for (HabitEvent habitevent : habit.getHabitEvents()){
-                        if (habitevent.getComment().contains(s)){// for every habit event, if the comment contain the char, then dispay it
-                            if(!habitListDisplay.contains(habit)) {
-                                habitListDisplay.add(habit);
-                            }
-                        }
-                    }
                 }
+
                 cAdapt.notifyDataSetChanged();
                 cAdapt = new FilterAdapter(habitListDisplay,FilterActivity.this );
                 habitListView.setAdapter(cAdapt);
