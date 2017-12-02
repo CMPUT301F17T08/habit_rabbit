@@ -34,7 +34,6 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder
 
     public FilterAdapter(ArrayList<Habit> habits, Activity context) {
         this.habits = new ArrayList<Habit>();
-        this.habits.clear();
         this.habits.addAll(habits);
         notifyDataSetChanged();
         this.context = context;
@@ -62,7 +61,7 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Global.filter = position;
+                Global.filter = habits.get(position).getId();
 
                 context.finish();
             }

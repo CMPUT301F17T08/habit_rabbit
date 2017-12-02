@@ -50,6 +50,14 @@ public class User {
 
     public void setUsername(String username) {this.username = username;}
 
+    @Exclude
+    public HashSet<String> getHabitKeysSet(){
+        if(habitsLoaded){
+            return new HashSet<String>(this.habitList.keySet());
+        }else{
+            return this.habitKeyList;
+        }
+    }
 
     public ArrayList<String> getHabitKeys(){
         if(habitsLoaded){
@@ -71,12 +79,10 @@ public class User {
 
     @Exclude
     public void getHabits(final DatabaseManager.OnHabitsListener listener){
-        if(this.habitsLoaded){
-            listener.onHabitsSuccess(habitList);
-            return;
-        }
 
-        DatabaseManager.getInstance().getHabitsInSet(this.habitKeyList, new DatabaseManager.OnHabitsListener() {
+        // Do not use habitsLoaded flag here and return cached! Causes bug when habit is edited.
+
+        DatabaseManager.getInstance().getHabitsInSet(this.getHabitKeysSet(), new DatabaseManager.OnHabitsListener() {
             @Override
             public void onHabitsSuccess(HashMap<String, Habit> habits) {
                 habitList = habits;

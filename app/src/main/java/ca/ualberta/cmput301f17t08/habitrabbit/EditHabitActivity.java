@@ -150,10 +150,6 @@ public class EditHabitActivity extends AppCompatActivity {
                 // TODO check that the habit name doesn't exist already outside of current habit
 
                 if (!error){
-                    // update the habit object with the new values
-                    User currentUser = LoginManager.getInstance().getCurrentUser();
-                    currentUser.removeHabit(habit);
-
                     habit.setName(title);
                     habit.setReason(reason);
                     habit.setDate(date);
