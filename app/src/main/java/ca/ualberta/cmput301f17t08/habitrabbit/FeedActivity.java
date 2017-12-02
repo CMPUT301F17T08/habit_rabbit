@@ -17,7 +17,6 @@ public class FeedActivity extends AppCompatActivity {
     public ArrayList<HabitEvent> feedList;
 
     public ArrayList<String> followerList;
-    private historyAdapter cAdapt;
     private Button map_button;
     private FeedActivity activity = this;
 
