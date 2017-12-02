@@ -2,9 +2,13 @@ package ca.ualberta.cmput301f17t08.habitrabbit;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.util.ArrayMap;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class gpsActivity extends Activity {
 
@@ -12,6 +16,8 @@ public class gpsActivity extends Activity {
 
     // GPSTracker class
     gpsTracker gps;
+    private ArrayList<HabitEvent> habitEventsList;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -43,6 +49,20 @@ public class gpsActivity extends Activity {
                     gps.showSettingsAlert();
                 }
 
+            }
+        });
+        DatabaseManager.OnHabitEventListener() {
+            @Override
+            public void onHabitEventsSuccess(ArrayMap<String, HabitEvent> habitEvents) {
+                Log.e("Here!", "Here!");
+
+                habitEventsList = new ArrayList<HabitEvent>(habitEvents.values());
+
+            }
+
+            @Override
+            public void onHabitEventsFailed(String message) {
+                Log.e("habitEvent_Maps", "Failed to get habit events of user!");
             }
         });
     }
