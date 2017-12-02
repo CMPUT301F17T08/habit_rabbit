@@ -103,12 +103,30 @@ public class User {
 
     public ArrayList<String> getFollowRequests() {return this.followRequests;}
 
-    public void addFollower(User follower) {
+    public void  removeFromFollowRequests(User removedUser){
+        this.followRequests.remove(removedUser);
+    }
+
+    public void addFollowing(User follower) {
         if (hasFollowing(follower))
+            throw new IllegalArgumentException("Follower already existed.");
+
+        this.followingList.add(follower.getUsername());
+        return;
+    }
+
+    public boolean hasFollower(User follower){
+        return this.followerList.contains(follower.getUsername());
+
+    }
+
+    public void  addFollower(User follower){
+        if (hasFollower(follower))
             throw new IllegalArgumentException("Follower already existed.");
 
         this.followerList.add(follower.getUsername());
         return;
+
     }
 
     private boolean hasFollowing(User user) {
@@ -221,7 +239,7 @@ public class User {
         this.likeList.remove(newUser);
     }
 
-    public ArrayList<User> getLikeListener(){
+    public ArrayList<User> getLikeList(){
 
         return likeList;
     }
