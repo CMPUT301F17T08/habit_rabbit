@@ -32,8 +32,11 @@ public class FeedActivity extends AppCompatActivity {
         //get the followers
         followingList = LoginManager.getInstance().getCurrentUser().getFollowing();
 
-        //testing code
+        reloadData();
 
+    }
+
+    private void reloadData(){
         String username;
         ArrayList<String> usernameList = new ArrayList<String>();
 
@@ -75,7 +78,13 @@ public class FeedActivity extends AppCompatActivity {
             });
 
         }
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        reloadData();
     }
 
     public void showMenu(View v){

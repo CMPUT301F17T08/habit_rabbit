@@ -107,8 +107,7 @@ public class AddHabitEventActivity extends AppCompatActivity {
                 return;
             }
             try {
-                InputStream inputStream = activity.getContentResolver().openInputStream(data
-                            .getData());
+                InputStream inputStream = activity.getContentResolver().openInputStream(data.getData());
 
                 bmp = BitmapFactory.decodeStream(inputStream);
                 imagePreview.setImageBitmap(bmp);

@@ -44,8 +44,15 @@ public class historyActivity extends AppCompatActivity {
             }
         });
 
-        final historyActivity self = this;
+        reloadData();
+    }
 
+    public void showMenu(View v){
+        Intent intent = new Intent(this, MenuActivity.class);
+        startActivity(intent);
+    }
+
+    private void reloadData(){
         //get the current user's history list
         if (Global.filter == null) {
             LoginManager.getInstance().getCurrentUser().getHistory(new DatabaseManager.OnHabitEventsListener() {
@@ -53,8 +60,10 @@ public class historyActivity extends AppCompatActivity {
                 public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
                     historyList = habitEvents;
 
-                    cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), new ArrayList<HabitEvent>(historyList.values()), self);
+                    cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), new ArrayList<HabitEvent>(historyList.values()), activity);
                     historyRecyclerView.setAdapter(cAdapt);
+
+                    cAdapt.notifyDataSetChanged();
                 }
 
                 @Override
@@ -76,8 +85,10 @@ public class historyActivity extends AppCompatActivity {
                         public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
                             historyList = habitEvents;
 
-                            cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), new ArrayList<HabitEvent>(historyList.values()), self);
+                            cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), new ArrayList<HabitEvent>(historyList.values()), activity);
                             historyRecyclerView.setAdapter(cAdapt);
+
+                            cAdapt.notifyDataSetChanged();
                         }
 
                         @Override
@@ -96,12 +107,6 @@ public class historyActivity extends AppCompatActivity {
             });
 
         }
-
-    }
-
-    public void showMenu(View v){
-        Intent intent = new Intent(this, MenuActivity.class);
-        startActivity(intent);
     }
 
     @Override
@@ -114,4 +119,10 @@ public class historyActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        reloadData();
+    }
 }
