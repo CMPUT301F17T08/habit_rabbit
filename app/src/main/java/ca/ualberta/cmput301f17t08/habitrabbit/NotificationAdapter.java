@@ -104,14 +104,19 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                                     currentUser.addFollower(acceptUser);
                                     currentUser.removeFromFollowRequests(acceptUser);
                                     acceptUser.addFollowing(currentUser);
-                                    ArrayList<String> followRequest = currentUser.getFollowRequests();
 
                                     currentUser.save(new DatabaseManager.OnSaveListener() {
                                         @Override
                                         public void onSaveSuccess() {
+//                                            Intent intent = new Intent(context, NotificationActivity.class);
+//                                            //if you want to send data to called activity uncomment next line
+//                                            // intent.putExtra("extra", "value");
+//
+//                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                                            context.startActivity(intent);
                                             adapter.notifyDataSetChanged();
-                                            Dialog.dismiss();
 
+                                            Dialog.dismiss();
                                         }
 
                                         @Override

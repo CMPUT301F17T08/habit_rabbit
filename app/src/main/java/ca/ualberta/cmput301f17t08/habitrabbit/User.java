@@ -1,7 +1,9 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
+import android.content.Context;
 import android.util.ArrayMap;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.database.Exclude;
 
@@ -104,14 +106,14 @@ public class User {
     public ArrayList<String> getFollowRequests() {return this.followRequests;}
 
     public void  removeFromFollowRequests(User removedUser){
-        this.followRequests.remove(removedUser);
+        this.followRequests.remove(removedUser.getUsername());
     }
 
     public void addFollowing(User follower) {
-        if (hasFollowing(follower))
-            throw new IllegalArgumentException("Follower already existed.");
+        if (!hasFollowing(follower))
+            this.followingList.add(follower.getUsername());
 
-        this.followingList.add(follower.getUsername());
+
         return;
     }
 
@@ -121,10 +123,9 @@ public class User {
     }
 
     public void  addFollower(User follower){
-        if (hasFollower(follower))
-            throw new IllegalArgumentException("Follower already existed.");
+        if (!hasFollower(follower))
+            this.followerList.add(follower.getUsername());
 
-        this.followerList.add(follower.getUsername());
         return;
 
     }
