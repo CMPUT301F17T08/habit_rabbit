@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import java.sql.BatchUpdateException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -28,6 +29,7 @@ public class historyActivity extends AppCompatActivity {
     private RecyclerView historyRecyclerView;
     private Button filter_button;
     private historyActivity activity = this;
+    private Button map_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +49,15 @@ public class historyActivity extends AppCompatActivity {
             }
         });
 
+        map_button = (Button) findViewById(R.id.map_button);
+        map_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, gpsActivity.class);
+                startActivity(intent);
+            }
+        });
+
         reloadData();
     }
 
@@ -57,6 +68,7 @@ public class historyActivity extends AppCompatActivity {
 
     private void reloadData(){
         //get the current user's history list
+
         if (Global.filter == null) {
             LoginManager.getInstance().getCurrentUser().getHistory(new DatabaseManager.OnHabitEventsListener() {
                 @Override
@@ -128,7 +140,6 @@ public class historyActivity extends AppCompatActivity {
                     Log.e("MyHabitActivity", "Failed to get habits of user!");
                 }
             });
-
         }
     }
 
