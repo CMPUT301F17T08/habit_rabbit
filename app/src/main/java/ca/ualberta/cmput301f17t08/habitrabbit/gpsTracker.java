@@ -17,6 +17,11 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
+/**
+ * Could track a location
+ */
+
+
 public class gpsTracker extends Service implements LocationListener {
 
     private final Context mContext;

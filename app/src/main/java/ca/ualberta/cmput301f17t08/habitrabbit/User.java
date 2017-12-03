@@ -1,10 +1,6 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
-import android.content.Context;
-import android.provider.ContactsContract;
-import android.util.ArrayMap;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.firebase.database.Exclude;
 
@@ -16,7 +12,7 @@ import java.util.Objects;
 
 
 /**
- * The class for a singal user, has all user's property, like name, and user's habit
+ * The class for a signal user, has all user's property, like name, and user's habit
  */
 
 
