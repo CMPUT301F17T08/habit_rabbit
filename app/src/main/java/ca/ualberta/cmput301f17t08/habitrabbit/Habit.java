@@ -194,11 +194,7 @@ public class Habit implements Serializable{
         tempCalendar.set(Calendar.SECOND, 0);
         tempCalendar.set(Calendar.MILLISECOND, 0);
 
-
-        System.out.println("Before: " + tempCalendar.getTime() + " time " + currentCalendar.getTime());
         while (tempCalendar.getTime().before(currentCalendar.getTime())){
-
-            System.out.println(tempCalendar.getTime() + " time " + currentCalendar.getTime());
 
             int tempDayIndex = tempCalendar.get(Calendar.DAY_OF_WEEK);
 
@@ -210,9 +206,7 @@ public class Habit implements Serializable{
                 daysSinceStart += 1;
             }
 
-            // increment the temp date by 1 day
             tempCalendar.add(Calendar.DATE, 1);
-//            tempDate = calendar.getTime();
 
         }
 
@@ -228,7 +222,7 @@ public class Habit implements Serializable{
             percentComplete = (float)0;      // 100% completed by default
         }
 
-        return percentComplete;
+        return (float) Math.min(1.0,percentComplete);
     }
 
     public void markDone(){
