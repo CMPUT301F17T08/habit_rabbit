@@ -9,6 +9,8 @@ import android.util.ArrayMap;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 /**
@@ -32,10 +34,10 @@ public class FeedActivity extends AppCompatActivity {
         //get the followers
         followingList = LoginManager.getInstance().getCurrentUser().getFollowing();
 
-
         reloadData();
 
     }
+
     private void reloadData(){
         String username;
         ArrayList<String> usernameList = new ArrayList<String>();
@@ -59,6 +61,13 @@ public class FeedActivity extends AppCompatActivity {
                             for (int index = 0; index<followingFeedList.size();index++){
                                 feedList.add(followingFeedList.get(index));
                             }
+                            Collections.sort(feedList, new Comparator<HabitEvent>() {
+                                public int compare(HabitEvent H1, HabitEvent H2) {
+                                    return H1.getDateCompleted().compareTo(H2.getDateCompleted());
+                                }
+                            });
+                            Collections.reverse(feedList);
+
 
                             cAdapt.notifyDataSetChanged();
                         }

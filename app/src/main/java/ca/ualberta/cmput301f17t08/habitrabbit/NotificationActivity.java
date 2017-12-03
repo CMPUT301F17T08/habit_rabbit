@@ -37,9 +37,13 @@ public class NotificationActivity extends AppCompatActivity {
             pendingFollower.add(user.getUsername());
         }
 
+
+
         //create recycleview for likes
         LikesRecyclerView = (RecyclerView) findViewById(R.id.likes_recyclerview);
         LikesRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+
+       //TODO: still have to incorporate follow requests in recyclerview
 
         //set the adapter for the following list
         cAdapt = new NotificationAdapter(this,pendingFollower);

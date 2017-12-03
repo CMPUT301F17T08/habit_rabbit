@@ -27,6 +27,7 @@ public class MyHabitActivity extends AppCompatActivity {
     private MyHabitActivity activity = this;
 
     private ArrayList<Habit> habitList;
+    private ArrayList<String> FollowRequests;
     private HabitsAdapter cAdapt;
     private RecyclerView habitsRecyclerView;
     private Button menuButton;
@@ -60,10 +61,19 @@ public class MyHabitActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        if (LoginManager.getInstance().getCurrentUser().getFollowRequests().size()!=0){
+            Intent intent = new Intent(activity, NotificationActivity.class);
+            startActivity(intent);
+
+        }
 
         reloadData();
 
     }
+
+
+
+
 
     private void reloadData(){
         LoginManager.getInstance().getCurrentUser().getHabits(new DatabaseManager.OnHabitsListener() {
