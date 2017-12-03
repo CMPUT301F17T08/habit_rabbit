@@ -1,4 +1,9 @@
 apply plugin: 'com.android.application'
+android {
+    defaultConfig {
+        multiDexEnabled true
+    }
+}
 
 android {
     compileSdkVersion 26
