@@ -12,8 +12,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
 /**
@@ -92,9 +90,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
                 Button acceptButton = new_view.findViewById(R.id.accept_follower);
                 Button declineButton = new_view.findViewById(R.id.decline_follower);
-                TextView followerName = new_view.findViewById(R.id.follower_name);
-                followerName.setText(pendingList.get(position));
-
 
                 final AlertDialog Dialog = builder.create();
                 Dialog.show();
@@ -107,16 +102,16 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                                 public void onUserData(User user) {
                                     User acceptUser = user;
                                     currentUser.addFollower(acceptUser);
-                                    currentUser.removeFromFollowRequests(acceptUser.getUsername());
+                                    currentUser.removeFromFollowRequests(acceptUser);
                                     acceptUser.addFollowing(currentUser);
+                                    ArrayList<String> followRequest = currentUser.getFollowRequests();
 
                                     currentUser.save(new DatabaseManager.OnSaveListener() {
                                         @Override
                                         public void onSaveSuccess() {
-
                                             adapter.notifyDataSetChanged();
-//
                                             Dialog.dismiss();
+
                                         }
 
                                         @Override
@@ -143,7 +138,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                             @Override
                             public void onUserData(User user) {
                                 User declineUser = user;
-                                currentUser.removeFromFollowRequests(declineUser.getUsername());
+                                currentUser.removeFromFollowRequests(declineUser);
                                 Dialog.dismiss();
                             }
 
