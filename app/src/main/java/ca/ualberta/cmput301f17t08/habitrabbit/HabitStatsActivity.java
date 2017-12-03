@@ -57,7 +57,7 @@ public class HabitStatsActivity extends AppCompatActivity {
                 public void onHabitsSuccess(HashMap<String, Habit> habits) {
 
                     habit = habits.get(habit_id);
-                    List<Object> statistics = habit.getStatistics();
+
                     // TODO: Clean up getStatistics to create several different getters/setters for each member.
                     // Firebase does not properly save and retrieve these due to this.
                     streakCount.setText("" + habit.getStreak());

@@ -198,6 +198,9 @@ public class Habit implements Serializable{
 
         }
 
+        System.out.println(daysCompleted);
+        System.out.println(daysSinceStart);
+
         // % completed
         if (daysSinceStart != 0) {
             percentComplete = (float) daysCompleted / daysSinceStart;
@@ -206,59 +209,6 @@ public class Habit implements Serializable{
         }
 
         return percentComplete;
-    }
-
-    // TODO: Separate this into various getters/setters, refactor formatting into calling class.
-    // Firebase will not be able to save/retrieve without this.
-    public List<Object> getStatistics(){
-
-        // count the total days since the start that the user was supposed to complete this habit
-        int daysSinceStart = 0;
-
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
-        Date currentDate = calendar.getTime();
-        Date tempDate = this.startDate;
-
-        while (tempDate.before(currentDate)){
-            calendar.setTime(tempDate);
-            int tempDayIndex = calendar.get(Calendar.DAY_OF_WEEK);
-
-            // converts between the built in day index to the frequency array indices
-            int [] conversion_table = {0, 6, 0, 1, 2, 3, 4, 5};
-
-            // check if the user is following the habit on this day
-            if (frequency.get(conversion_table[tempDayIndex]) == 1){
-                daysSinceStart += 1;
-            }
-
-            // increment the temp date by 1 day
-            calendar.add(Calendar.DATE, 1);
-            tempDate = calendar.getTime();
-
-        }
-
-        String averageTimeStr;
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-
-        if (this.averageTime <= 0){
-            averageTimeStr = "N/A";
-        }else{
-            averageTimeStr = sdf.format(this.averageTime);
-        }
-
-        List<Object> statistics = new ArrayList<Object>();
-        statistics.add(this.daysCompleted);
-        statistics.add(this.streak);
-        statistics.add(averageTimeStr);
-
-        // % completed
-        if (daysSinceStart != 0) {
-            statistics.add((float) daysCompleted / daysSinceStart);
-        }else{
-            statistics.add((float)0);      // 100% completed by default
-        }
-
-        return statistics;
     }
 
     public void markDone(){
@@ -287,7 +237,6 @@ public class Habit implements Serializable{
             this.streak = 1;
         }
 
-        System.out.println("Updated last completed to" + now);
         this.lastCompleted = now;
 
     }
