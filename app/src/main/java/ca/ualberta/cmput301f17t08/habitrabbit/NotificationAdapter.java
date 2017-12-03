@@ -68,6 +68,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         final User currentUser = LoginManager.getInstance().getCurrentUser();
         ArrayList<String> follwingRequest = currentUser.getFollowRequests();
 
+        //get all the follow requests from user object
         for (String username : pendingList){
             if(follwingRequest.contains(username)){
                 holder.infoLabel.setText("wants to follow you");
@@ -83,6 +84,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             @Override
             public void onClick(View view) {
 
+                //set up alert dialog to make following request to the user
                 final AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 LayoutInflater inflater = LayoutInflater.from(context);
                 View new_view = null;
@@ -94,22 +96,27 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                 final AlertDialog Dialog = builder.create();
                 Dialog.show();
 
+                //when user clicks accept button
                 acceptButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                            //get userdata from db
                             DatabaseManager.getInstance().getUserData(pendingList.get(position), new DatabaseManager.OnUserDataListener() {
                                 @Override
+                                //if user clicks accept, update the followerlist to current user, following list to the user who makes the request
                                 public void onUserData(User user) {
                                     final User acceptUser = user;
                                     currentUser.addFollower(acceptUser);
                                     currentUser.removeFromFollowRequests(acceptUser);
                                     acceptUser.addFollowing(currentUser);
 
+                                    //update the list to the database
                                     currentUser.save(new DatabaseManager.OnSaveListener() {
                                         @Override
                                         public void onSaveSuccess() {
+                                            //update the adapter
                                             adapter.notifyDataSetChanged();
-
+                                            //make the dialog disappeared
                                             Dialog.dismiss();
                                         }
 
@@ -145,6 +152,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                     }
                 });
 
+
+                //when the user clicks declien, update the follow requests list and close the dialog
                 declineButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

@@ -49,12 +49,13 @@ public class FollowingHabitAdapter extends RecyclerView.Adapter<FollowingHabitAd
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
-
+        //update  the username on layout
         holder.followingNameLabel.setText(habits.get(position));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //pass the username of the person that user clicks
                 Intent intent = new Intent(context, LastCompleteActivity.class);
                 intent.putExtra("TheFollowName",username);
                 context.startActivity(intent);

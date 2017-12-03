@@ -18,8 +18,6 @@ public class FollowUserActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.follow_user);
 
-        System.out.println("Follow Requests" + LoginManager.getInstance().getCurrentUser().getFollowRequests());
-
         final EditText usernameField = findViewById(R.id.username_input_field);
         Button addButton = findViewById(R.id.follow_user_button);
 
