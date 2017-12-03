@@ -21,25 +21,20 @@
             android:weightSum="1">
 
 
-
             <TextView
                 android:id="@+id/user_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-
                 android:layout_gravity="center"
+
+                android:gravity="center"
                 android:text="USER 1"
 
+                android:textAlignment="viewStart"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:textColor="@color/colorPrimary"
                 android:textSize="24sp"
                 android:textStyle="bold" />
-
-
-
-
-
 
 
         </LinearLayout>

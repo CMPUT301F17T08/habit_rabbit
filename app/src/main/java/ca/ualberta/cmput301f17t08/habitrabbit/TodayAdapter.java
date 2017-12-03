@@ -11,11 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
-import java.util.TimeZone;
 
 /**
  * The defined adapter for today page layout
@@ -40,7 +36,7 @@ public class TodayAdapter extends RecyclerView.Adapter<TodayAdapter.ViewHolder> 
 
             habitNameLabel = (TextView) habitView.findViewById(R.id.habit_name);
             habitReasonLabel = (TextView) habitView.findViewById(R.id.habit_reason);
-            frequencyLayout = (LinearLayout) habitView.findViewById(R.id.habbitLayout);
+            frequencyLayout = (LinearLayout) habitView.findViewById(R.id.habitLayout);
             done_layout = (LinearLayout) habitView.findViewById(R.id.done_layout);
 
 

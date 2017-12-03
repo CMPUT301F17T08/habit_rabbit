@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ca.ualberta.cmput301f17t08.habitrabbit">
 
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -37,20 +38,16 @@
         <activity android:name=".AddHabitActivity" />
         <activity android:name=".EditHabitActivity" />
         <activity android:name=".MenuActivity" />
-        <activity android:name=".LikesActivity" />
+        <activity android:name=".NotificationActivity" />
         <activity android:name=".PeopleActivity" />
         <activity android:name=".AddHabitEventActivity" />
         <activity android:name=".MapActivity" />
-        <activity
-            android:name=".LastCompleteActivity"
-            android:label="@string/title_activity_last_complete"
-            android:theme="@style/AppTheme" />
         <activity android:name=".FollowUserActivity" />
         <activity android:name=".TodayActivity" />
         <activity android:name=".FeedActivity" />
         <activity android:name=".EditHabitEventActivity" />
         <activity android:name=".FilterActivity"></activity>
-
+        <activity android:name=".gpsActivity"></activity>
     </application>
 
 </manifest>

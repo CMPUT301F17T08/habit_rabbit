@@ -1,6 +1,7 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
 import android.util.ArrayMap;
+import android.util.Log;
 
 import com.google.firebase.database.Exclude;
 
@@ -320,6 +321,7 @@ public class Habit implements Serializable{
         if (this.habiteventlist.containsKey(event.getId())){
             this.habiteventlist.remove(event.getId());
         }
+
     }
 
     public String getId() {

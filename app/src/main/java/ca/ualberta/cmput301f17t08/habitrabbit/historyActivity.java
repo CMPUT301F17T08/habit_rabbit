@@ -11,7 +11,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import java.sql.BatchUpdateException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 /**
@@ -21,10 +24,12 @@ import java.util.HashMap;
 public class historyActivity extends AppCompatActivity {
     //initialize the variables needed in the class
     private HashMap<String, HabitEvent> historyList;
-    private historyAdapter cAdapt;
+    private ArrayList<HabitEvent> historyListDisplay;
+    private HabitEventListAdapter cAdapt;
     private RecyclerView historyRecyclerView;
     private Button filter_button;
     private historyActivity activity = this;
+    private Button map_button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +49,15 @@ public class historyActivity extends AppCompatActivity {
             }
         });
 
+        map_button = (Button) findViewById(R.id.map_button);
+        map_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, gpsActivity.class);
+                startActivity(intent);
+            }
+        });
+
         reloadData();
     }
 
@@ -54,13 +68,24 @@ public class historyActivity extends AppCompatActivity {
 
     private void reloadData(){
         //get the current user's history list
+
         if (Global.filter == null) {
             LoginManager.getInstance().getCurrentUser().getHistory(new DatabaseManager.OnHabitEventsListener() {
                 @Override
                 public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
                     historyList = habitEvents;
+                    historyListDisplay = new ArrayList<HabitEvent>(historyList.values());
 
-                    cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), new ArrayList<HabitEvent>(historyList.values()), activity);
+
+                    Collections.sort(historyListDisplay, new Comparator<HabitEvent>() {
+                        public int compare(HabitEvent H1, HabitEvent H2) {
+                            return H1.getDateCompleted().compareTo(H2.getDateCompleted());
+                        }
+                    });
+                    Collections.reverse(historyListDisplay);
+
+
+                    cAdapt = new HabitEventListAdapter(historyListDisplay, activity);
                     historyRecyclerView.setAdapter(cAdapt);
 
                     cAdapt.notifyDataSetChanged();
@@ -84,8 +109,18 @@ public class historyActivity extends AppCompatActivity {
                         @Override
                         public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
                             historyList = habitEvents;
+                            historyListDisplay = new ArrayList<HabitEvent>(historyList.values());
 
-                            cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), new ArrayList<HabitEvent>(historyList.values()), activity);
+
+                            Collections.sort(historyListDisplay, new Comparator<HabitEvent>() {
+                                public int compare(HabitEvent H1, HabitEvent H2) {
+                                    return H1.getDateCompleted().compareTo(H2.getDateCompleted());
+                                }
+                            });
+
+                            Collections.reverse(historyListDisplay);
+
+                            cAdapt = new HabitEventListAdapter(historyListDisplay, activity);
                             historyRecyclerView.setAdapter(cAdapt);
 
                             cAdapt.notifyDataSetChanged();
@@ -105,7 +140,6 @@ public class historyActivity extends AppCompatActivity {
                     Log.e("MyHabitActivity", "Failed to get habits of user!");
                 }
             });
-
         }
     }
 

@@ -4,10 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 
 import android.support.v7.widget.RecyclerView;
-import android.text.Layout;
-import android.util.ArrayMap;
 import android.util.ArraySet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,10 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
-import java.util.zip.Inflater;
 
 /**
  * The adapter for defined habit view
@@ -44,7 +38,7 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
 
             habitNameLabel = (TextView) habitView.findViewById(R.id.habit_name);
             habitReasonLabel = (TextView) habitView.findViewById(R.id.habit_reason);
-            frequencyLayout = (LinearLayout) habitView.findViewById(R.id.habbitLayout);
+            frequencyLayout = (LinearLayout) habitView.findViewById(R.id.habitLayout);
             percentage = (TextView)habitView.findViewById(R.id.habit_percentage);
 
         }}

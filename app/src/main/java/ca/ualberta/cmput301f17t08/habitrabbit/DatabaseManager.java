@@ -89,7 +89,6 @@ public class DatabaseManager {
         return databaseManager;
     }
 
-
     /**
      * Creates user in database and returns user object to listener
      * @param username
@@ -139,6 +138,7 @@ public class DatabaseManager {
     public void getUserData(final String username, final OnUserDataListener listener){
 
         final DatabaseReference userRef = database.getReference("users").child(username);
+        userRef.keepSynced(true);
 
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

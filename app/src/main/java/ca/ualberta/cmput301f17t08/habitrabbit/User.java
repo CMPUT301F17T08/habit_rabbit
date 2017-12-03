@@ -1,17 +1,18 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
+import android.content.Context;
+import android.provider.ContactsContract;
 import android.util.ArrayMap;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.database.Exclude;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Objects;
-import java.util.TimeZone;
 
 
 /**
@@ -25,8 +26,8 @@ public class User {
     private HashMap<String, Habit> habitList;
     private ArrayList<String> followerList;
     private ArrayList<String> followingList;
-    private ArrayList<String> followRequests;
-    private ArrayList<User> likeList;
+    private ArrayList<FollowNotification> followRequests;
+    private ArrayList<LikeNotification> likes;
 
     private Boolean habitsLoaded;
 
@@ -35,9 +36,9 @@ public class User {
         this.habitKeyList = new HashSet<String>();
         this.followerList = new ArrayList<String>();
         this.followingList = new ArrayList<String>();
-        this.followRequests = new ArrayList<String>();
+        this.followRequests = new ArrayList<FollowNotification>();
+        this.likes = new ArrayList<LikeNotification>();
         this.habitsLoaded = false;
-        this.likeList = new ArrayList<User>();
     }
 
     public User(String username){
@@ -46,9 +47,9 @@ public class User {
         this.habitKeyList = new HashSet<String>();
         this.followerList = new ArrayList<String>();
         this.followingList = new ArrayList<String>();
-        this.followRequests = new ArrayList<String>();
+        this.followRequests = new ArrayList<FollowNotification>();
+        this.likes = new ArrayList<LikeNotification>();
         this.habitsLoaded = false;
-        this.likeList = new ArrayList<User>();
     }
 
     public void setUsername(String username) {this.username = username;}
@@ -104,14 +105,64 @@ public class User {
 
     public ArrayList<String> getFollowing() {return this.followingList;}
 
-    public ArrayList<String> getFollowRequests() {return this.followRequests;}
+    public ArrayList<FollowNotification> getFollowRequests() {
+        return this.followRequests;
+    }
 
-    public void addFollower(User follower) {
-        if (hasFollowing(follower))
-            throw new IllegalArgumentException("Follower already existed.");
+    public void setFollowRequests(ArrayList<FollowNotification> notifications) {
+        this.followRequests = notifications;
+    }
 
-        this.followerList.add(follower.getUsername());
+    public void removeFromFollowRequests(User removedUser, DatabaseManager.OnSaveListener listener){
+        for(FollowNotification notification : this.followRequests){
+            if(notification.getUsername().equals(removedUser.getUsername())) {
+                this.followRequests.remove(notification);
+            }
+        }
+
+        this.save(listener);
+    }
+
+    public void addFollowRequest(User user, DatabaseManager.OnSaveListener listener){
+        FollowNotification notification = new FollowNotification(user.getUsername(), new Date());
+        this.followRequests.add(notification);
+
+        this.save(listener);
+    }
+
+    public ArrayList<LikeNotification> getLikes() {
+        return this.likes;
+    }
+
+    public void setLikes(ArrayList<LikeNotification> notifications) {
+        this.likes = notifications;
+    }
+
+    public void addLike(User user, DatabaseManager.OnSaveListener listener){
+        LikeNotification notification = new LikeNotification(user.getUsername(), new Date());
+        this.likes.add(notification);
+
+        this.save(listener);
+    }
+
+    public void addFollowing(User follower) {
+        if (!hasFollowing(follower))
+            this.followingList.add(follower.getUsername());
+
         return;
+    }
+
+    public boolean hasFollower(User follower){
+        return this.followerList.contains(follower.getUsername());
+
+    }
+
+    public void  addFollower(User follower){
+        if (!hasFollower(follower))
+            this.followerList.add(follower.getUsername());
+
+        return;
+
     }
 
     private boolean hasFollowing(User user) {
@@ -213,22 +264,6 @@ public class User {
     public void setFollowing(ArrayList<String> following){
         this.followingList = (ArrayList<String>)following.clone();
     }
-
-    public void addLikedUser(User newUser){
-
-        this.likeList.add(newUser);
-    }
-
-    public void removeLikedUser(User newUser){
-
-        this.likeList.remove(newUser);
-    }
-
-    public ArrayList<User> getLikeListener(){
-
-        return likeList;
-    }
-
 
     public ArrayList<Habit> filterHistoryByType(String keyword) {
         // TODO: We need to rework this by adding an extra parameter of a listener
