@@ -43,18 +43,10 @@
         <activity android:name=".AddHabitEventActivity" />
         <activity android:name=".MapActivity" />
         <activity android:name=".FollowUserActivity" />
-        <activity android:name=".PeopleActivity" />
         <activity android:name=".TodayActivity" />
         <activity android:name=".FeedActivity" />
         <activity android:name=".EditHabitEventActivity" />
-        <activity android:name=".FilterActivity" />
-
-        <receiver android:name=".StreakChecker">
-            <intent-filter>
-                <action android:name="android.intent.action.ACTION_TIME_TICK" />
-            </intent-filter>
-        </receiver>
-
+        <activity android:name=".FilterActivity"></activity>
         <activity android:name=".gpsActivity"></activity>
     </application>
 
