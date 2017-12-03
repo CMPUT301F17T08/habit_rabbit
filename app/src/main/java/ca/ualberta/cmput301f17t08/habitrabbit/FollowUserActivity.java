@@ -23,7 +23,6 @@ public class FollowUserActivity extends AppCompatActivity {
         final EditText usernameField = findViewById(R.id.username_input_field);
         Button addButton = findViewById(R.id.follow_user_button);
 
-
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -35,10 +34,7 @@ public class FollowUserActivity extends AppCompatActivity {
                         @Override
                         public void onUserData(User user) {
                             followUser = user;
-                            followUser.getFollowRequests().add(LoginManager.getInstance().getCurrentUser().getUsername());
-
-                            // save the data for the other user
-                            followUser.save(new DatabaseManager.OnSaveListener() {
+                            followUser.addFollowRequest(LoginManager.getInstance().getCurrentUser(), new DatabaseManager.OnSaveListener() {
                                 @Override
                                 public void onSaveSuccess() {
                                     finish();

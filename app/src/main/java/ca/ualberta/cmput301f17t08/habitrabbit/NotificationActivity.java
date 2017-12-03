@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 
 public class NotificationActivity extends AppCompatActivity {
 
@@ -24,30 +26,51 @@ public class NotificationActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.notifications);
+        reloadData();
 
-        /*
-        TODO: get the instance of the user's likes and followrequest lists from firebase
-         */
-        User currentUser = LoginManager.getInstance().getCurrentUser();
-        ArrayList<User> likeList = currentUser.getLikeList();
-        ArrayList<String> pendingFollower = currentUser.getFollowRequests();
+    }
 
-        //put like and follow request lists together
-        for(User user: likeList){
-            pendingFollower.add(user.getUsername());
-        }
+    @Override
+    protected void onResume() {
+        super.onResume();
 
+        reloadData();
+    }
 
+    private void reloadData(){
+        // Required to get from DB, since current user isn't updated with likes from current session.
+        DatabaseManager.getInstance().getUserData(LoginManager.getInstance().getCurrentUser().getUsername(), new DatabaseManager.OnUserDataListener() {
+            @Override
+            public void onUserData(User user) {
+                ArrayList<LikeNotification> likeList = user.getLikes();
+                ArrayList<FollowNotification> pendingFollower = user.getFollowRequests();
 
-        //create recycleview for likes
-        LikesRecyclerView = (RecyclerView) findViewById(R.id.likes_recyclerview);
-        LikesRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+                ArrayList<Notification> notifications = new ArrayList<Notification>();
 
-       //TODO: still have to incorporate follow requests in recyclerview
+                //put like and follow request lists together
+                for(LikeNotification notification: likeList){
+                    notifications.add(notification);
+                }
 
-        //set the adapter for the following list
-        cAdapt = new NotificationAdapter(this,pendingFollower);
-        LikesRecyclerView.setAdapter(cAdapt);
+                for(FollowNotification notification: pendingFollower){
+                    notifications.add(notification);
+                }
+
+                //create recycleview for likes
+                LikesRecyclerView = (RecyclerView) findViewById(R.id.likes_recyclerview);
+                LikesRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+
+                //set the adapter for the following list
+                cAdapt = new NotificationAdapter(activity, notifications);
+                LikesRecyclerView.setAdapter(cAdapt);
+                cAdapt.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onUserDataFailed(String message) {
+
+            }
+        });
 
     }
 
