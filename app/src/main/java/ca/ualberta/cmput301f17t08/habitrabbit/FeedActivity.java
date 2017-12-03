@@ -83,7 +83,6 @@ public class FeedActivity extends AppCompatActivity {
                                     @Override
                                     public void onHabitEventsFailed(String message) {
                                         Log.e("HistoryActivity", "Failed to get habit events for filtered habit!");
-                                        // TODO: handle this better!
                                         finish();
                                     }
                                 });
