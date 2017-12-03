@@ -106,6 +106,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                                             currentUser.save(new DatabaseManager.OnSaveListener() {
                                                 @Override
                                                 public void onSaveSuccess() {
+                                                    pendingList.remove(position);
                                                     adapter.notifyDataSetChanged();
 
                                                     Dialog.dismiss();
@@ -157,6 +158,8 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                                     currentUser.removeFromFollowRequests(declineUser, new DatabaseManager.OnSaveListener() {
                                         @Override
                                         public void onSaveSuccess() {
+                                            pendingList.remove(position);
+                                            adapter.notifyDataSetChanged();
                                             Dialog.dismiss();
                                         }
 

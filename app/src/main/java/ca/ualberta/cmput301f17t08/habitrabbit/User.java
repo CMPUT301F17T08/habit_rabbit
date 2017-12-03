@@ -115,7 +115,9 @@ public class User {
 
     public void removeFromFollowRequests(User removedUser, DatabaseManager.OnSaveListener listener){
         for(FollowNotification notification : this.followRequests){
-            this.followRequests.remove(notification);
+            if(notification.getUsername().equals(removedUser.getUsername())) {
+                this.followRequests.remove(notification);
+            }
         }
 
         this.save(listener);
