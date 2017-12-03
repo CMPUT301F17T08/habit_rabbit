@@ -81,7 +81,7 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
         holder.habitNameLabel.setText(habit.getName());
         holder.habitReasonLabel.setText(habit.getReason());
 
-        holder.percentage.setText(Math.round(Math.floor((float)habit.getStatistics().get(3)*100))+"%");
+        holder.percentage.setText(Math.round(Math.floor(habit.getPercentCompleted()*100))+"%");
 
         ArrayList<Integer> frequency = habit.getFrequency();
 
