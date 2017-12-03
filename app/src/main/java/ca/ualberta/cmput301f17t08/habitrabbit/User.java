@@ -6,9 +6,12 @@ import android.util.Log;
 import com.google.firebase.database.Exclude;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Objects;
+import java.util.TimeZone;
 
 
 /**
@@ -275,5 +278,56 @@ public class User {
                 Log.e("User", "Failed to get habits!");
             }
         });
+    }
+
+    /**
+     * Checks if a streak has been broken
+     */
+    public void updateStreaks(){
+
+        System.out.println("Updating Streaks");
+        for (Habit habit : habitList.values()){
+            System.out.println(habit.getName());
+            if (habit.getLastCompleted() != null){
+
+                System.out.println(habit.getName());
+                // make the streak 0 if a day was missed in the middle
+                int [] conversion_table = {0, 6, 0, 1, 2, 3, 4, 5};
+
+                Calendar lastCompleted = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
+                lastCompleted.setTime(habit.getLastCompleted());
+                lastCompleted.add(lastCompleted.DATE, 1);
+
+                Calendar current = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
+
+                int lastCompletedPointer = lastCompleted.get(Calendar.DAY_OF_WEEK);
+                int currentDayPointer = current.get(Calendar.DAY_OF_WEEK);
+
+                // shift the days of the week to match the frequency array
+                lastCompletedPointer = conversion_table[lastCompletedPointer];
+                currentDayPointer = conversion_table[currentDayPointer];
+
+                if (lastCompletedPointer == currentDayPointer + 1){
+                    break;
+                }
+
+                System.out.println(lastCompleted.getTime() + " " + current.getTime());
+                System.out.println("--");
+                while(lastCompletedPointer != currentDayPointer){
+                    System.out.println(lastCompleted.getTime() + " " + current.getTime());
+                    // check if the last completed pointer is on a day that a frequency value of 1
+                    if (habit.getFrequency().get(conversion_table[lastCompletedPointer]) == 1){
+                        System.out.println("Break");
+                        habit.resetStreak();
+                        break;
+                    }
+
+                    // make it loop back to the start of the week
+                    lastCompletedPointer = (lastCompletedPointer + 1) % 7;
+
+                }
+
+            }
+        }
     }
 }

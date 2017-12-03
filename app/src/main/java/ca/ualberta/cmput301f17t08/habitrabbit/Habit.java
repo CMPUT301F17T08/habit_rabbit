@@ -240,14 +240,6 @@ public class Habit implements Serializable{
         }
 
         // update the streak
-        /*
-        Note: we don't need to worry about this function being called multiple times in one day since
-        the habit will disappear from the today page
-         */
-
-        // TODO need to check if there was a day between lastCompleted and now that the habit was supposed to be completed
-
-
         if (this.lastCompleted != null){
             this.streak += 1;
 
@@ -375,5 +367,60 @@ public class Habit implements Serializable{
 
     public void delete() {
         // TODO: destroy habit from DB (call DB manager)
+    }
+
+    public void updateStreak(){
+        if (this.getLastCompleted() != null){
+
+            System.out.println(this.getName());
+            // make the streak 0 if a day was missed in the middle
+            int [] conversion_table = {0, 6, 0, 1, 2, 3, 4, 5};
+
+            Calendar lastCompleted = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
+            lastCompleted.setTime(this.getLastCompleted());
+            lastCompleted.add(lastCompleted.DATE, 1);
+
+            Calendar current = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
+
+            int lastCompletedPointer = lastCompleted.get(Calendar.DAY_OF_WEEK);
+            int currentDayPointer = current.get(Calendar.DAY_OF_WEEK);
+
+            // shift the days of the week to match the frequency array
+            lastCompletedPointer = conversion_table[lastCompletedPointer];
+            currentDayPointer = conversion_table[currentDayPointer];
+
+            if (lastCompletedPointer == (currentDayPointer + 1) % 7){
+                return;
+            }
+
+            System.out.println(lastCompleted.getTime() + " " + current.getTime());
+            System.out.println("--");
+            while(lastCompletedPointer != currentDayPointer){
+                System.out.println(lastCompleted.getTime() + " " + current.getTime());
+                // check if the last completed pointer is on a day that a frequency value of 1
+                if (this.getFrequency().get(lastCompletedPointer) == 1){
+                    System.out.println("Break");
+                    this.resetStreak();
+                    break;
+                }
+
+                // make it loop back to the start of the week
+                lastCompletedPointer = (lastCompletedPointer + 1) % 7;
+            }
+            System.out.println("**");
+
+            this.sync(new DatabaseManager.OnSaveListener() {
+                @Override
+                public void onSaveSuccess() {
+
+                }
+
+                @Override
+                public void onSaveFailure(String message) {
+
+                }
+            }); // Sync initial list
+
+        }
     }
 }

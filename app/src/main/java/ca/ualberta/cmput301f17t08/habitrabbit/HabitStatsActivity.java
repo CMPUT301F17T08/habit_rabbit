@@ -58,8 +58,8 @@ public class HabitStatsActivity extends AppCompatActivity {
 
                     habit = habits.get(habit_id);
 
-                    // TODO: Clean up getStatistics to create several different getters/setters for each member.
-                    // Firebase does not properly save and retrieve these due to this.
+                    habit.updateStreak();
+
                     streakCount.setText("" + habit.getStreak());
                     completedPercentCount.setText(Math.round(Math.floor(habit.getPercentCompleted() * 100)) + "%");
                     daysCompletedCount.setText("" + habit.getDaysCompleted());

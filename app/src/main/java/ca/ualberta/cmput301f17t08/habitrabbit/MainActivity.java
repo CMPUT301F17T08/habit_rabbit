@@ -15,7 +15,6 @@ import android.widget.EditText;
  */
 public class MainActivity extends AppCompatActivity {
     private MainActivity activity = this;
-    private StreakChecker receiver;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,8 +36,6 @@ public class MainActivity extends AppCompatActivity {
                     public void onLoginComplete() {
                         // TODO: transition activity
                         Log.i("MainActivity", "Login success!");
-                        receiver = new StreakChecker();
-                        registerReceiver(receiver, new IntentFilter(Intent.ACTION_TIME_TICK));
 
                         Intent intent = new Intent(activity, MyHabitActivity.class);
                         startActivity(intent);
@@ -62,13 +59,8 @@ public class MainActivity extends AppCompatActivity {
                         dialog.show();
                     }
                 });
-
-
             }
         });
-
-
-
 
         // small signup button below the login button
         signupButton.setOnClickListener(new View.OnClickListener(){
@@ -80,11 +72,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-        // Unregister Receivers
-        unregisterReceiver(receiver);
-    }
+//    @Override
+//    protected void onDestroy() {
+//        super.onDestroy();
+//
+//        // Unregister Receivers
+//        unregisterReceiver(receiver);
+//    }
 }
