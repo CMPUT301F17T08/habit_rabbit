@@ -40,7 +40,7 @@ public class FeedActivity extends AppCompatActivity {
         //get the followers
         followingList = LoginManager.getInstance().getCurrentUser().getFollowing();
 
-        map_button = (Button) findViewById(R.id.map_button);
+        map_button = (Button) findViewById(R.id.location_button);
         map_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

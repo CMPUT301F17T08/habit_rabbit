@@ -22,6 +22,8 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 public class gpsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -74,39 +76,33 @@ public class gpsActivity extends AppCompatActivity implements OnMapReadyCallback
 
             }
         });
-        LoginManager.getInstance().getCurrentUser().getHistory(new DatabaseManager.OnHabitEventsListener() {
-            @Override
-            public void onHabitEventsSuccess(ArrayMap<String, HabitEvent> habitEvents) {
-                habitEventsList = new ArrayList<HabitEvent>(habitEvents.values());
-            }
-
-            @Override
-            public void onHabitEventsFailed(String message) {
-                Log.e("habitEvent_Maps", "Failed to get habit events of user!");
-
-            }
-
-
-        });
 
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
+    public void onMapReady(final GoogleMap googleMap) {
         // Add a marker in Sydney, Australia,
         // and move the map's camera to the same location.
         gps = new gpsTracker(gpsActivity.this);
         // check if GPS enabled
         if(gps.canGetLocation()){
 
-            double latitude = gps.getLatitude();
-            double longitude = gps.getLongitude();
-            loadMapMarkers();
+            final double latitude = gps.getLatitude();
+            final double longitude = gps.getLongitude();
+            loadMapMarkers(new DatabaseManager.OnHabitEventsListener() {
+                @Override
+                public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
+                    LatLng sydney = new LatLng(latitude, longitude);
+                    googleMap.addMarker(new MarkerOptions().position(sydney)
+                            .title("Current"));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+                }
 
-            LatLng sydney = new LatLng(latitude, longitude);
-            googleMap.addMarker(new MarkerOptions().position(sydney)
-                    .title("Current"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+                @Override
+                public void onHabitEventsFailed(String message) {
+
+                }
+            });
 
         }else{
             // can't get location
@@ -118,25 +114,50 @@ public class gpsActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
     }
-    //TODO: once refactored version of habitevent is done, fix code so that it can go through all the habit events and mark their location
-    public void loadMapMarkers(){
+    public void loadMapMarkers(DatabaseManager.OnHabitEventsListener listener){
 
-        for(HabitEvent habitEvent: habitEventsList){
-            Habit habitEventName =habitEvent.getHabit();
+        LoginManager.getInstance().getCurrentUser().getHistory(new DatabaseManager.OnHabitEventsListener() {
+            @Override
+            public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
+                habitEventsList = new ArrayList<HabitEvent>(habitEvents.values());
 
 
-            //https://developers.google.com/maps/documentation/android-api/marker
-            //accessed on nov 30/17
+                for(final HabitEvent habitEvent: habitEventsList) {
+                    habitEvent.getHabit(new DatabaseManager.OnHabitsListener() {
+                        @Override
+                        public void onHabitsSuccess(HashMap<String, Habit> habits) {
+                            //https://developers.google.com/maps/documentation/android-api/marker
+                            //accessed on nov 30/17
 
-             MarkerOptions markerInfo = new MarkerOptions()
-                    .position(new LatLng(habitEvent.getLat(), habitEvent.getLng()))
-                    .title(habitEventName.getName())
-                    .snippet(habitEvent.getComment())
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.bluedot));
+                            if(habitEvent.getLocation() != null) {
+                                MarkerOptions markerInfo = new MarkerOptions()
+                                        .position(new LatLng(habitEvent.getLocation().getLatitude(), habitEvent.getLocation().getLongitude()))
+                                        .title(((Habit) habits.values().toArray()[0]).getName())
+                                        .snippet(habitEvent.getComment())
+                                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.bluedot));
 
-             Marker marker = mainMap.addMarker(markerInfo);
-        }
+                                Marker marker = mainMap.addMarker(markerInfo);
+                            }
 
+                        }
+
+                        @Override
+                        public void onHabitsFailed(String message) {
+
+                        }
+
+                    });
+                }
+
+            }
+
+            @Override
+            public void onHabitEventsFailed(String message) {
+                Log.e("habitEvent_Maps", "Failed to get habit events of user!");
+
+            }
+
+        });
 
     }
 }
