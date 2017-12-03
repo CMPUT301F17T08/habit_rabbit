@@ -131,7 +131,18 @@ public class HabitEventListAdapter extends RecyclerView.Adapter<HabitEventListAd
                         @Override
                         public void onUserData(User user) {
                             final User eventOwner = user;
-                            eventOwner.addLikedUser(LoginManager.getInstance().getCurrentUser());
+                            eventOwner.addLike(LoginManager.getInstance().getCurrentUser(), new DatabaseManager.OnSaveListener() {
+                                @Override
+                                public void onSaveSuccess() {
+                                    // Nothing needed.
+                                }
+
+                                @Override
+                                public void onSaveFailure(String message) {
+
+                                }
+                            });
+
                         }
 
                         @Override

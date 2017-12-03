@@ -146,6 +146,7 @@ public class HabitEvent implements Serializable {
             this.likes.remove(username);
         }
     }
+
     public ArrayList<String> getLikes(){
         return likes;
     }

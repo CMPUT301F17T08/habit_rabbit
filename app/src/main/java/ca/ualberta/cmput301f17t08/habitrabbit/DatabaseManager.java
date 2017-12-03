@@ -89,7 +89,6 @@ public class DatabaseManager {
         return databaseManager;
     }
 
-
     /**
      * Creates user in database and returns user object to listener
      * @param username
