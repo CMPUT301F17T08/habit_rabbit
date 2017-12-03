@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.ArrayMap;
+import android.util.Log;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -40,44 +41,60 @@ public class FeedActivity extends AppCompatActivity {
 
     private void reloadData(){
         String username;
-        ArrayList<String> usernameList = new ArrayList<String>();
+        final ArrayList<String> usernameList = new ArrayList<String>();
 
         // set up the adapter
-        cAdapt = new FeedAdapter(usernameList, feedList,this);
-        feedRecyclerView.setAdapter(cAdapt);
+
 
         // get the followers feed, and append them to the feedList
-        for(int each = 0; each < followingList.size(); each++){
+        for(int each = 0; each < followingList.size(); each++) {
             username = followingList.get(each);
             usernameList.add(username);
-
             DatabaseManager.getInstance().getUserData(username, new DatabaseManager.OnUserDataListener() {
                 @Override
                 public void onUserData(User user) {
-                    final User followingUser = user;
-                    followingUser.getHistory(new DatabaseManager.OnHabitEventsListener() {
+                    final User eventOwner = user;
+                    eventOwner.getHabits(new DatabaseManager.OnHabitsListener() {
                         @Override
-                        public void onHabitEventsSuccess(HashMap<String, HabitEvent> followingFeedList) {
-                            for (int index = 0; index<followingFeedList.size();index++){
-                                feedList.add(followingFeedList.get(index));
+                        public void onHabitsSuccess(HashMap<String, Habit> habits) {
+                            ArrayList<Habit>habitList = new ArrayList<Habit>(habits.values());
+
+                            for (Habit habit:habitList){
+                                habit.getHabitEvents(new DatabaseManager.OnHabitEventsListener() {
+                                    @Override
+                                    public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
+                                        ArrayList<HabitEvent> feedList = new ArrayList<HabitEvent>(habitEvents.values());
+
+
+                                        Collections.sort(feedList, new Comparator<HabitEvent>() {
+                                            public int compare(HabitEvent H1, HabitEvent H2) {
+                                                return H1.getDateCompleted().compareTo(H2.getDateCompleted());
+                                            }
+                                        });
+
+
+                                        Collections.reverse(feedList);
+                                        cAdapt = new FeedAdapter(usernameList, feedList, FeedActivity.this);
+                                        feedRecyclerView.setAdapter(cAdapt);
+
+                                        cAdapt.notifyDataSetChanged();
+                                    }
+
+                                    @Override
+                                    public void onHabitEventsFailed(String message) {
+                                        Log.e("HistoryActivity", "Failed to get habit events for filtered habit!");
+                                        // TODO: handle this better!
+                                        finish();
+                                    }
+                                });
                             }
-                            Collections.sort(feedList, new Comparator<HabitEvent>() {
-                                public int compare(HabitEvent H1, HabitEvent H2) {
-                                    return H1.getDateCompleted().compareTo(H2.getDateCompleted());
-                                }
-                            });
-                            Collections.reverse(feedList);
-
-
-                            cAdapt.notifyDataSetChanged();
                         }
 
                         @Override
-                        public void onHabitEventsFailed(String message) {
-
+                        public void onHabitsFailed(String message) {
+                            Log.e("MyHabitActivity", "Failed to get habits of user!");
                         }
                     });
-
                 }
 
                 @Override
@@ -85,9 +102,8 @@ public class FeedActivity extends AppCompatActivity {
 
                 }
             });
-
-        }
     }
+        }
 
     @Override
     protected void onResume() {
