@@ -5,7 +5,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -28,7 +27,7 @@ public class FeedActivity extends AppCompatActivity {
 
 
     public ArrayList<String> followingList;
-    private FeedAdapter cAdapt;
+    private HabitEventListAdapter cAdapt;
 
 
 
@@ -58,12 +57,11 @@ public class FeedActivity extends AppCompatActivity {
 
     private void reloadData(){
         String username;
-        final ArrayList<String> usernameList = new ArrayList<String>();
+        feedList.clear();
 
         // get the followers feed, and append them to the feedList
         for(int each = 0; each < followingList.size(); each++) {
             username = followingList.get(each);
-            usernameList.add(username);
             DatabaseManager.getInstance().getUserData(username, new DatabaseManager.OnUserDataListener() {
                 @Override
                 public void onUserData(User user) {
@@ -77,8 +75,8 @@ public class FeedActivity extends AppCompatActivity {
                                 habit.getHabitEvents(new DatabaseManager.OnHabitEventsListener() {
                                     @Override
                                     public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
-                                        ArrayList<HabitEvent> feedList = new ArrayList<HabitEvent>(habitEvents.values());
 
+                                        feedList.addAll(habitEvents.values());
 
                                         Collections.sort(feedList, new Comparator<HabitEvent>() {
                                             public int compare(HabitEvent H1, HabitEvent H2) {
@@ -88,7 +86,7 @@ public class FeedActivity extends AppCompatActivity {
 
 
                                         Collections.reverse(feedList);
-                                        cAdapt = new FeedAdapter(usernameList, feedList, FeedActivity.this);
+                                        cAdapt = new HabitEventListAdapter(feedList, FeedActivity.this);
                                         feedRecyclerView.setAdapter(cAdapt);
 
                                         cAdapt.notifyDataSetChanged();

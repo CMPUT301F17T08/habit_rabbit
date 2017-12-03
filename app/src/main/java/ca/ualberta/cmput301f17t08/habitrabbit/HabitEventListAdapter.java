@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,9 +21,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 
-public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
+public class HabitEventListAdapter extends RecyclerView.Adapter<HabitEventListAdapter.ViewHolder> {
     private  ArrayList<HabitEvent> habitEvents;
-    public ArrayList<String> username;
     public Activity context;
 
     // Provide a direct reference to each of the views within a data item
@@ -55,14 +55,13 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
 
         }
     }
-    public FeedAdapter(ArrayList<String> username, ArrayList<HabitEvent> habitEvents, Activity context) {
+    public HabitEventListAdapter(ArrayList<HabitEvent> habitEvents, Activity context) {
 
         this.habitEvents = habitEvents; //get the habitsEvents list passed in
-        this.username =  username;
         this.context = context;
     }
     @Override
-    public FeedAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public HabitEventListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         Context context = parent.getContext();//get the context
         LayoutInflater inflater = LayoutInflater.from(context);//initialize the layout inflater
@@ -71,12 +70,12 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
         View feedView = inflater.inflate(R.layout.post, parent, false);
 
         // Return a new holder instance
-        FeedAdapter.ViewHolder viewHolder = new FeedAdapter.ViewHolder(feedView);
+        HabitEventListAdapter.ViewHolder viewHolder = new HabitEventListAdapter.ViewHolder(feedView);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(final FeedAdapter.ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(final HabitEventListAdapter.ViewHolder viewHolder, final int position) {
 
         //change the text and appearance of each elements on the layout
         habitEvents.get(position).getHabit(new DatabaseManager.OnHabitsListener() {
@@ -147,6 +146,19 @@ public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
                 }
             }
         });
+
+        //click function for editing the habit
+        if(habitEvents.get(position).getUsername().equals(LoginManager.getInstance().getCurrentUser().getUsername())){
+            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(context, EditHabitEventActivity.class);
+                    intent.putExtra("habitEvent",habitEvents.get(position));
+                    intent.putExtra("position", position);
+                    context.startActivity(intent);
+                }
+            });
+        }
 
     }
     @Override
