@@ -58,8 +58,6 @@ public class FollowUserActivity extends AppCompatActivity {
                         }
                     });
 
-
-
                     return;
                 }
             }

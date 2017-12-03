@@ -62,6 +62,7 @@ public class User {
     }
 
     public ArrayList<String> getHabitKeys(){
+
         if(habitsLoaded){
             return new ArrayList<String>(this.habitList.keySet());
         }else{
@@ -112,7 +113,6 @@ public class User {
     public void addFollowing(User follower) {
         if (!hasFollowing(follower))
             this.followingList.add(follower.getUsername());
-
 
         return;
     }

@@ -45,11 +45,11 @@ public class PeopleActivity extends AppCompatActivity {
         peopleFollowerRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
         
         //set the adapter for the following list
-        cAdapt = new PeopleAdapter(followingList);
+        cAdapt = new PeopleAdapter(followingList,this);
         peopleFollowingRecyclerView.setAdapter(cAdapt);
 
         //set the adapter for the follower list
-        cAdapt2 = new PeopleAdapter(followerList);
+        cAdapt2 = new PeopleAdapter(followerList,this);
         peopleFollowerRecyclerView.setAdapter(cAdapt2);
 
         followPersonButton = (Button) findViewById(R.id.follow_person_button);

@@ -13,33 +13,33 @@ import java.util.ArrayList;
 /**
  * The defined adapter for the people layout
  */
-public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.ViewHolder> {
-    private ArrayList<String> peoples;
+public class FollowingHabitAdapter extends RecyclerView.Adapter<FollowingHabitAdapter.ViewHolder> {
+    private ArrayList<String> habits;
     private Activity context;
+    private String username;
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView peopleNameLabel;
+        public TextView followingNameLabel;
 
         public ViewHolder(View peopleView) {
             super(peopleView);
-            peopleNameLabel = (TextView) peopleView.findViewById(R.id.user_name);
+            followingNameLabel = (TextView) peopleView.findViewById(R.id.user_name);
         }
     }
 
-    public PeopleAdapter(ArrayList<String> peoples, Activity context) {
-        this.peoples = peoples;
+    public FollowingHabitAdapter(ArrayList<String> habits, Activity context, String username) {
+        this.habits = habits;
         this.context = context;
+        this.username = username;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
-    public PeopleAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                       int viewType) {
+    public FollowingHabitAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                               int viewType) {
         View peopleView = LayoutInflater.from(parent.getContext()).inflate(R.layout.people_item, parent, false);
-        PeopleAdapter.ViewHolder viewHolder = new PeopleAdapter.ViewHolder(peopleView);
+        FollowingHabitAdapter.ViewHolder viewHolder = new FollowingHabitAdapter.ViewHolder(peopleView);
 
         return viewHolder;
     }
@@ -48,15 +48,14 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.ViewHolder
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        // - get element from your dataset at this position
-        // - replace the contents of the view with that element
-        holder.peopleNameLabel.setText(peoples.get(position));
+
+
+        holder.followingNameLabel.setText(habits.get(position));
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, FollowingHabitActivity.class);
-                intent.putExtra("FollowingName",peoples.get(position));
+                Intent intent = new Intent(context, LastCompleteActivity.class);
                 context.startActivity(intent);
             }
         });
@@ -68,6 +67,6 @@ public class PeopleAdapter extends RecyclerView.Adapter<PeopleAdapter.ViewHolder
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
-        return peoples.size();
+        return habits.size();
     }
 }
