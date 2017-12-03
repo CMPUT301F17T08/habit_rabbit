@@ -32,10 +32,10 @@ public class FeedActivity extends AppCompatActivity {
         //get the followers
         followingList = LoginManager.getInstance().getCurrentUser().getFollowing();
 
+
         reloadData();
 
     }
-
     private void reloadData(){
         String username;
         ArrayList<String> usernameList = new ArrayList<String>();
