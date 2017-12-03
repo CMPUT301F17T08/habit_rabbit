@@ -1,5 +1,6 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,32 +8,32 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.ArrayMap;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.TextView;
-
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+
 
 /**
  * Filter activity for filter page, could filter habits by name and comment
  */
 public class FilterActivity extends AppCompatActivity {
-    private FilterActivity activity = this;
 
+    private FilterActivity activity = this;
     private TextView title;
     private EditText filter;
-    private RecyclerView habit_list_view;
-    private Button menu_button;
-
+    private RecyclerView habitListView;
+    private Button menuButton;
     private FilterAdapter cAdapt;
-    private ArrayList<Habit> habitList;
-    private ArrayList<Habit> habitList_display;
-
+    private ArrayList<HabitEvent> historyCache;
+    private HashMap<String, Habit> habitList;
+    private ArrayList<Habit> habitListDisplay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,37 +41,61 @@ public class FilterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
-
-        menu_button = (Button) findViewById(R.id.menu_button);
+        menuButton = (Button) findViewById(R.id.menu_button);
         filter = (EditText) findViewById(R.id.filter);
         title = (TextView) findViewById(R.id.title);
         title.setText("FILTER");
+        
+        habitListView = (RecyclerView) findViewById(R.id.habit_list);
+        habitList = new HashMap<String, Habit>();
 
+        habitListView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 
-        habit_list_view = (RecyclerView) findViewById(R.id.habit_list);
-        habitList = LoginManager.getInstance().getCurrentUser().getHabits(); // get the user's habits list that contain all habits
-        habit_list_view.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
+        // TODO: We need a loading screen or overlay to prevent user input before we
 
-        // end of initialization
+        // habitlist used for displaying
+        habitListDisplay = new ArrayList<>();
 
-        habitList_display = new ArrayList<>();  // set the list to display, at the very beginning, it's the copy of the habitlist
-        cAdapt = new FilterAdapter(habitList_display, this); // set adapter
+        // get the user's habits list that contain all habits
+        LoginManager.getInstance().getCurrentUser().getHabits(new DatabaseManager.OnHabitsListener() {
+            @Override
+            public void onHabitsSuccess(HashMap<String, Habit> habits) {
+                habitList = habits;
+                cAdapt = new FilterAdapter(new ArrayList<Habit>(habitList.values()),FilterActivity.this );
+                habitListView.setAdapter(cAdapt);
+            }
 
+            @Override
+            public void onHabitsFailed(String message) {
 
-        habitList_display.addAll(habitList); // copy the habitlist and display it
-        habit_list_view.setAdapter(cAdapt);
+            }
+        });
 
-        cAdapt.notifyDataSetChanged(); // TODO adapter is not working
+        historyCache = null;
+
+        LoginManager.getInstance().getCurrentUser().getHistory(new DatabaseManager.OnHabitEventsListener() {
+            @Override
+            public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
+                historyCache = new ArrayList<HabitEvent>(habitEvents.values());
+            }
+
+            @Override
+            public void onHabitEventsFailed(String message) {
+
+            }
+        });
+
+        //before user type in anything to search, display all the habit options
+
 
         // set menu button
-        menu_button.setOnClickListener(new View.OnClickListener() {
+        menuButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(activity, MenuActivity.class);
                 startActivity(intent);
             }
         });
-        // end of setting the menu button
 
         // set the filter edit text listner
         filter.addTextChangedListener(new TextWatcher() {
@@ -82,39 +107,47 @@ public class FilterActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            public void onTextChanged(final CharSequence s, int start, int before, int count) {
 
                 //once user type some letter in the edit text, it will be return to this function as CharSequence s
 
-                habitList_display = new ArrayList<>(); // set the display list as the new empty list
-                cAdapt.notifyDataSetChanged(); //TODO adapter is not working
-                for (Habit habit : habitList){ // check every habit in habitlist
-                    if (habit.getName().contains(s)){ // for every habit, if the name of the habit contains the Char, then add it to the display list
-                        habitList_display.add(habit);
-                        cAdapt.notifyDataSetChanged();
+                habitListDisplay.clear(); // set the display list as the new empty list
+
+                for (Habit habit : habitList.values()){ // check every habit in habitlist
+                    if (habit.getName().contains(s)){// for every habit, if the name of the habit contains the Char, then add it to the display list
+                        habitListDisplay.add(habit);
                     }
-                    for (HabitEvent habitevent : habit.getHabitEvents()){
-                        if (habitevent.getComment().contains(s) && !habit.getName().contains(s)){ // for every habit event, if the comment contain the char, then dispay it
-                            habitList_display.add(habit);
-                            cAdapt.notifyDataSetChanged();
+                }
+
+                if(historyCache != null) {
+                    for(HabitEvent habitEvent : historyCache){
+                        if(habitEvent.getComment().contains(s)){
+                            habitListDisplay.add(habitList.get(habitEvent.getHabitKey()));
                         }
                     }
                 }
 
+                cAdapt.notifyDataSetChanged();
+                cAdapt = new FilterAdapter(habitListDisplay,FilterActivity.this );
+                habitListView.setAdapter(cAdapt);
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.toString().isEmpty()){ // if nothing entered into the edit text, then display the orginal habitlist
-                    habitList_display.addAll(habitList);
-                    cAdapt.notifyDataSetChanged();
 
+                    //remove the duplicate element in the filter list
+                    Set<Habit> hs = new HashSet<>();
+                    hs.addAll(habitList.values());
+                    habitListDisplay.clear();
+                    habitListDisplay.addAll(hs);
 
+                    //set up the adapter
+                    cAdapt = new FilterAdapter(habitListDisplay,FilterActivity.this );
+                    habitListView.setAdapter(cAdapt);
                 }
             }
         });
-
-
     }
 
     protected void onRestart() {
@@ -124,8 +157,6 @@ public class FilterActivity extends AppCompatActivity {
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         finish();
         startActivity(intent);
-
-
     }
 
 }

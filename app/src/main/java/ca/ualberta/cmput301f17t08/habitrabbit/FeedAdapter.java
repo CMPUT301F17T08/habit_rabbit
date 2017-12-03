@@ -15,17 +15,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.TimeZone;
 
 
-public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHolder> {
+public class FeedAdapter extends RecyclerView.Adapter<FeedAdapter.ViewHolder> {
     private  ArrayList<HabitEvent> habitEvents;
-    public String username;
+    public ArrayList<String> username;
     public Activity context;
 
     // Provide a direct reference to each of the views within a data item
@@ -58,14 +55,14 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
 
         }
     }
-    public historyAdapter(String username, ArrayList<HabitEvent> habitEvents,Activity context) {
+    public FeedAdapter(ArrayList<String> username, ArrayList<HabitEvent> habitEvents, Activity context) {
 
         this.habitEvents = habitEvents; //get the habitsEvents list passed in
         this.username =  username;
         this.context = context;
     }
     @Override
-    public historyAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public FeedAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
         Context context = parent.getContext();//get the context
         LayoutInflater inflater = LayoutInflater.from(context);//initialize the layout inflater
@@ -74,12 +71,12 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
         View feedView = inflater.inflate(R.layout.post, parent, false);
 
         // Return a new holder instance
-        historyAdapter.ViewHolder viewHolder = new historyAdapter.ViewHolder(feedView);
+        FeedAdapter.ViewHolder viewHolder = new FeedAdapter.ViewHolder(feedView);
         return viewHolder;
     }
 
     @Override
-    public void onBindViewHolder(final historyAdapter.ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(final FeedAdapter.ViewHolder viewHolder, final int position) {
 
         //change the text and appearance of each elements on the layout
         habitEvents.get(position).getHabit(new DatabaseManager.OnHabitsListener() {
@@ -93,22 +90,19 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
 
             }
         });
-
-        HabitEvent event = habitEvents.get(position);
-
-        viewHolder.Comment.setText(event.getComment());
-        viewHolder.historyDate.setText(event.getDateCompleted().toString());
-        viewHolder.numLike.setText(Integer.toString(event.getLikeCount())+" likes");
-        viewHolder.userNameView.setText(event.getUsername());
+        viewHolder.Comment.setText(habitEvents.get(position).getComment());
+        viewHolder.historyDate.setText(habitEvents.get(position).getDateCompleted().toString());
+        viewHolder.numLike.setText(Integer.toString(habitEvents.get(position).getLikeCount())+" likes");
+        viewHolder.userNameView.setText(habitEvents.get(position).getUsername());
         String username = LoginManager.getInstance().getCurrentUser().getUsername();
 
         //check if the current user has liked the feed before
-        if (event.getLikes().contains(username)){
+        if (habitEvents.get(position).getLikes().contains(username)){
             viewHolder.likeButton.setBackgroundResource(R.drawable.black_like);
         }
 
         //get the image the user uploaded, set the image if exist
-        Bitmap userImage = event.getPicture();
+        Bitmap userImage = habitEvents.get(position).getPicture();
         if (userImage != null){
             viewHolder.imagePreview.setImageBitmap(userImage);
         }
@@ -132,7 +126,6 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
                 // change the colour of the like button based on if this was the like or dislike
                 if (oldLikeCount < newLikeCount){
                     // event was liked
-
                     viewHolder.likeButton.setBackgroundResource (R.drawable.black_like);
 
                     DatabaseManager.getInstance().getUserData(username, new DatabaseManager.OnUserDataListener() {
@@ -155,16 +148,6 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
             }
         });
 
-        //click function for editing the habit
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, EditHabitEventActivity.class);
-                intent.putExtra("habitEvent",habitEvents.get(position));
-                intent.putExtra("position", position);
-                context.startActivity(intent);
-            }
-        });
     }
     @Override
     public int getItemCount() {

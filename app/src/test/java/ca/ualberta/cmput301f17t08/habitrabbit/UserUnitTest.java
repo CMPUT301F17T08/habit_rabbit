@@ -65,7 +65,7 @@ public class UserUnitTest {
 
         assertTrue(user1.getHabits().contains(habit1));
 
-        user1.removeHabit(habit1);
+        user1.removeHabit(habit1.getName());
 
         assertFalse(user1.getHabits().contains(habit1));
     }

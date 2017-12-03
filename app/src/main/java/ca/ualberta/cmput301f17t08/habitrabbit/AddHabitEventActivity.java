@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -57,12 +58,40 @@ public class AddHabitEventActivity extends AppCompatActivity {
                     error = true;
                 }
 
+                String currentUsername = LoginManager.getInstance().getCurrentUser().getUsername();
                 if (!error){
-                    // TODO assign the habit event to the habit and add the habitevent to the habit
-                    HabitEvent event = new HabitEvent(habit, calendar.getTime(), comment, null, bmp);
-                    LoginManager.getInstance().getCurrentUser().addToHistory(event);
-//                    System.out.println("Created Habit Event");
-                    finish();
+                    final HabitEvent event = new HabitEvent(habit.getId(),currentUsername ,calendar.getTime(), comment, null, bmp);
+                    habit.addHabitEvent(event, new DatabaseManager.OnSaveListener() {
+                        @Override
+                        public void onSaveSuccess() {
+                            habit.markDone();
+
+                            habit.sync(new DatabaseManager.OnSaveListener() {
+                                @Override
+                                public void onSaveSuccess() {
+                                    Intent returnIntent = new Intent();
+                                    returnIntent.putExtra("habitevent_key", event.getId());
+                                    setResult(Activity.RESULT_OK, returnIntent);
+
+                                    finish();
+                                }
+
+                                @Override
+                                public void onSaveFailure(String message) {
+                                    // TODO: show error message
+                                }
+                            });
+
+                        }
+
+                        @Override
+                        public void onSaveFailure(String message) {
+                            // TODO: show error message
+                            Log.e("AddHabitEventActivity", "Failed to save HabitEvent!");
+                        }
+                    });
+
+
                 }
             }
         });
@@ -89,8 +118,7 @@ public class AddHabitEventActivity extends AppCompatActivity {
                 return;
             }
             try {
-                InputStream inputStream = activity.getContentResolver().openInputStream(data
-                            .getData());
+                InputStream inputStream = activity.getContentResolver().openInputStream(data.getData());
 
                 bmp = BitmapFactory.decodeStream(inputStream);
                 imagePreview.setImageBitmap(bmp);

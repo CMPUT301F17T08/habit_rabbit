@@ -5,6 +5,9 @@ import android.content.Intent;
 
 import android.support.v7.widget.RecyclerView;
 import android.text.Layout;
+import android.util.ArrayMap;
+import android.util.ArraySet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +26,7 @@ import java.util.zip.Inflater;
  */
 
 public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder> {
+    private ArraySet<String> habitIds;
     private ArrayList<Habit> habits;
     private Activity context;
 
@@ -79,9 +83,6 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
 
         holder.percentage.setText(Math.round(Math.floor((float)habit.getStatistics().get(3)*100))+"%");
 
-        ArrayList<String> DayList = new ArrayList<String>(Arrays.asList(new String []{"Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"}));
-//        System.out.println(frequencyList.toString());
-
         ArrayList<Integer> frequency = habit.getFrequency();
 
         // change the frequency button backgrounds for this habit item
@@ -89,13 +90,14 @@ public class HabitsAdapter extends RecyclerView.Adapter<HabitsAdapter.ViewHolder
             if (frequency.get(counter) == 1){
                 Button button = (Button)holder.frequencyLayout.findViewWithTag(Integer.toString(counter+1));
                 button.setBackgroundResource(R.drawable.gradient);
-            }}
+            }
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, HabitStatsActivity.class);
-                intent.putExtra("habit_id",position);
+                intent.putExtra("habit_id",habits.get(position).getId());
                 context.startActivity(intent);
             }
         });

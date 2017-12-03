@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 
 public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder> {
-    private ArrayList<Habit> habits;
+    private static ArrayList<Habit> habits;
     private Activity context;
 
     // Provide a reference to the views for each data item
@@ -34,7 +34,6 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder
 
     public FilterAdapter(ArrayList<Habit> habits, Activity context) {
         this.habits = new ArrayList<Habit>();
-        this.habits.clear();
         this.habits.addAll(habits);
         notifyDataSetChanged();
         this.context = context;
@@ -59,13 +58,12 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder
 
         holder.habitNameLabel.setText(habit.getName());
 
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, HabitStatsActivity.class);
-                intent.putExtra("habit_id", position);
-                context.startActivity(intent);
+                Global.filter = habits.get(position).getId();
+
+                context.finish();
             }
         });
     }

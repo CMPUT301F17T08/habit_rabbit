@@ -58,6 +58,7 @@
         tools:layout_editor_absoluteY="20dp">
 
         <GridLayout
+            android:id="@+id/gridLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
@@ -84,8 +85,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                app:cardBackgroundColor="@color/cardview_light_background"
-                >
+                app:cardBackgroundColor="@color/cardview_light_background">
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="140dp"
@@ -122,11 +122,11 @@
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
+                android:id="@+id/percentage_complete"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                app:cardBackgroundColor="@color/cardview_light_background"
-                >
+                app:cardBackgroundColor="@color/cardview_light_background">
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="140dp"
@@ -166,8 +166,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                app:cardBackgroundColor="@color/cardview_light_background"
-                >
+                app:cardBackgroundColor="@color/cardview_light_background">
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="140dp"
@@ -207,8 +206,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="16dp"
-                app:cardBackgroundColor="@color/cardview_light_background"
-                >
+                app:cardBackgroundColor="@color/cardview_light_background">
 
                 <android.support.constraint.ConstraintLayout
                     android:layout_width="140dp"
@@ -245,6 +243,57 @@
             </android.support.v7.widget.CardView>
 
         </GridLayout>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="START DATE"
+            android:layout_marginTop="15dp"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+        <TextView
+            android:id="@+id/habit_start_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="10sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_marginTop="0dp"
+            android:text="LAST COMPLETED"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/habit_start_date" />
+
+        <TextView
+            android:id="@+id/last_completed_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="10sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView1" />
 
     </android.support.constraint.ConstraintLayout>
 

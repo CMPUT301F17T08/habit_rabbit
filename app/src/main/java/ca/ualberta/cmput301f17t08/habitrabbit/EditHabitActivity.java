@@ -7,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -107,8 +108,7 @@ public class EditHabitActivity extends AppCompatActivity {
                         .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
                         calendar.get(Calendar.DAY_OF_MONTH));
 
-                // ensure that a previous date can't be selected
-                datePicker.getDatePicker().setMinDate(System.currentTimeMillis());
+                datePicker.getDatePicker().setMinDate(habit.getDate().getTime());
                 datePicker.show();
             }
         });
@@ -150,17 +150,23 @@ public class EditHabitActivity extends AppCompatActivity {
                 // TODO check that the habit name doesn't exist already outside of current habit
 
                 if (!error){
-                    // update the habit object with the new values
-                    User currentUser = LoginManager.getInstance().getCurrentUser();
-                    currentUser.removeHabit(habit.getName());
-
                     habit.setName(title);
                     habit.setReason(reason);
                     habit.setDate(date);
                     habit.setFrequency(frequency);
 
-                    currentUser.addHabit(habit);
-                    finish();
+                    habit.sync(new DatabaseManager.OnSaveListener() {
+                        @Override
+                        public void onSaveSuccess() {
+                            finish();
+                        }
+
+                        @Override
+                        public void onSaveFailure(String message) {
+                            Log.e("EditHabitActivity", "Failed to save habit!");
+                            finish();
+                        }
+                    });
                 }
             }
         });
@@ -169,10 +175,20 @@ public class EditHabitActivity extends AppCompatActivity {
         deleteHabitButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                LoginManager.getInstance().getCurrentUser().removeHabit(habit.getName());
-                Intent intent = new Intent(activity, TodayActivity.class);
-                startActivity(intent);
-                finish();
+                // TODO remove the habit object from the user's habit list
+                LoginManager.getInstance().getCurrentUser().removeHabit(habit);
+                LoginManager.getInstance().getCurrentUser().save(new DatabaseManager.OnSaveListener() {
+                    @Override
+                    public void onSaveSuccess() {
+                        finish();
+                    }
+
+                    @Override
+                    public void onSaveFailure(String message) {
+                        Log.e("EditHabitActivity", "Failed to save user after deleting habit!");
+                        finish();
+                    }
+                });
             }
         });
 
