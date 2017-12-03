@@ -100,7 +100,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
                             DatabaseManager.getInstance().getUserData(pendingList.get(position), new DatabaseManager.OnUserDataListener() {
                                 @Override
                                 public void onUserData(User user) {
-                                    User acceptUser = user;
+                                    final User acceptUser = user;
                                     currentUser.addFollower(acceptUser);
                                     currentUser.removeFromFollowRequests(acceptUser);
                                     acceptUser.addFollowing(currentUser);
@@ -120,6 +120,21 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
 
                                         }
                                     });
+
+                                    acceptUser.save(new DatabaseManager.OnSaveListener() {
+                                        @Override
+                                        public void onSaveSuccess() {
+
+                                        }
+
+                                        @Override
+                                        public void onSaveFailure(String message) {
+                                            Log.e("FollowUserActivity", "Failed to save user after follow request");
+
+                                        }
+                                    });
+
+
 
                                 }
 
