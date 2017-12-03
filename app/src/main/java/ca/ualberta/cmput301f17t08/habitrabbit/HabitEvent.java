@@ -109,13 +109,19 @@ public class HabitEvent implements Serializable {
     }
 
     // For Firebase serialization
-    public ArrayList<Double> getLocationPair(){
+    public ArrayList<Double> getLocationPair() {
         ArrayList<Double> locationPair = new ArrayList<Double>();
 
-        locationPair.add(location.getLatitude());
-        locationPair.add(location.getLongitude());
+        if (location != null) {
+            locationPair.add(location.getLatitude());
+            locationPair.add(location.getLongitude());
 
-        return locationPair;
+            return locationPair;
+
+        } else {
+            return null;
+        }
+
     }
 
     public void setLocationPair(ArrayList<Double> locationPair){

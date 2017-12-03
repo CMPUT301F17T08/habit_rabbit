@@ -154,17 +154,6 @@ public class historyAdapter extends RecyclerView.Adapter<historyAdapter.ViewHold
                 }
             }
         });
-
-        //click function for editing the habit
-        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context, EditHabitEventActivity.class);
-                intent.putExtra("habitEvent",habitEvents.get(position));
-                intent.putExtra("position", position);
-                context.startActivity(intent);
-            }
-        });
     }
     @Override
     public int getItemCount() {

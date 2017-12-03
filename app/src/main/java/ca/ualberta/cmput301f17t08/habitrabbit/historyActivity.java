@@ -25,7 +25,7 @@ public class historyActivity extends AppCompatActivity {
     //initialize the variables needed in the class
     private HashMap<String, HabitEvent> historyList;
     private ArrayList<HabitEvent> historyListDisplay;
-    private historyAdapter cAdapt;
+    private HabitEventListAdapter cAdapt;
     private RecyclerView historyRecyclerView;
     private Button filter_button;
     private historyActivity activity = this;
@@ -85,7 +85,7 @@ public class historyActivity extends AppCompatActivity {
                     Collections.reverse(historyListDisplay);
 
 
-                    cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), historyListDisplay, activity);
+                    cAdapt = new HabitEventListAdapter(historyListDisplay, activity);
                     historyRecyclerView.setAdapter(cAdapt);
 
                     cAdapt.notifyDataSetChanged();
@@ -120,7 +120,7 @@ public class historyActivity extends AppCompatActivity {
 
                             Collections.reverse(historyListDisplay);
 
-                            cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), historyListDisplay, activity);
+                            cAdapt = new HabitEventListAdapter(historyListDisplay, activity);
                             historyRecyclerView.setAdapter(cAdapt);
 
                             cAdapt.notifyDataSetChanged();
