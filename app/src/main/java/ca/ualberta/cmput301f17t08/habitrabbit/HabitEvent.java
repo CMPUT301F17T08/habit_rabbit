@@ -47,9 +47,12 @@ public class HabitEvent implements Serializable {
         this.username = username;
         this.dateCompleted = dateCompleted;
         this.comment = comment;
-        this.location = new Location(location);
         this.picture = bitmapToString(picture);
         this.likes = new ArrayList<String>();
+
+        if(location != null) {
+            this.location = new Location(location);
+        }
 
         this.synced = false;
         this.id = null;
