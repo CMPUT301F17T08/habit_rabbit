@@ -117,6 +117,17 @@ public class HabitEventListAdapter extends RecyclerView.Adapter<HabitEventListAd
                 // mark the event as liked by this user
                 String username = LoginManager.getInstance().getCurrentUser().getUsername();
                 event.like(username);
+                event.sync(new DatabaseManager.OnSaveListener() {
+                    @Override
+                    public void onSaveSuccess() {
+                        // Nothing needed
+                    }
+
+                    @Override
+                    public void onSaveFailure(String message) {
+
+                    }
+                });
 
                 // display the updated like count
                 int newLikeCount = event.getLikeCount();
