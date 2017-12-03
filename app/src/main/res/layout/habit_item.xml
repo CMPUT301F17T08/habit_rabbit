@@ -59,7 +59,7 @@ a
                         android:textSize="18sp" />
 
                     <LinearLayout
-                        android:id="@+id/habbitLayout"
+                        android:id="@+id/habitLayout"
                         android:layout_width="match_parent"
                         android:layout_height="42dp"
                         android:layout_marginLeft="15dp"

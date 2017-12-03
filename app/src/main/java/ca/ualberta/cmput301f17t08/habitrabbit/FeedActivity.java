@@ -5,9 +5,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.ArrayMap;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -19,9 +19,16 @@ import java.util.HashMap;
  */
 public class FeedActivity extends AppCompatActivity {
     public RecyclerView feedRecyclerView;
-    public ArrayList<HabitEvent> feedList;
+    public HashMap<String, HabitEvent> feedList;
+
+    public ArrayList<String> followerList;
+    private Button map_button;
+    private FeedActivity activity = this;
+
+
     public ArrayList<String> followingList;
-    private FeedAdapter cAdapt;
+    private HabitEventListAdapter cAdapt;
+
 
 
     @Override
@@ -31,9 +38,18 @@ public class FeedActivity extends AppCompatActivity {
         feedRecyclerView = (RecyclerView) findViewById(R.id.feed_recycle);
         feedRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 
-        feedList = new ArrayList<HabitEvent>();
+        feedList = new HashMap<String, HabitEvent>();
         //get the followers
         followingList = LoginManager.getInstance().getCurrentUser().getFollowing();
+
+        map_button = (Button) findViewById(R.id.location_button);
+        map_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(activity, gpsActivity.class);
+                startActivity(intent);
+            }
+        });
 
         reloadData();
 
@@ -41,15 +57,11 @@ public class FeedActivity extends AppCompatActivity {
 
     private void reloadData(){
         String username;
-        final ArrayList<String> usernameList = new ArrayList<String>();
-
-        // set up the adapter
-
+        feedList.clear();
 
         // get the followers feed, and append them to the feedList
         for(int each = 0; each < followingList.size(); each++) {
             username = followingList.get(each);
-            usernameList.add(username);
             DatabaseManager.getInstance().getUserData(username, new DatabaseManager.OnUserDataListener() {
                 @Override
                 public void onUserData(User user) {
@@ -63,18 +75,20 @@ public class FeedActivity extends AppCompatActivity {
                                 habit.getHabitEvents(new DatabaseManager.OnHabitEventsListener() {
                                     @Override
                                     public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
-                                        ArrayList<HabitEvent> feedList = new ArrayList<HabitEvent>(habitEvents.values());
 
+                                        feedList.putAll(habitEvents);
 
-                                        Collections.sort(feedList, new Comparator<HabitEvent>() {
+                                        ArrayList<HabitEvent> events = new ArrayList<HabitEvent>(feedList.values());
+
+                                        Collections.sort(events, new Comparator<HabitEvent>() {
                                             public int compare(HabitEvent H1, HabitEvent H2) {
                                                 return H1.getDateCompleted().compareTo(H2.getDateCompleted());
                                             }
                                         });
 
 
-                                        Collections.reverse(feedList);
-                                        cAdapt = new FeedAdapter(usernameList, feedList, FeedActivity.this);
+                                        Collections.reverse(events);
+                                        cAdapt = new HabitEventListAdapter(events, FeedActivity.this);
                                         feedRecyclerView.setAdapter(cAdapt);
 
                                         cAdapt.notifyDataSetChanged();

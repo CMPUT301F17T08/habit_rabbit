@@ -32,6 +32,8 @@ public class HabitEvent implements Serializable {
     private String username;
     private String id;
     private Boolean synced;
+    private double lat ;
+    private double lng ;
 
     public HabitEvent(){
         this.likes = new ArrayList<String>();
@@ -45,12 +47,19 @@ public class HabitEvent implements Serializable {
         this.username = username;
         this.dateCompleted = dateCompleted;
         this.comment = comment;
-        this.location = location;
         this.picture = bitmapToString(picture);
         this.likes = new ArrayList<String>();
 
+        if(location != null) {
+            this.location = new Location(location);
+        }
+
         this.synced = false;
         this.id = null;
+        if(!Double.isNaN(lat) && !Double.isNaN(lng)) {
+            this.lat = lat;
+            this.lng = lng;
+        }
     }
 
     public void setHabitKey(String habitKey) {
@@ -79,8 +88,8 @@ public class HabitEvent implements Serializable {
         this.comment = comment;
     }
 
-    public void setLocation(Location location){
-        this.location = location;
+    public void setLocation(Location location) {
+        this.location = new Location(location);
     }
 
     public void setPicture(Bitmap picture) {
@@ -94,8 +103,31 @@ public class HabitEvent implements Serializable {
         return comment;
     }
 
+    @Exclude
     public Location getLocation() {
         return location;
+    }
+
+    // For Firebase serialization
+    public ArrayList<Double> getLocationPair() {
+        ArrayList<Double> locationPair = new ArrayList<Double>();
+
+        if (location != null) {
+            locationPair.add(location.getLatitude());
+            locationPair.add(location.getLongitude());
+
+            return locationPair;
+
+        } else {
+            return null;
+        }
+
+    }
+
+    public void setLocationPair(ArrayList<Double> locationPair){
+        this.location = new Location("");
+        this.location.setLatitude(locationPair.get(0));
+        this.location.setLongitude(locationPair.get(1));
     }
 
     @Exclude
@@ -114,6 +146,7 @@ public class HabitEvent implements Serializable {
             this.likes.remove(username);
         }
     }
+
     public ArrayList<String> getLikes(){
         return likes;
     }
