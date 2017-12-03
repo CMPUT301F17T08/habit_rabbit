@@ -35,7 +35,6 @@ public class FollowUserActivity extends AppCompatActivity {
                         @Override
                         public void onUserData(User user) {
                             followUser = user;
-                            System.out.println(followUser.getUsername());
                             followUser.getFollowRequests().add(LoginManager.getInstance().getCurrentUser().getUsername());
 
                             // save the data for the other user

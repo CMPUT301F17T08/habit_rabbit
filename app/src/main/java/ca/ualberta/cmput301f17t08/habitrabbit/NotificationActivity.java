@@ -1,19 +1,21 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 
 import java.util.ArrayList;
 
-public class LikesActivity extends AppCompatActivity {
+public class NotificationActivity extends AppCompatActivity {
 
-    private LikesActivity activity = this;
+    private NotificationActivity activity = this;
 
     private ArrayList<User> likes;
     private ArrayList<User> followRequests;
-    private LikesAdapter cAdapt;
+    private NotificationAdapter cAdapt;
 
     private RecyclerView LikesRecyclerView;
     private RecyclerView peopleFollowerRecyclerView;
@@ -26,7 +28,16 @@ public class LikesActivity extends AppCompatActivity {
         /*
         TODO: get the instance of the user's likes and followrequest lists from firebase
          */
-        //followingList = LoginManager.getInstance().getCurrentUser().getHabits();
+        User currentUser = LoginManager.getInstance().getCurrentUser();
+        ArrayList<User> likeList = currentUser.getLikeList();
+        ArrayList<String> pendingFollower = currentUser.getFollowRequests();
+
+        //put like and follow request lists together
+        for(User user: likeList){
+            pendingFollower.add(user.getUsername());
+        }
+
+
 
         //create recycleview for likes
         LikesRecyclerView = (RecyclerView) findViewById(R.id.likes_recyclerview);
@@ -35,11 +46,23 @@ public class LikesActivity extends AppCompatActivity {
        //TODO: still have to incorporate follow requests in recyclerview
 
         //set the adapter for the following list
-        cAdapt = new LikesAdapter(likes);
+        cAdapt = new NotificationAdapter(this,pendingFollower);
         LikesRecyclerView.setAdapter(cAdapt);
 
-       
+    }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        Intent intent = getIntent();
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        finish();
+        startActivity(intent);
+    }
+
+    public void showMenu(View v){
+        Intent intent = new Intent(this, MenuActivity.class);
+        startActivity(intent);
     }
 
 }

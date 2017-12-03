@@ -13,6 +13,8 @@ import android.widget.Button;
 
 import java.sql.BatchUpdateException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 /**
@@ -22,6 +24,7 @@ import java.util.HashMap;
 public class historyActivity extends AppCompatActivity {
     //initialize the variables needed in the class
     private HashMap<String, HabitEvent> historyList;
+    private ArrayList<HabitEvent> historyListDisplay;
     private historyAdapter cAdapt;
     private RecyclerView historyRecyclerView;
     private Button filter_button;
@@ -71,8 +74,18 @@ public class historyActivity extends AppCompatActivity {
                 @Override
                 public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
                     historyList = habitEvents;
+                    historyListDisplay = new ArrayList<HabitEvent>(historyList.values());
 
-                    cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), new ArrayList<HabitEvent>(historyList.values()), activity);
+
+                    Collections.sort(historyListDisplay, new Comparator<HabitEvent>() {
+                        public int compare(HabitEvent H1, HabitEvent H2) {
+                            return H1.getDateCompleted().compareTo(H2.getDateCompleted());
+                        }
+                    });
+                    Collections.reverse(historyListDisplay);
+
+
+                    cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), historyListDisplay, activity);
                     historyRecyclerView.setAdapter(cAdapt);
 
                     cAdapt.notifyDataSetChanged();
@@ -96,8 +109,18 @@ public class historyActivity extends AppCompatActivity {
                         @Override
                         public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
                             historyList = habitEvents;
+                            historyListDisplay = new ArrayList<HabitEvent>(historyList.values());
 
-                            cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), new ArrayList<HabitEvent>(historyList.values()), activity);
+
+                            Collections.sort(historyListDisplay, new Comparator<HabitEvent>() {
+                                public int compare(HabitEvent H1, HabitEvent H2) {
+                                    return H1.getDateCompleted().compareTo(H2.getDateCompleted());
+                                }
+                            });
+
+                            Collections.reverse(historyListDisplay);
+
+                            cAdapt = new historyAdapter(LoginManager.getInstance().getCurrentUser().getUsername(), historyListDisplay, activity);
                             historyRecyclerView.setAdapter(cAdapt);
 
                             cAdapt.notifyDataSetChanged();
