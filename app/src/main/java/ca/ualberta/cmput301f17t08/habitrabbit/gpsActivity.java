@@ -82,7 +82,7 @@ public class gpsActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public void onMapReady( GoogleMap googleMap) {
         mainMap=googleMap;
-        mainMap.setMinZoomPreference(10.0f);
+        mainMap.setMinZoomPreference(12.0f);
         // Add a marker in Sydney, Australia,
         // and move the map's camera to the same location.
         gps = new gpsTracker(gpsActivity.this);
