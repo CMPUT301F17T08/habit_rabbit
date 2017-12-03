@@ -80,7 +80,9 @@ public class gpsActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     @Override
-    public void onMapReady(final GoogleMap googleMap) {
+    public void onMapReady( GoogleMap googleMap) {
+        mainMap=googleMap;
+        mainMap.setMinZoomPreference(10.0f);
         // Add a marker in Sydney, Australia,
         // and move the map's camera to the same location.
         gps = new gpsTracker(gpsActivity.this);
@@ -89,20 +91,16 @@ public class gpsActivity extends AppCompatActivity implements OnMapReadyCallback
 
             final double latitude = gps.getLatitude();
             final double longitude = gps.getLongitude();
-            loadMapMarkers(new DatabaseManager.OnHabitEventsListener() {
-                @Override
-                public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
-                    LatLng sydney = new LatLng(latitude, longitude);
-                    googleMap.addMarker(new MarkerOptions().position(sydney)
+
+            LatLng sydney = new LatLng(latitude, longitude);
+
+            mainMap.addMarker(new MarkerOptions().position(sydney)
                             .title("Current"));
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-                }
+            Log.e("habitevent_Maps", "test success");
+            mainMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
-                @Override
-                public void onHabitEventsFailed(String message) {
+            loadMapMarkers();
 
-                }
-            });
 
         }else{
             // can't get location
@@ -114,7 +112,7 @@ public class gpsActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
     }
-    public void loadMapMarkers(DatabaseManager.OnHabitEventsListener listener){
+    public void loadMapMarkers( ){
 
         LoginManager.getInstance().getCurrentUser().getHistory(new DatabaseManager.OnHabitEventsListener() {
             @Override
@@ -143,7 +141,7 @@ public class gpsActivity extends AppCompatActivity implements OnMapReadyCallback
 
                         @Override
                         public void onHabitsFailed(String message) {
-
+                            Log.e("habit_Maps", "Failed to get habit  of user!");
                         }
 
                     });
