@@ -47,9 +47,12 @@ public class HabitEvent implements Serializable {
         this.username = username;
         this.dateCompleted = dateCompleted;
         this.comment = comment;
-        this.location = new Location(location);
         this.picture = bitmapToString(picture);
         this.likes = new ArrayList<String>();
+
+        if(location != null) {
+            this.location = new Location(location);
+        }
 
         this.synced = false;
         this.id = null;
@@ -106,13 +109,19 @@ public class HabitEvent implements Serializable {
     }
 
     // For Firebase serialization
-    public ArrayList<Double> getLocationPair(){
+    public ArrayList<Double> getLocationPair() {
         ArrayList<Double> locationPair = new ArrayList<Double>();
 
-        locationPair.add(location.getLatitude());
-        locationPair.add(location.getLongitude());
+        if (location != null) {
+            locationPair.add(location.getLatitude());
+            locationPair.add(location.getLongitude());
 
-        return locationPair;
+            return locationPair;
+
+        } else {
+            return null;
+        }
+
     }
 
     public void setLocationPair(ArrayList<Double> locationPair){
@@ -137,6 +146,7 @@ public class HabitEvent implements Serializable {
             this.likes.remove(username);
         }
     }
+
     public ArrayList<String> getLikes(){
         return likes;
     }

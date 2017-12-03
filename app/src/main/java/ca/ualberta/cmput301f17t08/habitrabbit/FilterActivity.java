@@ -30,6 +30,8 @@ public class FilterActivity extends AppCompatActivity {
     private EditText filter;
     private RecyclerView habitListView;
     private Button menuButton;
+    private Button clearButton;
+
     private FilterAdapter cAdapt;
     private ArrayList<HabitEvent> historyCache;
     private HashMap<String, Habit> habitList;
@@ -42,6 +44,8 @@ public class FilterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_filter);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         menuButton = (Button) findViewById(R.id.menu_button);
+        clearButton = (Button) findViewById(R.id.menu_button);
+
         filter = (EditText) findViewById(R.id.filter);
         title = (TextView) findViewById(R.id.title);
         title.setText("FILTER");
@@ -96,6 +100,18 @@ public class FilterActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+
+        // set clear button
+        clearButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Global.filter = null;
+                Intent intent = new Intent(activity, historyActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         // set the filter edit text listner
         filter.addTextChangedListener(new TextWatcher() {

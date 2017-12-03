@@ -69,7 +69,7 @@ public class MenuActivity extends AppCompatActivity {
         notificationsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity, LikesActivity.class);
+                Intent intent = new Intent(activity, NotificationActivity.class);
                 startActivity(intent);
             }
         });

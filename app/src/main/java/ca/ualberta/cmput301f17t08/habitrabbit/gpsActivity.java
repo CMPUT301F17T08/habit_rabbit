@@ -28,16 +28,14 @@ import java.util.HashSet;
 public class gpsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
 
-    Button btnShowLocation;
+    private Button btnShowLocation;
 
     // GPSTracker class
-    gpsTracker gps;
+    private gpsTracker gps;
 
     private gpsActivity activity = this;
     private GoogleMap mainMap;
-    LatLng lastKnownLocation;
-    ArrayList<HabitEvent> habitEventFeed = new ArrayList<>();
-    ArrayList<HabitEvent> habitEventsList;
+    private ArrayList<HabitEvent> habitEventsList;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

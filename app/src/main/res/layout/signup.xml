@@ -22,7 +22,7 @@
             android:layout_weight="0.00"
             android:shadowDy="40"
             android:shadowRadius="50"
-            android:text="HABBIT RABBIT"
+            android:text="HABIT RABBIT"
             android:textColor="#D9D9D9"
             android:textSize="12dp"
             android:textStyle="bold" />
