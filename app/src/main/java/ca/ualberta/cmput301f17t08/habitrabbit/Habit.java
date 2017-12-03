@@ -245,8 +245,12 @@ public class Habit implements Serializable{
         the habit will disappear from the today page
          */
 
-        if (this.lastCompleted != null && now.getTime() - this.lastCompleted.getTime() < 86400000){
+        // TODO need to check if there was a day between lastCompleted and now that the habit was supposed to be completed
+
+
+        if (this.lastCompleted != null){
             this.streak += 1;
+
         }else if (lastCompleted == null) {
             this.streak = 1;
         }
