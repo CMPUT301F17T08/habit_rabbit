@@ -369,11 +369,13 @@ public class Habit implements Serializable{
         // TODO: destroy habit from DB (call DB manager)
     }
 
+    /**
+     * make the streak 0 if a day was missed in the middle
+     */
+
     public void updateStreak(){
         if (this.getLastCompleted() != null){
 
-            System.out.println(this.getName());
-            // make the streak 0 if a day was missed in the middle
             int [] conversion_table = {0, 6, 0, 1, 2, 3, 4, 5};
 
             Calendar lastCompleted = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
@@ -393,13 +395,9 @@ public class Habit implements Serializable{
                 return;
             }
 
-            System.out.println(lastCompleted.getTime() + " " + current.getTime());
-            System.out.println("--");
             while(lastCompletedPointer != currentDayPointer){
-                System.out.println(lastCompleted.getTime() + " " + current.getTime());
                 // check if the last completed pointer is on a day that a frequency value of 1
                 if (this.getFrequency().get(lastCompletedPointer) == 1){
-                    System.out.println("Break");
                     this.resetStreak();
                     break;
                 }
@@ -407,20 +405,16 @@ public class Habit implements Serializable{
                 // make it loop back to the start of the week
                 lastCompletedPointer = (lastCompletedPointer + 1) % 7;
             }
-            System.out.println("**");
 
             this.sync(new DatabaseManager.OnSaveListener() {
                 @Override
-                public void onSaveSuccess() {
-
-                }
+                public void onSaveSuccess() {}
 
                 @Override
                 public void onSaveFailure(String message) {
 
                 }
-            }); // Sync initial list
-
+            });
         }
     }
 }
