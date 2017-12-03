@@ -104,9 +104,15 @@ public class EditHabitActivity extends AppCompatActivity {
         dateSelector.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog datePicker = new DatePickerDialog(EditHabitActivity.this, R.style.date_picker, date, calendar
-                        .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                        calendar.get(Calendar.DAY_OF_MONTH));
+
+                Calendar c = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
+                c.setTime(habit.getDate());
+
+                int mYear = c.get(Calendar.YEAR);
+                int mMonth = c.get(Calendar.MONTH);
+                int mDay = c.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePicker = new DatePickerDialog(EditHabitActivity.this, R.style.date_picker, date, mYear, mMonth, mDay);
 
                 datePicker.getDatePicker().setMinDate(habit.getDate().getTime());
                 datePicker.show();
