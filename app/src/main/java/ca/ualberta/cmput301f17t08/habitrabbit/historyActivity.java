@@ -73,8 +73,6 @@ public class historyActivity extends AppCompatActivity {
 
         }
         else {
-
-
             LoginManager.getInstance().getCurrentUser().getHabits(new DatabaseManager.OnHabitsListener() {
                 @Override
                 public void onHabitsSuccess(HashMap<String, Habit> habits) {
@@ -105,7 +103,6 @@ public class historyActivity extends AppCompatActivity {
                     Log.e("MyHabitActivity", "Failed to get habits of user!");
                 }
             });
-
         }
     }
 
