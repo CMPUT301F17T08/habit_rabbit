@@ -56,6 +56,7 @@ public class FollowingHabitAdapter extends RecyclerView.Adapter<FollowingHabitAd
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, LastCompleteActivity.class);
+                intent.putExtra("TheFollowName",username);
                 context.startActivity(intent);
             }
         });

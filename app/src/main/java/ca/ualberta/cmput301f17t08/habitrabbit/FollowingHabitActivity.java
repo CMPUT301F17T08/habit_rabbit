@@ -17,7 +17,6 @@ public class FollowingHabitActivity extends AppCompatActivity {
     private TextView userNameField;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -62,6 +61,5 @@ public class FollowingHabitActivity extends AppCompatActivity {
 
             }
         });
-
     }
 }
