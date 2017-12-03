@@ -176,13 +176,31 @@ public class Habit implements Serializable{
         // count the total days since the start that the user was supposed to complete this habit
         int daysSinceStart = 0;
 
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
-        Date currentDate = calendar.getTime();
-        Date tempDate = this.startDate;
+        Calendar currentCalendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
+        currentCalendar.set(Calendar.HOUR_OF_DAY, 0);
+        currentCalendar.set(Calendar.MINUTE, 0);
+        currentCalendar.set(Calendar.SECOND, 0);
+        currentCalendar.set(Calendar.MILLISECOND, 0);
+        currentCalendar.add(Calendar.DATE, 1);
 
-        while (tempDate.before(currentDate)){
-            calendar.setTime(tempDate);
-            int tempDayIndex = calendar.get(Calendar.DAY_OF_WEEK);
+
+        System.out.println("Current Date" + currentCalendar.getTime());
+
+        Calendar tempCalendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
+
+        tempCalendar.setTime(this.startDate);
+        tempCalendar.set(Calendar.HOUR_OF_DAY, 0);
+        tempCalendar.set(Calendar.MINUTE, 0);
+        tempCalendar.set(Calendar.SECOND, 0);
+        tempCalendar.set(Calendar.MILLISECOND, 0);
+
+
+        System.out.println("Before: " + tempCalendar.getTime() + " time " + currentCalendar.getTime());
+        while (tempCalendar.getTime().before(currentCalendar.getTime())){
+
+            System.out.println(tempCalendar.getTime() + " time " + currentCalendar.getTime());
+
+            int tempDayIndex = tempCalendar.get(Calendar.DAY_OF_WEEK);
 
             // converts between the built in day index to the frequency array indices
             int [] conversion_table = {0, 6, 0, 1, 2, 3, 4, 5};
@@ -193,13 +211,15 @@ public class Habit implements Serializable{
             }
 
             // increment the temp date by 1 day
-            calendar.add(Calendar.DATE, 1);
-            tempDate = calendar.getTime();
+            tempCalendar.add(Calendar.DATE, 1);
+//            tempDate = calendar.getTime();
 
         }
 
         System.out.println(daysCompleted);
         System.out.println(daysSinceStart);
+        System.out.println(this.startDate);
+        System.out.println(this.lastCompleted);
 
         // % completed
         if (daysSinceStart != 0) {

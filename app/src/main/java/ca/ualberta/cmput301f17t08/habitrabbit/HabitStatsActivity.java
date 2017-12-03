@@ -85,6 +85,7 @@ public class HabitStatsActivity extends AppCompatActivity {
                     //pick the color based on the percentage
 
                     int colorIndex = (int)Math.round(Math.floor(habit.getPercentCompleted() * 100))/10;
+                    colorIndex = Math.min(colorIndex, 10);
                     percentCardView.setCardBackgroundColor(Color.parseColor(colorList[colorIndex]));
                 }
 

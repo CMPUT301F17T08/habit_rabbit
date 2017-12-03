@@ -160,19 +160,19 @@ public class EditHabitActivity extends AppCompatActivity {
                     habit.setReason(reason);
                     habit.setFrequency(frequency);
 
-                    // only update the start date if its a different day
-                    // otherwise the hours/minutes/seconds will get updated and cause problems
-                    // https://goo.gl/uxDjrH
-                    Calendar cal1 = Calendar.getInstance();
-                    Calendar cal2 = Calendar.getInstance();
-                    cal1.setTime(habit.getDate());
-                    cal2.setTime(date);
-                    boolean sameDay = cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
-                            cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
-
-                    if (!sameDay){
-                        habit.setDate(date);
-                    }
+//                    // only update the start date if its a different day
+//                    // otherwise the hours/minutes/seconds will get updated and cause problems
+//                    // https://goo.gl/uxDjrH
+//                    Calendar cal1 = Calendar.getInstance();
+//                    Calendar cal2 = Calendar.getInstance();
+//                    cal1.setTime(habit.getDate());
+//                    cal2.setTime(date);
+//                    boolean sameDay = cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+//                            cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
+//
+//                    if (!sameDay){
+//                        habit.setDate(date);
+//                    }
 
                     habit.sync(new DatabaseManager.OnSaveListener() {
                         @Override
