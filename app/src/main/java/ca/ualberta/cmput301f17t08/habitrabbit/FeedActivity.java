@@ -19,7 +19,7 @@ import java.util.HashMap;
  */
 public class FeedActivity extends AppCompatActivity {
     public RecyclerView feedRecyclerView;
-    public ArrayList<HabitEvent> feedList;
+    public HashMap<String, HabitEvent> feedList;
 
     public ArrayList<String> followerList;
     private Button map_button;
@@ -38,7 +38,7 @@ public class FeedActivity extends AppCompatActivity {
         feedRecyclerView = (RecyclerView) findViewById(R.id.feed_recycle);
         feedRecyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 
-        feedList = new ArrayList<HabitEvent>();
+        feedList = new HashMap<String, HabitEvent>();
         //get the followers
         followingList = LoginManager.getInstance().getCurrentUser().getFollowing();
 
@@ -76,17 +76,19 @@ public class FeedActivity extends AppCompatActivity {
                                     @Override
                                     public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
 
-                                        feedList.addAll(habitEvents.values());
+                                        feedList.putAll(habitEvents);
 
-                                        Collections.sort(feedList, new Comparator<HabitEvent>() {
+                                        ArrayList<HabitEvent> events = new ArrayList<HabitEvent>(feedList.values());
+
+                                        Collections.sort(events, new Comparator<HabitEvent>() {
                                             public int compare(HabitEvent H1, HabitEvent H2) {
                                                 return H1.getDateCompleted().compareTo(H2.getDateCompleted());
                                             }
                                         });
 
 
-                                        Collections.reverse(feedList);
-                                        cAdapt = new HabitEventListAdapter(feedList, FeedActivity.this);
+                                        Collections.reverse(events);
+                                        cAdapt = new HabitEventListAdapter(events, FeedActivity.this);
                                         feedRecyclerView.setAdapter(cAdapt);
 
                                         cAdapt.notifyDataSetChanged();
