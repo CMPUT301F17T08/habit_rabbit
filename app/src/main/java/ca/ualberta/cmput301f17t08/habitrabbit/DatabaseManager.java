@@ -138,6 +138,7 @@ public class DatabaseManager {
     public void getUserData(final String username, final OnUserDataListener listener){
 
         final DatabaseReference userRef = database.getReference("users").child(username);
+        userRef.keepSynced(true);
 
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
