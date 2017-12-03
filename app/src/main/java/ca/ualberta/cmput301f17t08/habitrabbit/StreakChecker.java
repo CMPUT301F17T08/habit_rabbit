@@ -30,32 +30,69 @@ public class StreakChecker extends BroadcastReceiver {
                 Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
                 Date now = calendar.getTime();
 
-                if (habits.size() > 0) {
-                    for (Habit habit : habits.values()) {
-                        Date last_date = habit.getLastCompleted();
-                        if (last_date != null) {
-                            long diff = now.getTime() - last_date.getTime();
-                            // convert millisecond to hours
-                            long diffHours = diff / (60 * 60 * 1000);
-                            //see if 24 hrs has passed since user has completed the habit
-                            if (diffHours >= 24) {
-                                //reset the streak of the habit to 0
-                                habit.resetStreak();
-                                habit.sync(new DatabaseManager.OnSaveListener() {
-                                    @Override
-                                    public void onSaveSuccess() {
-                                        // No need to handle save success
-                                    }
+//                if (habits.size() > 0) {
+//                    for (Habit habit : habits.values()) {
+//                        Date last_date = habit.getLastCompleted();
+//                        if (last_date != null) {
+//                            long diff = now.getTime() - last_date.getTime();
+//                            // convert millisecond to hours
+//                            long diffHours = diff / (60 * 60 * 1000);
+//                            //see if 24 hrs has passed since user has completed the habit
+//                            if (diffHours >= 24) {
+//                                //reset the streak of the habit to 0
+//                                habit.resetStreak();
+//                                habit.sync(new DatabaseManager.OnSaveListener() {
+//                                    @Override
+//                                    public void onSaveSuccess() {
+//                                        // No need to handle save success
+//                                    }
+//
+//                                    @Override
+//                                    public void onSaveFailure(String message) {
+//                                        // No need to handle save failure
+//                                    }
+//                                });
+//                            }
+//                        }
+//                    }
+//                }
+                if (habits.size() > 0){
+                    for (Habit habit : habits.values()){
+                        if (habit.getLastCompleted() != null){
 
-                                    @Override
-                                    public void onSaveFailure(String message) {
-                                        // No need to handle save failure
-                                    }
-                                });
+                            // make the streak 0 if a day was missed in the middle
+                            int [] conversion_table = {0, 6, 0, 1, 2, 3, 4, 5};
+
+                            Calendar c = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
+                            c.setTime(habit.getLastCompleted());
+                            c.add(c.DATE, 1);
+
+                            while (c.getTime().before(now)){
+                                int tempDayIndex = c.get(Calendar.DAY_OF_WEEK);
+                                if (habit.getFrequency().get(conversion_table[tempDayIndex]) == 1){
+                                    habit.resetStreak();
+
+                                    habit.sync(new DatabaseManager.OnSaveListener() {
+                                        @Override
+                                        public void onSaveSuccess() {
+                                            // No need to handle save success
+                                        }
+
+                                        @Override
+                                        public void onSaveFailure(String message) {
+                                            // No need to handle save failure
+                                        }
+                                    });
+
+                                    break;
+                                }
                             }
+
                         }
                     }
                 }
+
+
             }
 
             @Override

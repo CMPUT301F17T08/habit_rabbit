@@ -104,9 +104,15 @@ public class EditHabitActivity extends AppCompatActivity {
         dateSelector.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DatePickerDialog datePicker = new DatePickerDialog(EditHabitActivity.this, R.style.date_picker, date, calendar
-                        .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-                        calendar.get(Calendar.DAY_OF_MONTH));
+
+                Calendar c = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
+                c.setTime(habit.getDate());
+
+                int mYear = c.get(Calendar.YEAR);
+                int mMonth = c.get(Calendar.MONTH);
+                int mDay = c.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog datePicker = new DatePickerDialog(EditHabitActivity.this, R.style.date_picker, date, mYear, mMonth, mDay);
 
                 datePicker.getDatePicker().setMinDate(habit.getDate().getTime());
                 datePicker.show();
@@ -152,8 +158,21 @@ public class EditHabitActivity extends AppCompatActivity {
                 if (!error){
                     habit.setName(title);
                     habit.setReason(reason);
-                    habit.setDate(date);
                     habit.setFrequency(frequency);
+
+//                    // only update the start date if its a different day
+//                    // otherwise the hours/minutes/seconds will get updated and cause problems
+//                    // https://goo.gl/uxDjrH
+//                    Calendar cal1 = Calendar.getInstance();
+//                    Calendar cal2 = Calendar.getInstance();
+//                    cal1.setTime(habit.getDate());
+//                    cal2.setTime(date);
+//                    boolean sameDay = cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+//                            cal1.get(Calendar.DAY_OF_YEAR) == cal2.get(Calendar.DAY_OF_YEAR);
+//
+//                    if (!sameDay){
+//                        habit.setDate(date);
+//                    }
 
                     habit.sync(new DatabaseManager.OnSaveListener() {
                         @Override

@@ -58,7 +58,7 @@ public class EditHabitEventActivity extends AppCompatActivity {
                         Boolean error = false;
 
                         if (comment.length() > 20) {
-                            habitTitle.setError("Please keep title under 20 characters");
+                            habitComment.setError("Please keep title under 20 characters");
                             error = true;
                         }
                         else if (bmp != null && bmp.getByteCount() > 65536){
