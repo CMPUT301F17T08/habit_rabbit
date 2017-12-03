@@ -2,6 +2,7 @@ package ca.ualberta.cmput301f17t08.habitrabbit;
 
 import android.util.ArrayMap;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.firebase.database.Exclude;
 
@@ -103,7 +104,7 @@ public class User {
 
     public ArrayList<String> getFollowRequests() {return this.followRequests;}
 
-    public void  removeFromFollowRequests(User removedUser){
+    public void  removeFromFollowRequests(String removedUser){
         this.followRequests.remove(removedUser);
     }
 
@@ -116,25 +117,26 @@ public class User {
     }
 
     public boolean hasFollower(User follower){
+
         return this.followerList.contains(follower.getUsername());
 
     }
 
     public void  addFollower(User follower){
-        if (hasFollower(follower))
-            throw new IllegalArgumentException("Follower already existed.");
 
-        this.followerList.add(follower.getUsername());
+        if (!hasFollower(follower))
+            this.followerList.add(follower.getUsername());
         return;
-
     }
 
     private boolean hasFollowing(User user) {
+
         return this.followingList.contains(user.getUsername());
     }
 
 
     public void removeFollower(User follower) {
+
         this.followerList.remove(follower.getUsername());
         return;
     }
@@ -182,7 +184,6 @@ public class User {
                 }
             });
         }
-
     }
 
     private boolean hasHabit(Habit habit) {
@@ -194,7 +195,6 @@ public class User {
             if(Objects.equals(habit.getName(), title))
                 return true;
         }
-
         return false;
     }
 
