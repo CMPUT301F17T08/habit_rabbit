@@ -46,7 +46,12 @@
         <activity android:name=".TodayActivity" />
         <activity android:name=".FeedActivity" />
         <activity android:name=".EditHabitEventActivity" />
+
+
+        <activity android:name=".FollowingHabitActivity"></activity>
+
         <activity android:name=".FilterActivity"></activity>
+
         <activity android:name=".gpsActivity"></activity>
     </application>
 

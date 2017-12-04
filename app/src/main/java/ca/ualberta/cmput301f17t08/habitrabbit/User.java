@@ -60,6 +60,7 @@ public class User {
     }
 
     public ArrayList<String> getHabitKeys(){
+
         if(habitsLoaded){
             return new ArrayList<String>(this.habitList.keySet());
         }else{

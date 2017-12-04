@@ -17,9 +17,6 @@ import java.util.ArrayList;
 public class NotificationActivity extends AppCompatActivity {
 
     private NotificationActivity activity = this;
-
-    private ArrayList<User> likes;
-    private ArrayList<User> followRequests;
     private NotificationAdapter cAdapt;
 
     private RecyclerView LikesRecyclerView;
@@ -79,6 +76,7 @@ public class NotificationActivity extends AppCompatActivity {
 
     @Override
     protected void onRestart() {
+        //when the activity restarts
         super.onRestart();
         Intent intent = getIntent();
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
