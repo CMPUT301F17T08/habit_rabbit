@@ -50,11 +50,12 @@
         <activity android:name=".feedMapActivity" />
 
 
-        <receiver android:name=".StreakChecker">
-            <intent-filter>
-                <action android:name="android.intent.action.ACTION_TIME_TICK" />
-            </intent-filter>
-        </receiver>
+
+        <activity android:name=".FollowingHabitActivity"></activity>
+
+        <activity android:name=".FilterActivity"></activity>
+
+        <activity android:name=".LastCompleteActivity"></activity>
 
         <activity android:name=".gpsActivity"></activity>
     </application>

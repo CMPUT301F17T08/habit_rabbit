@@ -15,16 +15,6 @@
         android:layout_height="wrap_content"
         android:paddingTop="20dp">
 
-        <Button
-            android:id="@+id/filter_button"
-            android:layout_width="23dp"
-            android:layout_height="23dp"
-            android:layout_marginEnd="4dp"
-            android:layout_marginTop="8dp"
-            android:background="@drawable/search"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
             android:id="@+id/textView2"
             android:layout_width="match_parent"

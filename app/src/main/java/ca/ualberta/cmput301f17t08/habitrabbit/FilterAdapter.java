@@ -62,7 +62,6 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder
             @Override
             public void onClick(View view) {
                 Global.filter = habits.get(position).getId();
-
                 context.finish();
             }
         });
@@ -73,7 +72,4 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder
     public int getItemCount() {
         return habits.size();
     }
-
-
-
 }

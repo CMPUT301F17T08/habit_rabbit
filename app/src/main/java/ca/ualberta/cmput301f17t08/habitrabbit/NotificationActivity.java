@@ -1,22 +1,22 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
+
+/**
+ * The activity for the notification, could send and receive a notification
+ */
+
 
 public class NotificationActivity extends AppCompatActivity {
 
     private NotificationActivity activity = this;
-
-    private ArrayList<User> likes;
-    private ArrayList<User> followRequests;
     private NotificationAdapter cAdapt;
 
     private RecyclerView LikesRecyclerView;
@@ -53,7 +53,9 @@ public class NotificationActivity extends AppCompatActivity {
                 }
 
                 for(FollowNotification notification: pendingFollower){
-                    notifications.add(notification);
+                    if (!(notification.getUsername().equals(LoginManager.getInstance().getCurrentUser().getUsername()) )) {
+                        notifications.add(notification);
+                    }
                 }
 
                 //create recycleview for likes
@@ -76,6 +78,7 @@ public class NotificationActivity extends AppCompatActivity {
 
     @Override
     protected void onRestart() {
+        //when the activity restarts
         super.onRestart();
         Intent intent = getIntent();
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);

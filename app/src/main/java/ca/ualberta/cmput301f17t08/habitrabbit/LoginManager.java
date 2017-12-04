@@ -31,7 +31,6 @@ public class LoginManager {
             public void onUserData(User user) {
                 currentUser = user;
                 listener.onLoginComplete();
-
             }
 
             @Override

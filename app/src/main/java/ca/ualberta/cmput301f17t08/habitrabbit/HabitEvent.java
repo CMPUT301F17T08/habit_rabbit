@@ -70,6 +70,7 @@ public class HabitEvent implements Serializable {
         return habitKey;
     }
 
+
     @Exclude
     public void getHabit(DatabaseManager.OnHabitsListener listener){
         HashSet<String> habit = new HashSet<String>();
@@ -89,7 +90,7 @@ public class HabitEvent implements Serializable {
     }
 
     public void setLocation(Location location) {
-        this.location = new Location(location);
+        this.location = location;
     }
 
     public void setPicture(Bitmap picture) {

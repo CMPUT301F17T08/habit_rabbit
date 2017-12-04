@@ -3,7 +3,7 @@ package ca.ualberta.cmput301f17t08.habitrabbit;
 import java.util.Date;
 
 /**
- * Created by micah on 03/12/17.
+ * The like notification for habitevent
  */
 
 public class LikeNotification extends Notification {

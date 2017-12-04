@@ -39,6 +39,7 @@ public class Habit implements Serializable{
     private Boolean synced;
     private Boolean habitEventsLoaded;
 
+
     public Habit(){
         this.habitEventKeyList = new HashSet<String>();
         this.habiteventlist = new HashMap<String, HabitEvent>();
@@ -143,20 +144,60 @@ public class Habit implements Serializable{
 
     public Date getLastCompleted() { return this.lastCompleted; }
 
-    // TODO: Separate this into various getters/setters, refactor formatting into calling class.
-    // Firebase will not be able to save/retrieve without this.
-    public List<Object> getStatistics(){
-        
+    public int getDaysCompleted(){
+        return this.daysCompleted;
+    }
+
+    public int getStreak(){
+        return this.streak;
+    }
+
+    public long getAverageTime(){
+        return this.averageTime;
+    }
+
+    public String getAverageTimeStr(){
+        String averageTimeStr;
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+
+        long averageTime = getAverageTime();
+
+        if (averageTime <= 0){
+            averageTimeStr = "N/A";
+        }else{
+            averageTimeStr = sdf.format(averageTime);
+        }
+
+        return averageTimeStr;
+    }
+
+    public float getPercentCompleted(){
+        float percentComplete;
+
         // count the total days since the start that the user was supposed to complete this habit
         int daysSinceStart = 0;
 
-        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
-        Date currentDate = calendar.getTime();
-        Date tempDate = this.startDate;
+        Calendar currentCalendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
+        currentCalendar.set(Calendar.HOUR_OF_DAY, 0);
+        currentCalendar.set(Calendar.MINUTE, 0);
+        currentCalendar.set(Calendar.SECOND, 0);
+        currentCalendar.set(Calendar.MILLISECOND, 0);
+        currentCalendar.add(Calendar.DATE, 1);
 
-        while (tempDate.before(currentDate)){
-            calendar.setTime(tempDate);
-            int tempDayIndex = calendar.get(Calendar.DAY_OF_WEEK);
+
+        System.out.println("Current Date" + currentCalendar.getTime());
+
+        Calendar tempCalendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
+
+        tempCalendar.setTime(this.startDate);
+        tempCalendar.set(Calendar.HOUR_OF_DAY, 0);
+        tempCalendar.set(Calendar.MINUTE, 0);
+        tempCalendar.set(Calendar.SECOND, 0);
+        tempCalendar.set(Calendar.MILLISECOND, 0);
+
+        while (tempCalendar.getTime().before(currentCalendar.getTime())){
+
+            int tempDayIndex = tempCalendar.get(Calendar.DAY_OF_WEEK);
 
             // converts between the built in day index to the frequency array indices
             int [] conversion_table = {0, 6, 0, 1, 2, 3, 4, 5};
@@ -166,34 +207,23 @@ public class Habit implements Serializable{
                 daysSinceStart += 1;
             }
 
-            // increment the temp date by 1 day
-            calendar.add(Calendar.DATE, 1);
-            tempDate = calendar.getTime();
+            tempCalendar.add(Calendar.DATE, 1);
 
         }
 
-        String averageTimeStr;
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-
-        if (this.averageTime <= 0){
-            averageTimeStr = "N/A";
-        }else{
-            averageTimeStr = sdf.format(this.averageTime);
-        }
-
-        List<Object> statistics = new ArrayList<Object>();
-        statistics.add(this.daysCompleted);
-        statistics.add(this.streak);
-        statistics.add(averageTimeStr);
+        System.out.println(daysCompleted);
+        System.out.println(daysSinceStart);
+        System.out.println(this.startDate);
+        System.out.println(this.lastCompleted);
 
         // % completed
         if (daysSinceStart != 0) {
-            statistics.add((float) daysCompleted / daysSinceStart);
+            percentComplete = (float) daysCompleted / daysSinceStart;
         }else{
-            statistics.add((float)0);      // 100% completed by default
+            percentComplete = (float)0;      // 100% completed by default
         }
 
-        return statistics;
+        return (float) Math.min(1.0,percentComplete);
     }
 
     public void markDone(){
@@ -211,18 +241,13 @@ public class Habit implements Serializable{
         }
 
         // update the streak
-        /*
-        Note: we don't need to worry about this function being called multiple times in one day since
-        the habit will disappear from the today page
-         */
-
-        if (this.lastCompleted != null && now.getTime() - this.lastCompleted.getTime() < 86400000){
+        if (this.lastCompleted != null){
             this.streak += 1;
+
         }else if (lastCompleted == null) {
             this.streak = 1;
         }
 
-        System.out.println("Updated last completed to" + now);
         this.lastCompleted = now;
 
     }
@@ -344,5 +369,54 @@ public class Habit implements Serializable{
 
     public void delete() {
         // TODO: destroy habit from DB (call DB manager)
+    }
+
+    /**
+     * make the streak 0 if a day was missed in the middle
+     */
+
+    public void updateStreak(){
+        if (this.getLastCompleted() != null){
+
+            int [] conversion_table = {0, 6, 0, 1, 2, 3, 4, 5};
+
+            Calendar lastCompleted = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
+            lastCompleted.setTime(this.getLastCompleted());
+            lastCompleted.add(lastCompleted.DATE, 1);
+
+            Calendar current = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
+
+            int lastCompletedPointer = lastCompleted.get(Calendar.DAY_OF_WEEK);
+            int currentDayPointer = current.get(Calendar.DAY_OF_WEEK);
+
+            // shift the days of the week to match the frequency array
+            lastCompletedPointer = conversion_table[lastCompletedPointer];
+            currentDayPointer = conversion_table[currentDayPointer];
+
+            if (lastCompletedPointer == (currentDayPointer + 1) % 7){
+                return;
+            }
+
+            while(lastCompletedPointer != currentDayPointer){
+                // check if the last completed pointer is on a day that a frequency value of 1
+                if (this.getFrequency().get(lastCompletedPointer) == 1){
+                    this.resetStreak();
+                    break;
+                }
+
+                // make it loop back to the start of the week
+                lastCompletedPointer = (lastCompletedPointer + 1) % 7;
+            }
+
+            this.sync(new DatabaseManager.OnSaveListener() {
+                @Override
+                public void onSaveSuccess() {}
+
+                @Override
+                public void onSaveFailure(String message) {
+
+                }
+            });
+        }
     }
 }

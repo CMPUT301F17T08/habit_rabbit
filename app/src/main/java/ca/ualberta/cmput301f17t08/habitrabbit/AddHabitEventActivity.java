@@ -82,6 +82,7 @@ public class AddHabitEventActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Location> task) {
                             location = task.getResult();
+                            locationButton.setImageResource(R.drawable.location_icon);
                         }
                     });
                 }
@@ -117,9 +118,9 @@ public class AddHabitEventActivity extends AppCompatActivity {
                             habit.sync(new DatabaseManager.OnSaveListener() {
                                 @Override
                                 public void onSaveSuccess() {
-                                    Intent returnIntent = new Intent();
-                                    returnIntent.putExtra("habitevent_key", event.getId());
-                                    setResult(Activity.RESULT_OK, returnIntent);
+//                                    Intent returnIntent = new Intent();
+//                                    returnIntent.putExtra("habitevent_key", event.getId());
+//                                    setResult(Activity.RESULT_OK, returnIntent);
 
                                     finish();
                                 }

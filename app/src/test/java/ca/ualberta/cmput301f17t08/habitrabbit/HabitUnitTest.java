@@ -57,22 +57,22 @@ public class HabitUnitTest {
         Date now = calendar.getTime();
 
         Habit habit = new Habit("Name", "Reason", now, frequency);
-        int daysCompleted1 = (int) habit.getStatistics().get(0);
+        int daysCompleted1 = (int) habit.getDaysCompleted();
         assertEquals(daysCompleted1, 0);
-        int streak = (int) habit.getStatistics().get(1);
-        String averageTime = (String) habit.getStatistics().get(2);
+        int streak = (int) habit.getStreak();
+        Long averageTime = (Long) habit.getAverageTime();
 
         assertEquals(streak, 0);
 
         habit.markDone();
 
-        int daysCompleted2 = (int) habit.getStatistics().get(0);
+        int daysCompleted2 = (int) habit.getDaysCompleted();
         assertEquals(daysCompleted2, 1);
 
-        String averageTime1 = (String)habit.getStatistics().get(2);
+        Long averageTime1 = (Long)habit.getAverageTime();
         assertNotEquals(averageTime,averageTime1);
 
-        int streak1 = (int)habit.getStatistics().get(1);
+        int streak1 = (int)habit.getStreak();
         assertEquals(streak1, 1);
 
 

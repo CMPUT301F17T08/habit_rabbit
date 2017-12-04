@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 /**
- * The activity for followuser
+ * The activity for follow a user
  */
 public class FollowUserActivity extends AppCompatActivity {
     public User followUser;
@@ -17,8 +17,6 @@ public class FollowUserActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.follow_user);
-
-        System.out.println("Follow Requests" + LoginManager.getInstance().getCurrentUser().getFollowRequests());
 
         final EditText usernameField = findViewById(R.id.username_input_field);
         Button addButton = findViewById(R.id.follow_user_button);
@@ -53,8 +51,6 @@ public class FollowUserActivity extends AppCompatActivity {
                             usernameField.setError("User does not exist");
                         }
                     });
-
-
 
                     return;
                 }

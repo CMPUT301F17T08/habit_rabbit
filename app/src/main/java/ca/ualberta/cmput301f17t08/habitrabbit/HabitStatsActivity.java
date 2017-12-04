@@ -57,13 +57,13 @@ public class HabitStatsActivity extends AppCompatActivity {
                 public void onHabitsSuccess(HashMap<String, Habit> habits) {
 
                     habit = habits.get(habit_id);
-                    List<Object> statistics = habit.getStatistics();
-                    // TODO: Clean up getStatistics to create several different getters/setters for each member.
-                    // Firebase does not properly save and retrieve these due to this.
-                    streakCount.setText("" + statistics.get(1));
-                    completedPercentCount.setText(Math.round(Math.floor((Float)statistics.get(3) * 100)) + "%");
-                    daysCompletedCount.setText("" + statistics.get(0));
-                    averageTimeCount.setText("" + statistics.get(2));
+
+                    habit.updateStreak();
+
+                    streakCount.setText("" + habit.getStreak());
+                    completedPercentCount.setText(Math.round(Math.floor(habit.getPercentCompleted() * 100)) + "%");
+                    daysCompletedCount.setText("" + habit.getDaysCompleted());
+                    averageTimeCount.setText(habit.getAverageTimeStr());
 
                     //format the date
                     SimpleDateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//dd/MM/yyyy
@@ -84,7 +84,8 @@ public class HabitStatsActivity extends AppCompatActivity {
 
                     //pick the color based on the percentage
 
-                    int colorIndex = (int)Math.round(Math.floor((Float)statistics.get(3) * 100))/10;
+                    int colorIndex = (int)Math.round(Math.floor(habit.getPercentCompleted() * 100))/10;
+                    colorIndex = Math.min(colorIndex, 10);
                     percentCardView.setCardBackgroundColor(Color.parseColor(colorList[colorIndex]));
                 }
 
