@@ -116,7 +116,7 @@ public class gpsActivity extends AppCompatActivity implements OnMapReadyCallback
             mainMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
 
             loadMapMarkers();
-            checkDistance();
+            //checkDistance();
 
 
         } else {
@@ -128,45 +128,88 @@ public class gpsActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
     }
-
+    //load markers onto map
     public void loadMapMarkers() {
         mainMap.clear();
+        //checks if filter is on, if null there is no filter
         if (Global.filter == null) {
             LoginManager.getInstance().getCurrentUser().getHistory(new DatabaseManager.OnHabitEventsListener() {
                 @Override
                 public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
                     habitEventsList = new ArrayList<HabitEvent>(habitEvents.values());
+                    gps = new gpsTracker(gpsActivity.this);
+                    if (gps.canGetLocation()) {
+                        final double latitude = gps.getLatitude();
+                        final double longitude = gps.getLongitude();
 
 
-                    for (final HabitEvent habitEvent : habitEventsList) {
-                        habitEvent.getHabit(new DatabaseManager.OnHabitsListener() {
-                            @Override
-                            public void onHabitsSuccess(HashMap<String, Habit> habits) {
-                                //https://developers.google.com/maps/documentation/android-api/marker
-                                //accessed on nov 30/17
+                        //get current location
+                        final Location currentLocation = new Location("");
+                        currentLocation.setLatitude(latitude);
+                        currentLocation.setLongitude(longitude);
+                        LatLng cur = new LatLng(latitude, longitude);
 
-                                if (habitEvent.getLocation() != null) {
+                        //mark current location
+                        mainMap.addMarker(new MarkerOptions().position(cur)
+                          .title("Current"));
+                        Log.e("habitevent_Maps", "test success");
+                        mainMap.moveCamera(CameraUpdateFactory.newLatLng(cur));
 
 
-                                    MarkerOptions markerInfo = new MarkerOptions()
-                                            .position(new LatLng(habitEvent.getLocation().getLatitude(), habitEvent.getLocation().getLongitude()))
-                                            .title(((Habit) habits.values().toArray()[0]).getName())
-                                            .snippet(habitEvent.getComment())
-                                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.bluedot));
+                        // go through habiteventList and get habit events
+                        for (final HabitEvent habitEvent : habitEventsList) {
+                            habitEvent.getHabit(new DatabaseManager.OnHabitsListener() {
 
-                                    Marker marker = mainMap.addMarker(markerInfo);
+                                @Override
+                                public void onHabitsSuccess(HashMap<String, Habit> habits) {
+                                    if (habitEvent.getLocation() != null) {
+                                        //get the habitevent location
+                                        Location habitEventLocation = new Location("");
+                                        habitEventLocation.setLongitude(habitEvent.getLocation().getLongitude());
+
+                                        habitEventLocation.setLatitude(habitEvent.getLocation().getLatitude());
+
+                                        // compare the current location and habit event location to see if it less 5km, if it is mark it as a red dot and change comment to nearby
+                                        if (currentLocation.distanceTo(habitEventLocation) < 5000.0) {
+                                            // distanceList.add(habitEvent);
+                                            MarkerOptions markerInfo = new MarkerOptions()
+                                                    .position(new LatLng(habitEvent.getLocation().getLatitude(), habitEvent.getLocation().getLongitude()))
+                                                    .title(((Habit) habits.values().toArray()[0]).getName())
+                                                    .snippet("You are near to this habit event.")
+                                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.reddot));
+
+                                            Marker marker = mainMap.addMarker(markerInfo);
+                                        }
+                                        //else the habit event is not in a 5km radius of current location
+                                        else {
+                                            MarkerOptions markerInfo = new MarkerOptions()
+                                                    .position(new LatLng(habitEvent.getLocation().getLatitude(), habitEvent.getLocation().getLongitude()))
+                                                    .title(((Habit) habits.values().toArray()[0]).getName())
+                                                    .snippet(habitEvent.getComment())
+                                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.bluedot));
+
+                                            Marker marker = mainMap.addMarker(markerInfo);
+                                        }
+                                    }
+                                }
+
+                                @Override
+                                public void onHabitsFailed(String message) {
+                                    Log.e("habit_Maps", "Failed to get habit  of user!");
 
                                 }
 
-                            }
 
-                            @Override
-                            public void onHabitsFailed(String message) {
-                                Log.e("habit_Maps", "Failed to get habit  of user!");
-                            }
-
-                        });
+                            });
+                        }
                     }
+                    else{
+                        // can't get location
+                        // GPS or Network is not enabled
+                        // Ask user to enable GPS/network in settings
+                        gps.showSettingsAlert();
+                    }
+
 
                 }
 
@@ -177,7 +220,9 @@ public class gpsActivity extends AppCompatActivity implements OnMapReadyCallback
                 }
 
             });
-        } else {
+        }
+        //else, filter is on, only mark habit event locations of filtered events
+        else {
             LoginManager.getInstance().getCurrentUser().getHabits(new DatabaseManager.OnHabitsListener() {
                 @Override
                 public void onHabitsSuccess(HashMap<String, Habit> habits) {
@@ -187,107 +232,72 @@ public class gpsActivity extends AppCompatActivity implements OnMapReadyCallback
                         public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
                             mapList = habitEvents;
                             mapEventList = new ArrayList<HabitEvent>(mapList.values());
+                            gps = new gpsTracker(gpsActivity.this);
+                            if(gps.canGetLocation()) {
+                                final double latitude = gps.getLatitude();
+                                final double longitude = gps.getLongitude();
 
-                            for (HabitEvent event : mapEventList) {
-                                if (event.getLocation() != null) {
+                                final Location currentLocation = new Location("");
+                                currentLocation.setLatitude(latitude);
+                                currentLocation.setLongitude(longitude);
+                                for (HabitEvent event : mapEventList) {
+                                    if (event.getLocation() != null) {
 
-                                    MarkerOptions markerInfo = new MarkerOptions()
-                                            .position(new LatLng(event.getLocation().getLatitude(), event.getLocation().getLongitude()))
-                                            .title(selectedHabit.getName())
-                                            .snippet(event.getComment())
-                                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.reddot));
+                                        Location habitEventLocation = new Location("");
+                                        habitEventLocation.setLongitude(event.getLocation().getLongitude());
 
-                                    Marker marker = mainMap.addMarker(markerInfo);
+                                        habitEventLocation.setLatitude(event.getLocation().getLatitude());
 
+                                        // Check the distance between the last known location and the mood event location
+                                        // using the Location object's distanceTo function.
+                                        if (currentLocation.distanceTo(habitEventLocation) < 5000.0) {
+                                            // distanceList.add(habitEvent);
+                                            MarkerOptions markerInfo = new MarkerOptions()
+                                                    .position(new LatLng(event.getLocation().getLatitude(), event.getLocation().getLongitude()))
+                                                    .title(selectedHabit.getName())
+                                                    .snippet("You are near to this habit event.")
+                                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.reddot));
+
+                                            Marker marker = mainMap.addMarker(markerInfo);
+                                        }
+                                        else {
+                                            MarkerOptions markerInfo = new MarkerOptions()
+                                                    .position(new LatLng(event.getLocation().getLatitude(), event.getLocation().getLongitude()))
+                                                    .title(selectedHabit.getName())
+                                                    .snippet(event.getComment())
+                                                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.bluedot));
+
+                                            Marker marker = mainMap.addMarker(markerInfo);
+                                        }
+
+                                    }
                                 }
+                            }
+                            else{
+                                // can't get location
+                                // GPS or Network is not enabled
+                                // Ask user to enable GPS/network in settings
+                                gps.showSettingsAlert();
                             }
                         }
 
                         @Override
                         public void onHabitEventsFailed(String message) {
-                            Log.e("HistoryActivity", "Failed to get habit events for filtered habit!");
-                            // TODO: handle this better!
-                            finish();
+                            Log.e("habitEvent_Maps", "Failed to get habit events of user!");
+
                         }
                     });
                 }
 
                 @Override
                 public void onHabitsFailed(String message) {
-                    Log.e("MyHabitActivity", "Failed to get habits of user!");
+                    Log.e("habit_Maps", "Failed to get habit  of user!");
+
                 }
             });
 
         }
     }
 
-    public void checkDistance() {
-        LoginManager.getInstance().getCurrentUser().getHistory(new DatabaseManager.OnHabitEventsListener() {
 
-            @Override
-            public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
-                habitEventsList = new ArrayList<HabitEvent>(habitEvents.values());
-                gps = new gpsTracker(gpsActivity.this);
-                // check if GPS enabled
-                if (gps.canGetLocation()) {
-
-                    final double latitude = gps.getLatitude();
-                    final double longitude = gps.getLongitude();
-
-                    final Location currentLocation = new Location("");
-                    currentLocation.setLatitude(latitude);
-                    currentLocation.setLongitude(longitude);
-           /* mainMap.addMarker(new MarkerOptions().position(lastKnownLocation)
-                    .title("Current"));
-            Log.e("habitevent_Maps", "test success");
-            mainMap.moveCamera(CameraUpdateFactory.newLatLng(lastKnownLocation));
-
-            loadMapMarkers();*/
-                    for (final HabitEvent habitEvent : habitEventsList) {
-                        habitEvent.getHabit(new DatabaseManager.OnHabitsListener() {
-
-                            @Override
-                            public void onHabitsSuccess(HashMap<String, Habit> habits) {
-                                Location habitEventLocation = new Location("");
-                                habitEventLocation.setLatitude(habitEvent.getLocation().getLatitude());
-                                habitEventLocation.setLongitude(habitEvent.getLocation().getLongitude());
-
-                                // Check the distance between the last known location and the mood event location
-                                // using the Location object's distanceTo function.
-                                if (currentLocation.distanceTo(habitEventLocation) < 5000.0) {
-                                    distanceList.add(habitEvent);
-                                    MarkerOptions markerInfo = new MarkerOptions()
-                                            .position(new LatLng(habitEvent.getLocation().getLatitude(), habitEvent.getLocation().getLongitude()))
-                                            .title(((Habit) habits.values().toArray()[0]).getName())
-                                            .snippet("nearby")
-                                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.reddot));
-
-                                    Marker marker = mainMap.addMarker(markerInfo);
-                                }
-                            }
-
-                            @Override
-                            public void onHabitsFailed(String message) {
-
-                            }
-
-
-                        });
-                    }
-                }
-                else{
-                    // can't get location
-                    // GPS or Network is not enabled
-                    // Ask user to enable GPS/network in settings
-                    gps.showSettingsAlert();
-                }
-
-            }
-
-            @Override
-            public void onHabitEventsFailed(String message) {
-
-            }
-        });
-    }
 }
