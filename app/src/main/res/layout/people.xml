@@ -55,10 +55,9 @@
     </android.support.constraint.ConstraintLayout>
     <TextView
         android:id="@+id/textView3"
-
         android:layout_width="wrap_content"
-
         android:layout_height="wrap_content"
+        android:paddingTop="20dp"
         android:text="FOLLOWING"
         android:textAlignment="center"
         android:textColor="@color/colorPrimaryDark"
@@ -71,16 +70,14 @@
         android:id="@+id/following_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="219dp"
-        android:paddingTop="20dp"
         app:layout_constraintBottom_toBottomOf="@id/textView3" />
 
     <TextView
         android:id="@+id/textView4"
-
         android:layout_width="wrap_content"
-
         android:layout_height="wrap_content"
         android:text="FOLLOWERS"
+        android:paddingTop="20dp"
         android:textAlignment="center"
         android:textColor="@color/colorPrimaryDark"
         android:textSize="16dp"
@@ -91,7 +88,6 @@
         android:id="@+id/follower_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="232dp"
-        android:paddingTop="20dp"
         app:layout_constraintBottom_toBottomOf="@id/textView3"
 
 
