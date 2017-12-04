@@ -43,11 +43,12 @@
         <activity android:name=".AddHabitEventActivity" />
         <activity android:name=".MapActivity" />
         <activity android:name=".FollowUserActivity" />
-        <activity android:name=".PeopleActivity" />
         <activity android:name=".TodayActivity" />
         <activity android:name=".FeedActivity" />
         <activity android:name=".EditHabitEventActivity" />
         <activity android:name=".FilterActivity" />
+        <activity android:name=".feedMapActivity" />
+
 
         <receiver android:name=".StreakChecker">
             <intent-filter>

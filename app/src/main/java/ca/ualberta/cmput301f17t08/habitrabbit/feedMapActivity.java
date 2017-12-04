@@ -1,5 +1,6 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -80,6 +81,7 @@ public class feedMapActivity extends AppCompatActivity implements OnMapReadyCall
     @Override
     public void onMapReady( GoogleMap googleMap) {
         mainMap=googleMap;
+        mainMap.clear();
         mainMap.setMinZoomPreference(12.0f);
         // Add a marker in Sydney, Australia,
         // and move the map's camera to the same location.
@@ -163,7 +165,7 @@ public class feedMapActivity extends AppCompatActivity implements OnMapReadyCall
         for(int each = 0; each < followingList.size(); each++){
             username = followingList.get(each);
             usernameList.add(username);
-
+            Log.e("reloadData: ", username);
             DatabaseManager.getInstance().getUserData(username, new DatabaseManager.OnUserDataListener() {
                 @Override
                 public void onUserData(User user) {
@@ -222,4 +224,8 @@ public class feedMapActivity extends AppCompatActivity implements OnMapReadyCall
         }
     }
 
+    public void showMenu(View v){
+        Intent intent = new Intent(this, MenuActivity.class);
+        startActivity(intent);
+    }
 }
