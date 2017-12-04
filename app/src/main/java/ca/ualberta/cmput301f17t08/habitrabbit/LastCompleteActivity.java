@@ -5,9 +5,18 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 
 /**
@@ -15,8 +24,7 @@ import java.util.HashMap;
  */
 public class LastCompleteActivity extends AppCompatActivity {
 
-    private ArrayList<HabitEvent> lastCompleteList;
-    private ArrayList<HabitEvent> lastComplete;
+    private ArrayList<HabitEvent> selectedHabitEvents;
 
     private HabitEventListAdapter cAdapt;
     private RecyclerView lastCompleteRecyclerView;
@@ -28,6 +36,8 @@ public class LastCompleteActivity extends AppCompatActivity {
 
         //get the username from Following Habits Adapter, the person that user clicks
         final String username = getIntent().getStringExtra("TheFollowName");
+        final String habitId = getIntent().getStringExtra("habitId");
+
         TextView usernameView = findViewById(R.id.last_complete_username);
         usernameView.setText(username);
 
@@ -44,22 +54,41 @@ public class LastCompleteActivity extends AppCompatActivity {
         DatabaseManager.getInstance().getUserData(username, new DatabaseManager.OnUserDataListener() {
             @Override
             //getting the userdata from the db
-            public void onUserData(User user) {
-                User followUser = user;
+            public void onUserData(User followUser) {
+
+
+
                 //get the user history from db
                 followUser.getHistory(new DatabaseManager.OnHabitEventsListener() {
                     @Override
                     public void onHabitEventsSuccess(HashMap<String, HabitEvent> habitEvents) {
-                        lastCompleteList = new ArrayList<HabitEvent>(habitEvents.values());
 
-                        //check if lastcomplete list is empty, if it is not, put last element in the adapter
-                        if (lastCompleteList.size() != 0){
-                            lastComplete = new ArrayList<HabitEvent> ();
-                            lastComplete.add(lastCompleteList.get(lastCompleteList.size()-1));
-                            System.out.println(lastComplete.toString());
+                        selectedHabitEvents = new ArrayList<HabitEvent>();
+
+                        for(final HabitEvent event : habitEvents.values()){
+                            System.out.println(event.getHabitKey() + " " + habitId);
+                            if (event.getHabitKey().equals(habitId)){
+                                System.out.println("MATCH");
+                                selectedHabitEvents.add(event);
+                            }
                         }
 
-                        cAdapt = new HabitEventListAdapter(lastComplete,self);
+                        Collections.sort(selectedHabitEvents, new Comparator<HabitEvent>() {
+                            public int compare(HabitEvent H1, HabitEvent H2) {
+                                return H1.getDateCompleted().compareTo(H2.getDateCompleted());
+                            }
+                        });
+                        Collections.reverse(selectedHabitEvents);
+
+                        System.out.println(selectedHabitEvents.size());
+
+                        ArrayList<HabitEvent> lastCompleted = new ArrayList<HabitEvent>();
+                        if (selectedHabitEvents.size() != 0){
+                            lastCompleted.add(selectedHabitEvents.get(0));
+                        }
+                        System.out.println(lastCompleted);
+
+                        cAdapt = new HabitEventListAdapter(lastCompleted,self);
                         lastCompleteRecyclerView.setAdapter(cAdapt);
                     }
 

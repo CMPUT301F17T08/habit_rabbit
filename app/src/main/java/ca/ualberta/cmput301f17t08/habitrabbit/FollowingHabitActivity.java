@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -56,15 +57,20 @@ public class FollowingHabitActivity extends AppCompatActivity {
                         ArrayList<Habit> habitList = new ArrayList<Habit>(habits.values());
                         ArrayList<String> habitNameList = new ArrayList<String>();
 
-                        //put all habit name into one list
-                        for (Habit habit : habitList){
-                            habitNameList.add(habit.getName());
-                        }
+//                        //put all habit name into one list
+//                        for (Habit habit : habitList){
+//                            habitNameList.add(habit.getName());
+//                        }
+//
+//                        // sort the array
+//                        Collections.sort(habitNameList, String.CASE_INSENSITIVE_ORDER);
+                        Collections.sort(habitList, new Comparator<Habit>() {
+                            public int compare(Habit H1, Habit H2) {
+                                return H1.getName().compareTo(H2.getName());
+                            }
+                        });
 
-                        // sort the array
-                        Collections.sort(habitNameList, String.CASE_INSENSITIVE_ORDER);
-
-                        cAdapt = new FollowingHabitAdapter(habitNameList , FollowingHabitActivity.this,username);
+                        cAdapt = new FollowingHabitAdapter(habitList , FollowingHabitActivity.this,username);
                         habitsRecyclerView.setAdapter(cAdapt);
                     }
 
