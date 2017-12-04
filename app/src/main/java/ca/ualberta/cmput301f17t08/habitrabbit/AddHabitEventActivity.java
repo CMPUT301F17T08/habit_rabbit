@@ -82,6 +82,7 @@ public class AddHabitEventActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Location> task) {
                             location = task.getResult();
+                            locationButton.setImageResource(R.drawable.location_icon);
                         }
                     });
                 }
