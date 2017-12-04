@@ -115,7 +115,7 @@ public class HabitEventListAdapter extends RecyclerView.Adapter<HabitEventListAd
                 int oldLikeCount = event.getLikeCount();
 
                 // mark the event as liked by this user
-                String username = LoginManager.getInstance().getCurrentUser().getUsername();
+                final String username = LoginManager.getInstance().getCurrentUser().getUsername();
                 event.like(username);
                 event.sync(new DatabaseManager.OnSaveListener() {
                     @Override
@@ -138,23 +138,26 @@ public class HabitEventListAdapter extends RecyclerView.Adapter<HabitEventListAd
                     // event was liked
                     viewHolder.likeButton.setBackgroundResource (R.drawable.black_like);
 
-                    DatabaseManager.getInstance().getUserData(username, new DatabaseManager.OnUserDataListener() {
+                    DatabaseManager.getInstance().getUserData(event.getUsername(), new DatabaseManager.OnUserDataListener() {
                         @Override
                         public void onUserData(User user) {
                             final User eventOwner = user;
-                            eventOwner.addLike(LoginManager.getInstance().getCurrentUser(), new DatabaseManager.OnSaveListener() {
-                                @Override
-                                public void onSaveSuccess() {
-                                    // Nothing needed.
-                                }
 
-                                @Override
-                                public void onSaveFailure(String message) {
+                            if (eventOwner.getUsername() != username) {
+                                eventOwner.addLike(LoginManager.getInstance().getCurrentUser(), new DatabaseManager.OnSaveListener() {
+                                    @Override
+                                    public void onSaveSuccess() {
+                                        // Nothing needed.
+                                    }
 
-                                }
-                            });
+                                    @Override
+                                    public void onSaveFailure(String message) {
 
+                                    }
+                                });
+                            }
                         }
+
 
                         @Override
                         public void onUserDataFailed(String message) {

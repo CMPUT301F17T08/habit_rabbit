@@ -53,7 +53,9 @@ public class NotificationActivity extends AppCompatActivity {
                 }
 
                 for(FollowNotification notification: pendingFollower){
-                    notifications.add(notification);
+                    if (!(notification.getUsername().equals(LoginManager.getInstance().getCurrentUser().getUsername()) )) {
+                        notifications.add(notification);
+                    }
                 }
 
                 //create recycleview for likes
