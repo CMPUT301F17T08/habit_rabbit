@@ -52,6 +52,8 @@
 
         <activity android:name=".FilterActivity"></activity>
 
+        <activity android:name=".LastCompleteActivity"></activity>
+
         <activity android:name=".gpsActivity"></activity>
     </application>
 
