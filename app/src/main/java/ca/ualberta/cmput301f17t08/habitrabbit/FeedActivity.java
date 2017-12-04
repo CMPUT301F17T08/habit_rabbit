@@ -46,7 +46,7 @@ public class FeedActivity extends AppCompatActivity {
         map_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(activity, gpsActivity.class);
+                Intent intent = new Intent(activity, feedMapActivity.class);
                 startActivity(intent);
             }
         });
