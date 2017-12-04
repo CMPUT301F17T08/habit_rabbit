@@ -8,6 +8,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 
 public class FollowingHabitActivity extends AppCompatActivity {
@@ -37,7 +38,7 @@ public class FollowingHabitActivity extends AppCompatActivity {
             @Override
             public void onUserData(User user) {
                 User followUser = user;
-                followUser.getFollowRequests().add(LoginManager.getInstance().getCurrentUser().getUsername());
+                followUser.getFollowRequests().add(new FollowNotification(LoginManager.getInstance().getCurrentUser().getUsername(), new Date()));
 
                 //get the user's habit from database
                 LoginManager.getInstance().getCurrentUser().getHabits(new DatabaseManager.OnHabitsListener() {
