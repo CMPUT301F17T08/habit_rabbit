@@ -1,14 +1,18 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
 import android.location.Location;
+import android.util.Log;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Map;
+
+import javax.xml.transform.Source;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -49,46 +53,6 @@ public class UserUnitTest {
         user1.removeFollower(user2);
         assertFalse(user1.getFollowers().contains(user2.getUsername()));
     }
-
-    @Test
-    public void testUserAddHabit() throws Exception {
-        assertFalse(user1.getHabits().contains(habit1));
-
-        user1.addHabit(habit1);
-
-        assertTrue(user1.getHabits().contains(habit1));
-    }
-
-    @Test
-    public void testUserRemoveHabit() throws Exception {
-        user1.addHabit(habit1);
-
-        assertTrue(user1.getHabits().contains(habit1));
-
-        user1.removeHabit(habit1.getName());
-
-        assertFalse(user1.getHabits().contains(habit1));
-    }
-
-    @Test
-    public void testUserFilterHabitByType() throws Exception {
-        user1.addHabit(habit1);
-        user1.addHabit(habit2);
-        user1.addHabit(habit3);
-        user1.addHabit(habit4);
-
-        user2.addHabit(habit4);
-
-        assertTrue(user1.filterHistoryByType("Name 2").contains(habit2));
-        assertTrue(user1.filterHistoryByType("Name 3").contains(habit3));
-        assertTrue(user1.filterHistoryByType("Name 4").contains(habit4));
-
-        assertFalse(user1.filterHistoryByType("Name 4").contains(habit1));
-
-        assertFalse(user2.filterHistoryByType("Name 4").contains(habit1));
-
-    }
-
 
     @Test
     public void testUserFilterHabitEventByComment() throws Exception {

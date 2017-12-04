@@ -47,19 +47,20 @@ public class HabitEventUnitTest {
     @Test
     public void testHabitEventGetters() throws Exception {
 
-        HabitEvent habitEvent = new HabitEvent(habit,dateCompleted,comment1, location1, picture1);
+
+
+        HabitEvent habitEvent = new HabitEvent(habit.getId(),"Yuxuan",dateCompleted,comment1, location1, picture1);
 
         // Test getters:
-        assertEquals(habit, habitEvent.getHabit());
+        assertEquals(habit.getId(), habitEvent.getHabitKey());
         assertEquals(dateCompleted,habitEvent.getDateCompleted());
         assertEquals(comment1, habitEvent.getComment());
         assertEquals(picture1, habitEvent.getPicture());
-//        assertTrue(location1.distanceTo(habitEvent.getLocation()) < 10);
     }
 
     @Test
     public void testHabitEventSetters() throws Exception {
-        HabitEvent habitEvent = new HabitEvent(habit,dateCompleted,comment2, location2, picture2);
+        HabitEvent habitEvent = new HabitEvent(habit.getId(),"Yuxuan",dateCompleted,comment2, location2, picture2);
 
         habitEvent.setComment(comment1);
         habitEvent.setLocation(location1);
