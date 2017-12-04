@@ -13,6 +13,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 
+/**
+ * The activity for following a user
+ */
+
 public class FollowingHabitActivity extends AppCompatActivity {
 
     private RecyclerView habitsRecyclerView;
