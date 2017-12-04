@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 /**
- * The activity for followuser
+ * The activity for follow a user
  */
 public class FollowUserActivity extends AppCompatActivity {
     public User followUser;

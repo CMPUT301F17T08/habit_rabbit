@@ -117,9 +117,9 @@ public class AddHabitEventActivity extends AppCompatActivity {
                             habit.sync(new DatabaseManager.OnSaveListener() {
                                 @Override
                                 public void onSaveSuccess() {
-                                    Intent returnIntent = new Intent();
-                                    returnIntent.putExtra("habitevent_key", event.getId());
-                                    setResult(Activity.RESULT_OK, returnIntent);
+//                                    Intent returnIntent = new Intent();
+//                                    returnIntent.putExtra("habitevent_key", event.getId());
+//                                    setResult(Activity.RESULT_OK, returnIntent);
 
                                     finish();
                                 }
