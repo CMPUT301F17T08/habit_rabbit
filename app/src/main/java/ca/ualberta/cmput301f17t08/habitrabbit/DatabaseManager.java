@@ -5,6 +5,7 @@ import android.util.ArrayMap;
 import android.util.Log;
 
 import com.google.firebase.FirebaseApp;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -29,11 +30,51 @@ public class DatabaseManager {
     private FirebaseDatabase database;
     private boolean disconnected;
     private DatabaseReference.CompletionListener nullCompletionListener;
+    private ChildEventListener nullChildEventListener;
 
     private DatabaseManager(){
         database = FirebaseDatabase.getInstance();
         database.setPersistenceEnabled(true);
         disconnected = false;
+
+        // Create null completion listener that does nothing
+        // Used when we are offline to prevent triggering the setValue completion listener when we regain connection.
+        nullCompletionListener = new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                // Do nothing.
+            }
+        };
+
+        // Create null value event listener that does nothing
+        // Used to keep the local cache updated with the server, to ensure that the SingleValueEventListener pulls from recent data.
+        nullChildEventListener = new ChildEventListener(){
+
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                // Nothing needed.
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
 
         // Set up continuous listener for disconnected boolean key
         DatabaseReference connectedRef = FirebaseDatabase.getInstance().getReference(".info/connected");
@@ -51,14 +92,10 @@ public class DatabaseManager {
             }
         });
 
-        // Create null completion listener that does nothing
-        // Used when we are offline to prevent triggering the setValue completion listener when we regain connection.
-        nullCompletionListener = new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
-                // Do nothing.
-            }
-        };
+        // Set up a listener for the root path, ensuring that our caches stay in sync
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference("/");
+        rootRef.addChildEventListener(nullChildEventListener);
+
     }
 
     public interface OnUserDataListener {
@@ -137,10 +174,12 @@ public class DatabaseManager {
 
     public void getUserData(final String username, final OnUserDataListener listener){
 
-        final DatabaseReference userRef = database.getReference("users").child(username);
-        userRef.keepSynced(true);
+        final DatabaseReference usersRef = database.getReference("users");
+        usersRef.keepSynced(true);
 
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        final DatabaseReference userRef = usersRef.child(username);
+
+        ValueEventListener valListener = new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 if(!dataSnapshot.exists()){
@@ -161,7 +200,10 @@ public class DatabaseManager {
                 Log.e("Database Manager Error", "Database error: " + databaseError.getMessage());
                 listener.onUserDataFailed("Login failed: user does not exist.");
             }
-        });
+        };
+
+        userRef.addListenerForSingleValueEvent(valListener);
+
     }
 
     public void saveUserData(User user, final OnSaveListener listener){
