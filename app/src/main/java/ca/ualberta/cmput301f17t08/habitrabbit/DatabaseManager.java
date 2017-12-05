@@ -1,5 +1,6 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
+import android.util.ArrayMap;
 import android.util.Log;
 
 import com.google.firebase.FirebaseApp;
@@ -10,6 +11,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.*;
+import java.util.Map;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -24,11 +27,14 @@ public class DatabaseManager {
     private boolean disconnected;
     private DatabaseReference.CompletionListener nullCompletionListener;
     private ChildEventListener nullChildEventListener;
+    private ArrayMap<DatabaseReference, ValueEventListener> repeatListeners;
 
     private DatabaseManager(){
         database = FirebaseDatabase.getInstance();
         database.setPersistenceEnabled(true);
         disconnected = false;
+
+        repeatListeners = new ArrayMap<DatabaseReference, ValueEventListener>();
 
         // Create null completion listener that does nothing
         // Used when we are offline to prevent triggering the setValue completion listener when we regain connection.
@@ -166,6 +172,10 @@ public class DatabaseManager {
     }
 
     public void getUserData(final String username, final OnUserDataListener listener){
+        this.getUserData(username, false, listener);
+    }
+
+    public void getUserData(final String username, boolean repeat, final OnUserDataListener listener){
 
         final DatabaseReference usersRef = database.getReference("users");
         usersRef.keepSynced(true);
@@ -195,8 +205,23 @@ public class DatabaseManager {
             }
         };
 
-        userRef.addListenerForSingleValueEvent(valListener);
+        if(repeat){
+            userRef.addValueEventListener(valListener);
+        }else {
+            userRef.addListenerForSingleValueEvent(valListener);
+        }
 
+    }
+
+    public void stopRepeatListeners(){
+        for(Map.Entry<DatabaseReference, ValueEventListener> entry: this.repeatListeners.entrySet()){
+            DatabaseReference ref = entry.getKey();
+            ValueEventListener val = entry.getValue();
+
+            ref.removeEventListener(val);
+        }
+
+        this.repeatListeners.clear();
     }
 
     public void saveUserData(User user, final OnSaveListener listener){

@@ -25,11 +25,25 @@ public class LoginManager {
         return loginManager;
     }
 
-    public void login(String username, final OnLoginCompleteListener listener){
+    public void login(final String username, final OnLoginCompleteListener listener){
         DatabaseManager.getInstance().getUserData(username, new DatabaseManager.OnUserDataListener() {
             @Override
             public void onUserData(User user) {
                 currentUser = user;
+
+                // Create listener to keep user up to date (will be cleared at logout)
+                DatabaseManager.getInstance().getUserData(username, true, new DatabaseManager.OnUserDataListener() {
+                    @Override
+                    public void onUserData(User user) {
+                        currentUser = user;
+                    }
+
+                    @Override
+                    public void onUserDataFailed(String message) {
+
+                    }
+                });
+
                 listener.onLoginComplete();
             }
 
@@ -42,7 +56,7 @@ public class LoginManager {
     }
 
     public void logout(){
-        // TODO update the database here if required
+        DatabaseManager.getInstance().stopRepeatListeners();
         this.currentUser = null;
     }
 
@@ -66,9 +80,6 @@ public class LoginManager {
         return currentUser;
     }
 
-    /* NOTE
-    * We won't need the setCurrentUser() even though it's in the UML since login() can do its job
-    * */
 
 
 }

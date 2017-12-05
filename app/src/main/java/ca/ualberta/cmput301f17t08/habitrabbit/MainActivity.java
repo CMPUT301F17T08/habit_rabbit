@@ -15,6 +15,7 @@ import android.widget.EditText;
  */
 public class MainActivity extends AppCompatActivity {
     private MainActivity activity = this;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,9 +26,9 @@ public class MainActivity extends AppCompatActivity {
         Button loginButton = (Button) findViewById(R.id.login_button);
         Button signupButton = (Button) findViewById(R.id.signup_button);
 
-        loginButton.setOnClickListener(new View.OnClickListener(){
+        loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
                 String username = usernameField.getText().toString();
 
                 System.out.println("Login Button Clicked - Username:" + username);
@@ -63,20 +64,20 @@ public class MainActivity extends AppCompatActivity {
         });
 
         // small signup button below the login button
-        signupButton.setOnClickListener(new View.OnClickListener(){
+        signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
                 Intent intent = new Intent(activity, SignupActivity.class);
                 startActivity(intent);
             }
         });
 
     }
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//
-//        // Unregister Receivers
-//        unregisterReceiver(receiver);
-//    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        LoginManager.getInstance().logout();
+    }
 }
