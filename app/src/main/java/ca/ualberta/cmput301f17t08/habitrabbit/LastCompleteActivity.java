@@ -14,6 +14,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -28,6 +30,9 @@ public class LastCompleteActivity extends AppCompatActivity {
 
     private HabitEventListAdapter cAdapt;
     private RecyclerView lastCompleteRecyclerView;
+    private TextView Streak;
+    private TextView averageTime;
+    private TextView percentCompleted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,9 +42,17 @@ public class LastCompleteActivity extends AppCompatActivity {
         //get the username from Following Habits Adapter, the person that user clicks
         final String username = getIntent().getStringExtra("TheFollowName");
         final String habitId = getIntent().getStringExtra("habitId");
+        final Habit habit = (Habit) getIntent().getSerializableExtra("habitObject");
+
+
+        final TextView streak = findViewById(R.id.last_complete_streak);
+        final TextView percentage = findViewById(R.id.last_complete_percent);
+        final TextView averageTime= findViewById(R.id.last_complete_time);
 
         TextView usernameView = findViewById(R.id.last_complete_username);
         usernameView.setText(username);
+
+
 
         //set up the recyclerView for view
         lastCompleteRecyclerView = (RecyclerView) findViewById(R.id.last_complete_recycle);
@@ -47,7 +60,6 @@ public class LastCompleteActivity extends AppCompatActivity {
 
         //Activty context
         final LastCompleteActivity self = this;
-
 
 
         //get the userdata from the db
@@ -66,9 +78,7 @@ public class LastCompleteActivity extends AppCompatActivity {
                         selectedHabitEvents = new ArrayList<HabitEvent>();
 
                         for(final HabitEvent event : habitEvents.values()){
-                            System.out.println(event.getHabitKey() + " " + habitId);
                             if (event.getHabitKey().equals(habitId)){
-                                System.out.println("MATCH");
                                 selectedHabitEvents.add(event);
                             }
                         }
@@ -80,16 +90,18 @@ public class LastCompleteActivity extends AppCompatActivity {
                         });
                         Collections.reverse(selectedHabitEvents);
 
-                        System.out.println(selectedHabitEvents.size());
 
                         ArrayList<HabitEvent> lastCompleted = new ArrayList<HabitEvent>();
                         if (selectedHabitEvents.size() != 0){
                             lastCompleted.add(selectedHabitEvents.get(0));
                         }
-                        System.out.println(lastCompleted);
 
                         cAdapt = new HabitEventListAdapter(lastCompleted,self);
                         lastCompleteRecyclerView.setAdapter(cAdapt);
+
+                        streak.setText(""+habit.getStreak());
+                        percentage.setText(Float.toString(habit.getPercentCompleted()*100)+"%");
+                        averageTime.setText(habit.getAverageTimeStr());
                     }
 
                     @Override
