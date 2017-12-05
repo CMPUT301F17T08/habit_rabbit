@@ -27,6 +27,9 @@ public class User {
 
     private Boolean habitsLoaded;
 
+    /**
+     * Initializes a user object
+     */
     public User(){
         this.habitList = new HashMap<String, Habit>();
         this.habitKeyList = new HashSet<String>();
@@ -48,8 +51,28 @@ public class User {
         this.habitsLoaded = false;
     }
 
-    public void setUsername(String username) {this.username = username;}
+    /**
+     * Sets the user's username
+     * @param username
+     */
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
+    /**
+     * Sets the habit keys
+     * @param habits
+     */
+    public void setHabitKeys(ArrayList<String> habits){
+        habitKeyList = new HashSet<String>(habits);
+        habitsLoaded = false;
+        habitList.clear();
+    }
+
+    /**
+     * Gets the habit keys hashset
+     * @return
+     */
     @Exclude
     public HashSet<String> getHabitKeysSet(){
         if(habitsLoaded){
@@ -59,6 +82,10 @@ public class User {
         }
     }
 
+    /**
+     * gets the habit keys
+     * @return
+     */
     public ArrayList<String> getHabitKeys(){
 
         if(habitsLoaded){
@@ -68,16 +95,20 @@ public class User {
         }
     }
 
-    public void setHabitKeys(ArrayList<String> habits){
-        habitKeyList = new HashSet<String>(habits);
-        habitsLoaded = false;
-        habitList.clear();
-    }
 
+    /**
+     * gets the username
+     * @return
+     */
     public String getUsername(){
         return this.username;
     }
 
+
+    /**
+     * gets a list of all the user's habits
+     * @param listener
+     */
     @Exclude
     public void getHabits(final DatabaseManager.OnHabitsListener listener){
 
@@ -98,18 +129,39 @@ public class User {
         });
     }
 
+    /**
+     * gets a list of all the users' names that are following this user
+     * @return
+     */
     public ArrayList<String> getFollowers() {return this.followerList;}
 
+    /**
+     * gets a list of all the users this user is following
+     * @return
+     */
     public ArrayList<String> getFollowing() {return this.followingList;}
 
+    /**
+     * gets the list of follow requests that are pending
+     * @return
+     */
     public ArrayList<FollowNotification> getFollowRequests() {
         return this.followRequests;
     }
 
+    /**
+     * sets the list of follow requests that are pending
+     * @param notifications
+     */
     public void setFollowRequests(ArrayList<FollowNotification> notifications) {
         this.followRequests = notifications;
     }
 
+    /**
+     * removes a follower from the list of follow requests after the processing the request
+     * @param removedUser
+     * @param listener
+     */
     public void removeFromFollowRequests(User removedUser, DatabaseManager.OnSaveListener listener){
         for(FollowNotification notification : this.followRequests){
             if(notification.getUsername().equals(removedUser.getUsername())) {
@@ -120,6 +172,11 @@ public class User {
         this.save(listener);
     }
 
+    /**
+     * adds a follow request
+     * @param user
+     * @param listener
+     */
     public void addFollowRequest(User user, DatabaseManager.OnSaveListener listener){
         FollowNotification notification = new FollowNotification(user.getUsername(), new Date());
         this.followRequests.add(notification);
@@ -127,14 +184,27 @@ public class User {
         this.save(listener);
     }
 
+    /**
+     * returns a list of notification objects that represent a single like
+     * @return
+     */
     public ArrayList<LikeNotification> getLikes() {
         return this.likes;
     }
 
+    /**
+     * sets the list of like objects
+     * @param notifications
+     */
     public void setLikes(ArrayList<LikeNotification> notifications) {
         this.likes = notifications;
     }
 
+    /**
+     * adds a new like object
+     * @param user
+     * @param listener
+     */
     public void addLike(User user, DatabaseManager.OnSaveListener listener){
         LikeNotification notification = new LikeNotification(user.getUsername(), new Date());
         this.likes.add(notification);
@@ -142,6 +212,10 @@ public class User {
         this.save(listener);
     }
 
+    /**
+     * makes this user follow another user
+     * @param follower
+     */
     public void addFollowing(User follower) {
         if (!hasFollowing(follower))
             this.followingList.add(follower.getUsername());
@@ -149,11 +223,20 @@ public class User {
         return;
     }
 
+    /**
+     * checks if this user is being followerd by someone
+     * @param follower
+     * @return
+     */
     public boolean hasFollower(User follower){
         return this.followerList.contains(follower.getUsername());
 
     }
 
+    /**
+     * adds another user as a follower of this user
+     * @param follower
+     */
     public void  addFollower(User follower){
         if (!hasFollower(follower))
             this.followerList.add(follower.getUsername());
@@ -162,16 +245,29 @@ public class User {
 
     }
 
+    /**
+     * checks if some user is following this user
+     * @param user
+     * @return
+     */
     private boolean hasFollowing(User user) {
         return this.followingList.contains(user.getUsername());
     }
 
-
+    /**
+     * removes this user's follower
+     * @param follower
+     */
     public void removeFollower(User follower) {
         this.followerList.remove(follower.getUsername());
         return;
     }
 
+    /**
+     * adds a new habit that this user is tracking
+     * @param habit
+     * @param listener
+     */
     public void addHabit(final Habit habit, final DatabaseManager.OnSaveListener listener) {
         if (hasHabit(habit))
             throw new IllegalArgumentException("Habit already exists.");
@@ -222,6 +318,11 @@ public class User {
         return this.habitList.containsKey(habit.getId());
     }
 
+    /**
+     * checks if this user has a habit being tracked
+     * @param title
+     * @return
+     */
     public boolean hasHabit(String title) {
         for(Habit habit : this.habitList.values()){
             if(Objects.equals(habit.getName(), title))
@@ -231,6 +332,10 @@ public class User {
         return false;
     }
 
+    /**
+     * removes a habit that this user is tracking
+     * @param habit
+     */
     public void removeHabit(Habit habit) {
         if(habitsLoaded){
             this.habitList.remove(habit.getId());
@@ -254,10 +359,18 @@ public class User {
         return;
     }
 
+    /**
+     * sets the list of followers
+     * @param followers
+     */
     public void setFollowers(ArrayList<String> followers){
         this.followerList = (ArrayList<String>)followers.clone();
     }
 
+    /**
+     * sets the list of people the user is following
+     * @param following
+     */
     public void setFollowing(ArrayList<String> following){
         this.followingList = (ArrayList<String>)following.clone();
     }
@@ -275,6 +388,10 @@ public class User {
         DatabaseManager.getInstance().saveUserData(this, listener);
     }
 
+    /**
+     * gets the user's habit event history
+     * @param listener
+     */
     public void getHistory(final DatabaseManager.OnHabitEventsListener listener) {
         // We need to iterate over habits and gather HabitEvents into one array.
         User self = this;
