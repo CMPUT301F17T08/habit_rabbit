@@ -259,6 +259,25 @@ public class DatabaseManager {
 
     }
 
+    public void deleteHabit(Habit habit) {
+        String habitId = habit.getId();
+
+        final DatabaseReference habitsRef = database.getReference("habits");
+        final DatabaseReference habitRef;
+
+        if(habitId != null) {
+
+            habitRef = habitsRef.child(habitId);
+            habitRef.removeValue(new DatabaseReference.CompletionListener() {
+                @Override
+                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                    // Nothing to do.
+                }
+            });
+
+        }
+    }
+
     public void getHabitEventsInSet(final Set<String> habitEventKeys, final OnHabitEventsListener listener){
 
         final HashMap<String, HabitEvent> habitEvents = new HashMap<String, HabitEvent>();
@@ -318,6 +337,25 @@ public class DatabaseManager {
                     }
                 }
             });
+        }
+    }
+
+    public void deleteHabitEvent(HabitEvent habitEvent) {
+        String habitEventId = habitEvent.getId();
+
+        final DatabaseReference habitEventsRef = database.getReference("habit_events");
+        final DatabaseReference habitEventRef;
+
+        if(habitEventId != null) {
+
+            habitEventRef = habitEventsRef.child(habitEventId);
+            habitEventRef.removeValue(new DatabaseReference.CompletionListener() {
+                @Override
+                public void onComplete(DatabaseError databaseError, DatabaseReference databaseReference) {
+                    // Nothing to do.
+                }
+            });
+
         }
     }
 }
