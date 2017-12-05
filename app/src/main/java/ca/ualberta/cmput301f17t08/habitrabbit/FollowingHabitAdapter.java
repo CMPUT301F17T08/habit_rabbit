@@ -9,12 +9,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * The defined adapter for the people layout
  */
 public class FollowingHabitAdapter extends RecyclerView.Adapter<FollowingHabitAdapter.ViewHolder> {
-    private ArrayList<String> habits;
+    private ArrayList<Habit> habits;
     private Activity context;
     private String username;
 
@@ -28,7 +30,7 @@ public class FollowingHabitAdapter extends RecyclerView.Adapter<FollowingHabitAd
         }
     }
 
-    public FollowingHabitAdapter(ArrayList<String> habits, Activity context, String username) {
+    public FollowingHabitAdapter(ArrayList<Habit> habits, Activity context, String username) {
         this.habits = habits;
         this.context = context;
         this.username = username;
@@ -50,7 +52,7 @@ public class FollowingHabitAdapter extends RecyclerView.Adapter<FollowingHabitAd
     public void onBindViewHolder(ViewHolder holder, final int position) {
 
         //update  the username on layout
-        holder.followingNameLabel.setText(habits.get(position));
+        holder.followingNameLabel.setText(habits.get(position).getName());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +60,7 @@ public class FollowingHabitAdapter extends RecyclerView.Adapter<FollowingHabitAd
                 //pass the username of the person that user clicks
                 Intent intent = new Intent(context, LastCompleteActivity.class);
                 intent.putExtra("TheFollowName",username);
+                intent.putExtra("habitId", habits.get(position).getId());
                 context.startActivity(intent);
             }
         });

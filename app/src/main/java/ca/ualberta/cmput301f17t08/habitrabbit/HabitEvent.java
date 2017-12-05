@@ -26,7 +26,7 @@ public class HabitEvent implements Serializable {
     private Habit habit;
     private Date dateCompleted;
     private String comment;
-    private Location location;
+//    private Location location;
     private String picture;
     private ArrayList<String> likes;
     private String username;
@@ -51,7 +51,11 @@ public class HabitEvent implements Serializable {
         this.likes = new ArrayList<String>();
 
         if(location != null) {
-            this.location = new Location(location);
+            this.lat = location.getLatitude();
+            this.lng = location.getLongitude();
+        }else{
+            this.lat = -1;
+            this.lng = -1;
         }
 
         this.synced = false;
@@ -90,7 +94,8 @@ public class HabitEvent implements Serializable {
     }
 
     public void setLocation(Location location) {
-        this.location = location;
+        this.lat = location.getLatitude();
+        this.lng = location.getLongitude();
     }
 
     public void setPicture(Bitmap picture) {
@@ -106,29 +111,30 @@ public class HabitEvent implements Serializable {
 
     @Exclude
     public Location getLocation() {
-        return location;
+        Location l = new Location("");
+        l.setLatitude(this.lat);
+        l.setLongitude(this.lng);
+        return l;
     }
 
     // For Firebase serialization
     public ArrayList<Double> getLocationPair() {
         ArrayList<Double> locationPair = new ArrayList<Double>();
 
-        if (location != null) {
-            locationPair.add(location.getLatitude());
-            locationPair.add(location.getLongitude());
+        locationPair.add(this.lat);
+        locationPair.add(this.lng);
 
-            return locationPair;
+        return locationPair;
 
-        } else {
-            return null;
-        }
+//        } else {
+//            return null;
+//        }
 
     }
 
     public void setLocationPair(ArrayList<Double> locationPair){
-        this.location = new Location("");
-        this.location.setLatitude(locationPair.get(0));
-        this.location.setLongitude(locationPair.get(1));
+        this.lat = locationPair.get(0);
+        this.lng = locationPair.get(1);
     }
 
     @Exclude

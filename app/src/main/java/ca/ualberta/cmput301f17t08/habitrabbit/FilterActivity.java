@@ -44,7 +44,7 @@ public class FilterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_filter);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         menuButton = (Button) findViewById(R.id.menu_button);
-        clearButton = (Button) findViewById(R.id.menu_button);
+        clearButton = (Button) findViewById(R.id.clearButton);
 
         filter = (EditText) findViewById(R.id.filter);
         title = (TextView) findViewById(R.id.title);
@@ -107,8 +107,8 @@ public class FilterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Global.filter = null;
-                Intent intent = new Intent(activity, historyActivity.class);
-                startActivity(intent);
+                System.out.println("Clear button");
+                finish();
             }
         });
 
