@@ -316,22 +316,10 @@ public class Habit implements Serializable{
         return result;
     }
 
-    public void removeHabitEvent(HabitEvent habitEvent){
-        if(this.habitEventsLoaded){
-            this.habiteventlist.remove(habitEvent.getId());
-            LoginManager.getInstance().getCurrentUser().save(new DatabaseManager.OnSaveListener() {
-                @Override
-                public void onSaveSuccess() {
-                    // Nothing to be done.
-                }
-
-                @Override
-                public void onSaveFailure(String message){
-                    // Nothing to be done.
-                }
-            });
-        }else{
-            this.habitEventKeyList.remove(habitEvent.getId());
+    public void removeHabitEvent(HabitEvent event){
+        // TODO: save this
+        if (this.habiteventlist.containsKey(event.getId())){
+            this.habiteventlist.remove(event.getId());
         }
 
     }
