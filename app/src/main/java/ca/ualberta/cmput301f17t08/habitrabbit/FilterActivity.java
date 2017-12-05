@@ -1,6 +1,5 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.ArrayMap;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -55,7 +53,6 @@ public class FilterActivity extends AppCompatActivity {
 
         habitListView.setLayoutManager(new LinearLayoutManager(getApplicationContext(), LinearLayoutManager.VERTICAL, false));
 
-        // TODO: We need a loading screen or overlay to prevent user input before we
 
         // habitlist used for displaying
         habitListDisplay = new ArrayList<>();

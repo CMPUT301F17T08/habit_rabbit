@@ -39,7 +39,9 @@ public class Habit implements Serializable{
     private Boolean synced;
     private Boolean habitEventsLoaded;
 
-
+    /**
+     * Initializes the habit
+     */
     public Habit(){
         this.habitEventKeyList = new HashSet<String>();
         this.habiteventlist = new HashMap<String, HabitEvent>();
@@ -68,18 +70,34 @@ public class Habit implements Serializable{
         this.habitEventsLoaded = false;
     }
 
+    /**
+     * set the name of the habit
+     * @param name
+     */
     public void setName(String name){
         this.name = name;
     }
 
+    /**
+     * set the reason for the habit
+     * @param reason
+     */
     public void setReason(String reason){
         this.reason = reason;
     }
 
+    /**
+     * set the start date for the habit
+     * @param startDate
+     */
     public void setDate(Date startDate){
         this.startDate = startDate;
     }
 
+    /**
+     * sets the frequency for the habit
+     * @param frequency
+     */
     public void setFrequency(ArrayList<Integer> frequency){
         this.frequency = frequency;
     }
@@ -88,22 +106,42 @@ public class Habit implements Serializable{
         this.habiteventlist = habiteventlist;
     }
 
+    /**
+     * gets the habit name
+     * @return
+     */
     public String getName(){
         return this.name;
     }
 
+    /**
+     * gets the habit reason
+     * @return
+     */
     public String getReason(){
         return this.reason;
     }
 
+    /**
+     * gets the start date
+     * @return
+     */
     public Date getDate(){
         return this.startDate;
     }
-  
+
+    /**
+     * gets the frequency
+     * @return
+     */
     public ArrayList<Integer> getFrequency(){
         return this.frequency;
     }
 
+    /**
+     * gets the habit event keys
+     * @return
+     */
     public ArrayList<String> getHabitEventKeys(){
         if(habitEventsLoaded){
             return new ArrayList<String>(this.habiteventlist.keySet());
@@ -112,12 +150,20 @@ public class Habit implements Serializable{
         }
     }
 
+    /**
+     * sets the habit event keys
+     * @param habits
+     */
     public void setHabitEventKeys(ArrayList<String> habits){
         habitEventKeyList = new HashSet<String>(habits);
         habitEventsLoaded = false;
         habiteventlist.clear();
     }
 
+    /**
+     * gets the habit events
+     * @param listener
+     */
     @Exclude
     public void getHabitEvents(final DatabaseManager.OnHabitEventsListener listener){
         if(this.habitEventsLoaded){
@@ -140,22 +186,45 @@ public class Habit implements Serializable{
         });
     }
 
+    /**
+     * resets the streak to 0
+     */
     public void resetStreak(){ this.streak = 0; }
 
+    /**
+     * gets the day this habit was last completed on
+     * @return
+     */
     public Date getLastCompleted() { return this.lastCompleted; }
 
+    /**
+     * gets the total number of days that the user has completed this habit for
+     * @return
+     */
     public int getDaysCompleted(){
         return this.daysCompleted;
     }
 
+    /**
+     * gets the streak
+     * @return
+     */
     public int getStreak(){
         return this.streak;
     }
 
+    /**
+     * get the average time of completion for the habits
+     * @return
+     */
     public long getAverageTime(){
         return this.averageTime;
     }
 
+    /**
+     * converts the average time to a properly formatted string
+     * @return
+     */
     public String getAverageTimeStr(){
         String averageTimeStr;
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
@@ -171,6 +240,10 @@ public class Habit implements Serializable{
         return averageTimeStr;
     }
 
+    /**
+     * gets the percent that the user has completed this habit for
+     * @return
+     */
     public float getPercentCompleted(){
         float percentComplete;
 
@@ -226,6 +299,9 @@ public class Habit implements Serializable{
         return (float) Math.min(1.0,percentComplete);
     }
 
+    /**
+     * mark this habit as done for today
+     */
     public void markDone(){
 
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Edmonton"));
@@ -252,6 +328,11 @@ public class Habit implements Serializable{
 
     }
 
+    /**
+     * add a habit event to the habit
+     * @param habitEvent
+     * @param listener
+     */
     public void addHabitEvent(final HabitEvent habitEvent, final DatabaseManager.OnSaveListener listener) {
         if (hasHabitEvent(habitEvent))
             throw new IllegalArgumentException("HabitEvent already exists.");
@@ -299,6 +380,11 @@ public class Habit implements Serializable{
         }
     }
 
+    /**
+     * checks if this habit has an event
+     * @param habitevent
+     * @return
+     */
     private boolean hasHabitEvent(HabitEvent habitevent) {
         return this.habiteventlist.containsKey(habitevent.getId());
     }
@@ -316,6 +402,10 @@ public class Habit implements Serializable{
         return result;
     }
 
+    /**
+     * removes a habit event
+     * @param event
+     */
     public void removeHabitEvent(HabitEvent event){
         // TODO: save this
         if (this.habiteventlist.containsKey(event.getId())){
@@ -324,10 +414,18 @@ public class Habit implements Serializable{
 
     }
 
+    /**
+     * gets the id for this habit
+     * @return
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * sets the id for this habit
+     * @param id
+     */
     public void setId(String id) {
         this.id = id;
     }
@@ -340,6 +438,10 @@ public class Habit implements Serializable{
         this.synced = synced;
     }
 
+    /**
+     * syncs the changes with the database
+     * @param listener
+     */
     public void sync(final DatabaseManager.OnSaveListener listener){
 
         final Habit self = this;
@@ -367,6 +469,9 @@ public class Habit implements Serializable{
         });
     }
 
+    /**
+     * deletes this habit
+     */
     public void delete() {
         DatabaseManager.getInstance().deleteHabit(this);
     }
@@ -374,7 +479,6 @@ public class Habit implements Serializable{
     /**
      * make the streak 0 if a day was missed in the middle
      */
-
     public void updateStreak(){
         if (this.getLastCompleted() != null){
 

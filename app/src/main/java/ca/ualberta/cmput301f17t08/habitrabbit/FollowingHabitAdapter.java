@@ -30,6 +30,12 @@ public class FollowingHabitAdapter extends RecyclerView.Adapter<FollowingHabitAd
         }
     }
 
+    /**
+     * The adapter to show the habits for the people you followed
+     * @param habits // the habits list that person has
+     * @param context// the context
+     * @param username // the clicked person's username
+     */
     public FollowingHabitAdapter(ArrayList<Habit> habits, Activity context, String username) {
         this.habits = habits;
         this.context = context;

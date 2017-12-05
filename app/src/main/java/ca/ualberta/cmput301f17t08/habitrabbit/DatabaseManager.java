@@ -1,7 +1,5 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
-import android.text.style.TtsSpan;
-import android.util.ArrayMap;
 import android.util.Log;
 
 import com.google.firebase.FirebaseApp;
@@ -11,15 +9,10 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Set;
-import java.util.TimeZone;
+
 /**
  * The class for database
  */
