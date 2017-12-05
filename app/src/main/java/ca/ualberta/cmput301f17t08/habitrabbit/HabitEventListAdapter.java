@@ -97,7 +97,7 @@ public class HabitEventListAdapter extends RecyclerView.Adapter<HabitEventListAd
 
         //check if the current user has liked the feed before
         if (habitEvents.get(position).getLikes().contains(username)){
-            viewHolder.likeButton.setBackgroundResource(R.drawable.black_like);
+            viewHolder.likeButton.setBackgroundResource(R.drawable.ic_thumb_up_black_24dp);
         }
 
         //get the image the user uploaded, set the image if exist
@@ -136,7 +136,7 @@ public class HabitEventListAdapter extends RecyclerView.Adapter<HabitEventListAd
                 // change the colour of the like button based on if this was the like or dislike
                 if (oldLikeCount < newLikeCount){
                     // event was liked
-                    viewHolder.likeButton.setBackgroundResource (R.drawable.black_like);
+                    viewHolder.likeButton.setBackgroundResource (R.drawable.ic_thumb_up_black_24dp);
 
                     DatabaseManager.getInstance().getUserData(event.getUsername(), new DatabaseManager.OnUserDataListener() {
                         @Override
@@ -167,7 +167,7 @@ public class HabitEventListAdapter extends RecyclerView.Adapter<HabitEventListAd
                 }
                 else{
                     // event was disliked
-                    viewHolder.likeButton.setBackgroundResource (R.drawable.like);
+                    viewHolder.likeButton.setBackgroundResource (R.drawable.ic_thumb_up_gray_24dp);
                 }
             }
         });
