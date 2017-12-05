@@ -45,6 +45,9 @@ public class TodayActivity extends AppCompatActivity {
         reloadData();
     }
 
+    /**
+     * Reloads all the data
+     */
     public void reloadData(){
 
         // TODO: Show loading screen?
