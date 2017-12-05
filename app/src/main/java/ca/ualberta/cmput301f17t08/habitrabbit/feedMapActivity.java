@@ -44,38 +44,10 @@ public class feedMapActivity extends AppCompatActivity implements OnMapReadyCall
         setContentView(R.layout.activity_gps);
         followingList = LoginManager.getInstance().getCurrentUser().getFollowing();
 
-        btnShowLocation = (Button) findViewById(R.id.btnGPSShowLocation);
+
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        // show location button click event
-        btnShowLocation.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                // create class object
-                gps = new gpsTracker(feedMapActivity.this);
-
-                // check if GPS enabled
-                if(gps.canGetLocation()){
-
-                    double latitude = gps.getLatitude();
-                    double longitude = gps.getLongitude();
-
-                    // \n is for new line
-                    Toast.makeText(getApplicationContext(), "Your Location is - \nLat: " + latitude + "\nLong: " + longitude, Toast.LENGTH_LONG).show();
-
-
-                }else{
-                    // can't get location
-                    // GPS or Network is not enabled
-                    // Ask user to enable GPS/network in settings
-                    gps.showSettingsAlert();
-                }
-
-            }
-        });
 
     }
 

@@ -22,7 +22,6 @@
             android:layout_width="0dp"
             android:layout_height="20dp"
             android:layout_marginEnd="25dp"
-            android:text="USER1"
             android:textAlignment="center"
             android:textColor="@color/colorPrimaryDark"
             android:textSize="16dp"

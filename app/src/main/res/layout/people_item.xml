@@ -28,7 +28,6 @@
                 android:layout_gravity="center"
 
                 android:gravity="center"
-                android:text="USER 1"
 
                 android:textAlignment="viewStart"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"

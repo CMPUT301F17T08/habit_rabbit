@@ -38,7 +38,6 @@
                     android:layout_marginTop="25dp"
                     android:layout_weight="1"
                     android:fontFamily="sans-serif"
-                    android:text="HABIT 1"
                     android:textAllCaps="false"
                     android:textColor="@color/cardview_dark_background"
                     android:textSize="18sp"
@@ -51,7 +50,6 @@
                     android:layout_marginRight="8dp"
                     android:layout_marginTop="25dp"
                     android:layout_weight="1"
-                    android:text="32 likes"
                     android:textAlignment="textEnd"
                     android:textColor="@color/cardview_dark_background"
                     android:textSize="14sp" />
@@ -78,7 +76,6 @@
                     android:layout_marginLeft="30dp"
                     android:layout_marginTop="25dp"
                     android:layout_weight="1"
-                    android:text="My father is a ladykiller and Yuxuan is my father"
                     android:textColor="@color/editTextHint" />
 
             </LinearLayout>
@@ -104,7 +101,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:paddingLeft="10dp"
-                    android:text="Maharsh"
                     android:textColor="@color/editTextHint" />
             </LinearLayout>
 
@@ -128,7 +124,6 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:paddingLeft="10dp"
-                    android:text="10:00 PM, November, 2017"
                     android:textColor="@color/editTextHint" />
 
             </LinearLayout>

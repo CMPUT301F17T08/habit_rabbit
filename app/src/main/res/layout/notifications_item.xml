@@ -35,7 +35,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:layout_weight="1"
-                android:text="10:00 pm,October 20, 2017"
                 android:textColor="@color/editTextHint" />
         </LinearLayout>
 
@@ -51,7 +50,6 @@
                 android:id="@+id/notification_user"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Yuxuan"
                 android:textColor="@color/colorPrimary"
                 android:textStyle="bold" />
 
@@ -60,7 +58,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:text="likes your posts"
                 android:textColor="@color/editTextHint" />
         </LinearLayout>
 

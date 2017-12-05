@@ -40,12 +40,11 @@ a
                         android:layout_marginTop="15dp"
                         android:layout_weight="0.05"
                         android:lineSpacingExtra="10dp"
-                        android:text="Habit Name"
                         android:textAlignment="viewStart"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                         android:textColor="@color/colorPrimary"
                         android:textSize="22sp"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/habit_reason"
@@ -54,7 +53,6 @@ a
                         android:layout_marginLeft="15dp"
                         android:layout_marginTop="15dp"
                         android:layout_weight="0.20"
-                        android:text="Reason"
                         android:textColor="@color/subtitle"
                         android:textSize="18sp" />
 
