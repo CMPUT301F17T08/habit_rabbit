@@ -94,10 +94,21 @@ public class EditHabitEventActivity extends AppCompatActivity {
                         habit.removeHabitEvent(habitEvent);
                         habitEvent.delete();
 
-
                         habit.sync(new DatabaseManager.OnSaveListener() {
                             @Override
                             public void onSaveSuccess() {
+                                LoginManager.getInstance().getCurrentUser().save(new DatabaseManager.OnSaveListener() {
+                                    @Override
+                                    public void onSaveSuccess() {
+                                        finish();
+                                    }
+
+                                    @Override
+                                    public void onSaveFailure(String message) {
+                                        Log.e("EditHabitActivity", "Failed to save user after deleting habit!");
+                                        finish();
+                                    }
+                                });
                                 finish();
                             }
 
