@@ -368,7 +368,7 @@ public class Habit implements Serializable{
     }
 
     public void delete() {
-        // TODO: destroy habit from DB (call DB manager)
+        DatabaseManager.getInstance().deleteHabit(this);
     }
 
     /**

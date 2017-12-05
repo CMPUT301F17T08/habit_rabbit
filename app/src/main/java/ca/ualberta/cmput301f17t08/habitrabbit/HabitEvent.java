@@ -205,6 +205,6 @@ public class HabitEvent implements Serializable {
     }
 
     public void delete() {
-        // TODO: destroy habit from DB (call DB manager)
+        DatabaseManager.getInstance().deleteHabitEvent(this);
     }
 }
