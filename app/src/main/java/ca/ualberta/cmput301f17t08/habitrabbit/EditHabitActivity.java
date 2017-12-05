@@ -36,15 +36,6 @@ public class EditHabitActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_habit);
 
-        /*
-        TODO pass in a habit object when starting this activity like this:
-        Habit habit = new Habit(tempName, tempReason, tempDate, tempFrequency);
-
-        Intent myIntent = new Intent(this, EditHabitActivity.class);
-        myIntent.putExtra("habit", habit);
-        startActivity(myIntent);
-         */
-
         final Habit habit = (Habit) getIntent().getSerializableExtra("habit");
         String tempName = habit.getName();
         String tempReason = habit.getReason();

@@ -7,14 +7,11 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.location.Location;
-import android.location.LocationManager;
-import android.location.LocationProvider;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatImageButton;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -25,14 +22,12 @@ import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.LocationSource;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.TimeZone;
 
 /**
@@ -54,6 +49,7 @@ public class AddHabitEventActivity extends AppCompatActivity {
         setContentView(R.layout.add_habit_event);
 
         final Habit habit = (Habit) getIntent().getSerializableExtra("habit");
+
 
         final EditText habitTitle = findViewById(R.id.habit_name_field);
         final EditText habitComment = findViewById(R.id.habit_comment_field);
@@ -118,10 +114,6 @@ public class AddHabitEventActivity extends AppCompatActivity {
                             habit.sync(new DatabaseManager.OnSaveListener() {
                                 @Override
                                 public void onSaveSuccess() {
-//                                    Intent returnIntent = new Intent();
-//                                    returnIntent.putExtra("habitevent_key", event.getId());
-//                                    setResult(Activity.RESULT_OK, returnIntent);
-
                                     finish();
                                 }
 

@@ -31,8 +31,6 @@ import java.util.HashMap;
 public class gpsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
 
-    private Button btnShowLocation;
-
     // GPSTracker class
     private gpsTracker gps;
 
@@ -41,7 +39,6 @@ public class gpsActivity extends AppCompatActivity implements OnMapReadyCallback
     private ArrayList<HabitEvent> habitEventsList;
     private HashMap<String, HabitEvent> mapList;
     private ArrayList<HabitEvent> mapEventList;
-    private ArrayList<HabitEvent> distanceList;
     private Location currentLocation = new Location("");
 
 
@@ -58,6 +55,10 @@ public class gpsActivity extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
+    /**
+     * show the menu you clicked
+     * @param v menu you click
+     */
     public void showMenu(View v) {
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);
@@ -102,7 +103,10 @@ public class gpsActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
     }
-    //load markers onto map
+
+    /**
+     * load markers onto map
+     */
     public void loadMapMarkers() {
         mainMap.clear();
         //checks if filter is on, if null there is no filter
