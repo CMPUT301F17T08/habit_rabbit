@@ -206,6 +206,7 @@ public class DatabaseManager {
         };
 
         if(repeat){
+            repeatListeners.put(userRef, valListener);
             userRef.addValueEventListener(valListener);
         }else {
             userRef.addListenerForSingleValueEvent(valListener);
