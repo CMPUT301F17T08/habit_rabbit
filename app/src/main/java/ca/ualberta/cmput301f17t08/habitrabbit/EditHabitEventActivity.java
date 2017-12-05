@@ -15,8 +15,6 @@ import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.TimeZone;
 /**
@@ -106,10 +104,8 @@ public class EditHabitEventActivity extends AppCompatActivity {
 
                             }
                         });
-
                     }
                 });
-
             }
 
             @Override
@@ -128,6 +124,10 @@ public class EditHabitEventActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Pick the image for editing the habitevent
+     * @param v the view you have picked
+     */
     public void pickImage(View v) {
         // clear the old image if anything was selected before
         bmp = null;
@@ -159,6 +159,10 @@ public class EditHabitEventActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * jump to menu after clicking the menu button
+     * @param v the menu button that is clicked
+     */
     public void showMenu(View v){
         Intent intent = new Intent(this, MenuActivity.class);
         startActivity(intent);

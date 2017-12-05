@@ -2,7 +2,6 @@ package ca.ualberta.cmput301f17t08.habitrabbit;
 
 import android.location.Location;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 /**
  * The class map, it could add, remove, and get location

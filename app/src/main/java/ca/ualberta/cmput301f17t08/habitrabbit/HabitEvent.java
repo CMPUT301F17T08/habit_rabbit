@@ -26,7 +26,6 @@ public class HabitEvent implements Serializable {
     private Habit habit;
     private Date dateCompleted;
     private String comment;
-//    private Location location;
     private String picture;
     private ArrayList<String> likes;
     private String username;
@@ -66,10 +65,19 @@ public class HabitEvent implements Serializable {
         }
     }
 
+
+    /**
+     * set the habitkey for each habit
+     * @param habitKey the key for each habit
+     */
     public void setHabitKey(String habitKey) {
         this.habitKey = habitKey;
     }
 
+    /**
+     * get the habit key from habit
+     * @return the habit key
+     */
     public String getHabitKey(){
         return habitKey;
     }
@@ -83,28 +91,61 @@ public class HabitEvent implements Serializable {
         DatabaseManager.getInstance().getHabitsInSet(habit, listener);
     }
 
+    /**
+     * get the username correpsonding to the habit
+     * @return the username as a string
+     */
     public String getUsername(){ return username;}
 
+    /**
+     * get the complete date of the habitevent
+     * @return the complete date of the habitevent as Date object
+     */
     public Date getDateCompleted() {return dateCompleted;}
 
+    /**
+     * set the complete date for the habit
+     * @param dateCompleted the date object represents the date completes
+     */
     public void setDateCompleted(Date dateCompleted) {this.dateCompleted = dateCompleted;}
 
+    /**
+     * set the comment for the habitevent
+     * @param comment string comment
+     */
     public void setComment(String comment) {
         this.comment = comment;
     }
 
+    /**
+     * set the location for the habitevent
+     * @param location location object
+     */
     public void setLocation(Location location) {
         this.lat = location.getLatitude();
         this.lng = location.getLongitude();
     }
 
+    /**
+     * set the picture for habitevent
+     * @param picture bitmap file
+     */
     public void setPicture(Bitmap picture) {
         this.picture = bitmapToString(picture);
     }
+
+    /**
+     * set the string for picture
+     * @param picture
+     */
     public void setPictureString(String picture){
         this.picture = picture;
     }
 
+    /**
+     * get the comment of habitevent
+     * @return the string comment
+     */
     public String getComment(){
         return comment;
     }
@@ -117,7 +158,9 @@ public class HabitEvent implements Serializable {
         return l;
     }
 
-    // For Firebase serialization
+    /**
+     *  For Firebase serialization
+      */
     public ArrayList<Double> getLocationPair() {
         ArrayList<Double> locationPair = new ArrayList<Double>();
 
@@ -126,12 +169,12 @@ public class HabitEvent implements Serializable {
 
         return locationPair;
 
-//        } else {
-//            return null;
-//        }
-
     }
 
+    /**
+     * set the location
+     * @param locationPair
+     */
     public void setLocationPair(ArrayList<Double> locationPair){
         this.lat = locationPair.get(0);
         this.lng = locationPair.get(1);
@@ -154,14 +197,27 @@ public class HabitEvent implements Serializable {
         }
     }
 
+    /**
+     * get the collection of usernames that represents the users used to like it
+     * @return arraylist likes
+     */
     public ArrayList<String> getLikes(){
         return likes;
     }
 
+    /**
+     * get the number of likes
+     * @return the number of likes
+     */
     public int getLikeCount(){
         return this.likes.size();
     }
 
+    /**
+     * conver the picture to string to store in the database
+     * @param picture
+     * @return
+     */
     private String bitmapToString(Bitmap picture) {
 
         // https://goo.gl/fuKG3n
@@ -190,22 +246,42 @@ public class HabitEvent implements Serializable {
         }
     }
 
+    /**
+     * get the id
+      * @return id
+     */
     public String getId() {
         return id;
     }
 
+    /**
+     * set the id
+     * @param id the id of habitevent
+     */
     public void setId(String id) {
         this.id = id;
     }
 
+    /**
+     * get the status of synchronization
+     * @return boolean if it has synced
+     */
     public Boolean getSynced() {
         return synced;
     }
 
+    /**
+     * set the status of synchronization
+     * @param synced
+     */
     public void setSynced(Boolean synced) {
         this.synced = synced;
     }
 
+    /**
+     * check if it has synchronized properly from db
+     * @param listener get from the db
+     */
     public void sync(DatabaseManager.OnSaveListener listener){
         DatabaseManager.getInstance().saveHabitEvent(this, listener);
     }
