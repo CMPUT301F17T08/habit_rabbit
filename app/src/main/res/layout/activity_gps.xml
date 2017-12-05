@@ -60,16 +60,6 @@
             android:layout_weight="0.3"
             tools:context="com.ualberta.cmput301w17t22.moodswing.MapsFragment" />
 
-        <Button
-            android:id="@+id/btnGPSShowLocation"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_below="@+id/map"
-            android:layout_marginTop="36dp"
-            android:minWidth="100dp"
-            android:text="Show Location\n(GPS)" />
-
 
     </RelativeLayout>
 </LinearLayout>

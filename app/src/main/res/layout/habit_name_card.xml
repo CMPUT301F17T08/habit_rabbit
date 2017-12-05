@@ -41,7 +41,6 @@
                         android:layout_marginTop="15dp"
                         android:layout_weight="0.05"
                         android:lineSpacingExtra="10dp"
-                        android:text="Habit Name"
                         android:textAlignment="viewStart"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                         android:textColor="@color/colorPrimary"
