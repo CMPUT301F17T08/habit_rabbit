@@ -278,6 +278,32 @@ public class User {
         if (hasHabit(habit))
             throw new IllegalArgumentException("Habit already exists.");
 
+
+
+        final User self = this;
+
+        if(!this.habitsLoaded){
+            this.getHabits(new DatabaseManager.OnHabitsListener() {
+                @Override
+                public void onHabitsSuccess(HashMap<String, Habit> habits) {
+                    addHabitAfterLoad(habit, listener);
+                }
+
+                @Override
+                public void onHabitsFailed(String message) {
+                    listener.onSaveFailure(message);
+                }
+            });
+        }else{
+            addHabitAfterLoad(habit, listener);
+        }
+
+    }
+
+    private void addHabitAfterLoad(final Habit habit, final DatabaseManager.OnSaveListener listener){
+
+        final User self = this;
+
         if(habit.getSynced()){
             this.habitList.put(habit.getId(), habit);
             this.save(new DatabaseManager.OnSaveListener() {
@@ -292,7 +318,6 @@ public class User {
                 }
             });
         }else{
-            final User self = this;
 
             habit.sync(new DatabaseManager.OnSaveListener() {
                 @Override
@@ -317,7 +342,6 @@ public class User {
                 }
             });
         }
-
     }
 
     private boolean hasHabit(Habit habit) {
