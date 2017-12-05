@@ -186,8 +186,10 @@ public class EditHabitActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 // TODO remove the habit object from the user's habit list
-                LoginManager.getInstance().getCurrentUser().removeHabit(habit);
-                LoginManager.getInstance().getCurrentUser().save(new DatabaseManager.OnSaveListener() {
+                User user = LoginManager.getInstance().getCurrentUser();
+
+                user.removeHabit(habit);
+                user.save(new DatabaseManager.OnSaveListener() {
                     @Override
                     public void onSaveSuccess() {
                         finish();
