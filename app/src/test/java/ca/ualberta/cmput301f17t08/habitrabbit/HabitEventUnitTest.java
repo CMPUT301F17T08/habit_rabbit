@@ -39,9 +39,6 @@ public class HabitEventUnitTest {
         picture2 = Bitmap.createBitmap(2, 2, Bitmap.Config.ARGB_8888);
 
         // TODO needs to be completed when we have a proper way to get the location
-        location1 = null;
-        location2 = null;
-
     }
 
     @Test
@@ -63,15 +60,12 @@ public class HabitEventUnitTest {
         HabitEvent habitEvent = new HabitEvent(habit.getId(),"Yuxuan",dateCompleted,comment2, location2, picture2);
 
         habitEvent.setComment(comment1);
-        habitEvent.setLocation(location1);
         habitEvent.setPicture(picture1);
         habitEvent.setDateCompleted(dateCompleted);
 
         assertEquals(dateCompleted,habitEvent.getDateCompleted());
         assertEquals(comment1, habitEvent.getComment());
-        assertEquals(location1, habitEvent.getLocation());
         assertEquals(picture1, habitEvent.getPicture());
-//        assertTrue(location1.distanceTo(habitEvent.getLocation()) < 10);
 
     }
 }

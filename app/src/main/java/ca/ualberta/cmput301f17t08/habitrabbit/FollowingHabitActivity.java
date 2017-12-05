@@ -57,13 +57,6 @@ public class FollowingHabitActivity extends AppCompatActivity {
                         ArrayList<Habit> habitList = new ArrayList<Habit>(habits.values());
                         ArrayList<String> habitNameList = new ArrayList<String>();
 
-//                        //put all habit name into one list
-//                        for (Habit habit : habitList){
-//                            habitNameList.add(habit.getName());
-//                        }
-//
-//                        // sort the array
-//                        Collections.sort(habitNameList, String.CASE_INSENSITIVE_ORDER);
                         Collections.sort(habitList, new Comparator<Habit>() {
                             public int compare(Habit H1, Habit H2) {
                                 return H1.getName().compareTo(H2.getName());

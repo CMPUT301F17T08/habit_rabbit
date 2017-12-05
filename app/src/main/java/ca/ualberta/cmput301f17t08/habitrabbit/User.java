@@ -263,18 +263,6 @@ public class User {
     }
 
     public ArrayList<Habit> filterHistoryByType(String keyword) {
-        // TODO: We need to rework this by adding an extra parameter of a listener
-        /*
-        ArrayList<Habit> result = new ArrayList<>();
-
-
-            for (Habit habit : habitKeyList) {
-                if (habit.getName() == keyword) {
-                    result.add(habit);
-                }
-            }
-            return result;
-        */
 
         return null;
     }

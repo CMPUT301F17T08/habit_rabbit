@@ -26,14 +26,12 @@ import java.util.HashMap;
 public class feedMapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
 
-    Button btnShowLocation;
 
     // GPSTracker class
     gpsTracker gps;
 
     private feedMapActivity activity = this;
     private GoogleMap mainMap;
-    LatLng lastKnownLocation;
     ArrayList<HabitEvent> habitEventFeed = new ArrayList<>();
     ArrayList<HabitEvent> habitEventsList;
     public ArrayList<String> followingList;
@@ -84,6 +82,10 @@ public class feedMapActivity extends AppCompatActivity implements OnMapReadyCall
 
 
     }
+
+    /**
+     * load the map markers for map activity
+     */
     public void loadMapMarkers( ){
 
         LoginManager.getInstance().getCurrentUser().getHistory(new DatabaseManager.OnHabitEventsListener() {

@@ -55,6 +55,10 @@ public class FeedActivity extends AppCompatActivity {
 
     }
 
+
+    /**
+     * get the feed data from the database
+     */
     private void reloadData(){
         String username;
         feedList.clear();

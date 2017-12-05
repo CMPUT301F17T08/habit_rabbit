@@ -1,9 +1,7 @@
 package ca.ualberta.cmput301f17t08.habitrabbit;
 
 import android.app.Activity;
-import android.content.Intent;
-import android.support.v7.widget.RecyclerView;
-import android.text.TextWatcher;
+import android.support.v7.widget.RecyclerView;;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +30,7 @@ public class FilterAdapter extends RecyclerView.Adapter<FilterAdapter.ViewHolder
         }
     }
 
+    //constructor for FilterAdapter
     public FilterAdapter(ArrayList<Habit> habits, Activity context) {
         this.habits = new ArrayList<Habit>();
         this.habits.addAll(habits);

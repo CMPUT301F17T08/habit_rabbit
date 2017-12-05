@@ -21,7 +21,6 @@ import android.util.Log;
  * Could track a location
  */
 
-
 public class gpsTracker extends Service implements LocationListener {
 
     private final Context mContext;
@@ -48,11 +47,19 @@ public class gpsTracker extends Service implements LocationListener {
     // Declaring a Location Manager
     protected LocationManager locationManager;
 
+    /**
+     * get the current location based on GPS
+     * @param context the context activity
+     */
     public gpsTracker(Context context) {
         this.mContext = context;
         getLocation();
     }
 
+    /**
+     * get the actual location
+     * @return current location
+     */
     public Location getLocation() {
         if (ContextCompat.checkSelfPermission((Activity)mContext, android.Manifest.permission.
                 ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
